@@ -1,8 +1,10 @@
-function Button(props: { label: string }){
+type ButtonInterface = "button" | "submit" | "reset" | undefined;
+
+function Button(props: { label: string , type: ButtonInterface}){
     
     
     return(
-        <button>{props.label}</button>
+        <button type={props.type}>{props.label}</button>
     )
 }
 
