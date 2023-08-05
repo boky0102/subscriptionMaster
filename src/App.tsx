@@ -1,7 +1,9 @@
 import './App.css'
 import Header from './components/Header'
+import Home from './components/Home';
 import LoginForm from './components/LoginForm'
 import { useState, useEffect } from 'react'
+import { Routes, Route } from "react-router-dom";
 
 function App() {
 
@@ -51,7 +53,11 @@ function App() {
   return (
     <>
       <Header></Header>
-      <LoginForm type="register" inputChange={handleFormChange}></LoginForm>
+      <Routes>
+        <Route path="/" element={<Home></Home>}></Route>
+        <Route path="/login" element={<LoginForm type="login" inputChange={handleFormChange}></LoginForm>}></Route>
+        <Route path="/register" element={<LoginForm type="register" inputChange={handleFormChange}></LoginForm>}></Route>
+      </Routes>
     </>
   )
 }
