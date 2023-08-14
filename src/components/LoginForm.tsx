@@ -1,6 +1,7 @@
 import Button from "./Button"
 import { useState, useEffect} from "react"
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 type loginFormProps = {
     type: "login" | "register"
@@ -15,6 +16,7 @@ interface User {
 const LoginForm = (props: loginFormProps) => {
 
     const [formData, setFormData] = useState({} as User);
+    const navigate = useNavigate();
 
     function handleFormChange(event: React.ChangeEvent<HTMLInputElement>){
         const { name, value } = event.currentTarget;
@@ -56,10 +58,17 @@ const LoginForm = (props: loginFormProps) => {
             {
                 headers: {
                     'Content-Type' : 'application/json'
-                }
+                },
+                withCredentials: true
             })
             .then((response) => {
-                console.log(response);
+                
+                if(response.status === 200){
+                    navigate("/");
+                }
+                
+                
+
             })
             .catch((err) => {
                 console.log(err);

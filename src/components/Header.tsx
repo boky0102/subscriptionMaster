@@ -1,6 +1,7 @@
 import Button from './Button';
 import './Header.css';
 import { Link } from "react-router-dom";
+import LogOutButton from './LogOutButton';
 
 function Header(){
 
@@ -13,6 +14,7 @@ function Header(){
                 <Link to={"/register"}>
                     <Button label="Register" type="button"></Button>
                 </Link>
+                <LogOutButton></LogOutButton>
             </div>
         </header>
     )
