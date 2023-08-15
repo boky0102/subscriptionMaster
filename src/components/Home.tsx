@@ -16,10 +16,15 @@ function Home(){
                 setUserData(response.data);
 
             } else{
-                navigate("/login");
+                console.log(response.status);
             }
             
-        }) .catch(err => console.log(err));
+        }) .catch((err) => {
+            if(err){
+                navigate("/login");
+                
+            }
+        });
     }, []);
 
     return(
