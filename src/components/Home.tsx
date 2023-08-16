@@ -1,10 +1,10 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
-import { Routes, useNavigate, Route } from 'react-router-dom';
+import {  Route, Routes, useNavigate } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import MySettings from './MySettings';
-import Callendar from './Callendar';
 import SubscriptionForm from './SubscriptionForm';
+import Callendar from './Callendar';
 
 function Home(){
     const serverPath = import.meta.env.VITE_SERVER_LINK;
@@ -38,8 +38,8 @@ function Home(){
             <div className="outlet-container">
                 <Routes>
                     <Route path="/settings" element={<MySettings></MySettings>}></Route>
-                    <Route path="/callendar" element={<Callendar></Callendar>}></Route>
                     <Route path="/addsubscription" element={<SubscriptionForm></SubscriptionForm>}></Route>
+                    <Route path="/callendar" element={<Callendar></Callendar>}></Route>
                 </Routes>
             </div>
         </div>
