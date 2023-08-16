@@ -1,6 +1,10 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Routes, useNavigate, Route } from 'react-router-dom';
+import Dashboard from './Dashboard';
+import MySettings from './MySettings';
+import Callendar from './Callendar';
+import SubscriptionForm from './SubscriptionForm';
 
 function Home(){
     const serverPath = import.meta.env.VITE_SERVER_LINK;
@@ -17,6 +21,7 @@ function Home(){
 
             } else{
                 console.log(response.status);
+                console.log(userData);
             }
             
         }) .catch((err) => {
@@ -28,8 +33,15 @@ function Home(){
     }, []);
 
     return(
-        <div>
-            Hi user {userData}
+        <div className="main-container">
+            <Dashboard></Dashboard>
+            <div className="outlet-container">
+                <Routes>
+                    <Route path="/settings" element={<MySettings></MySettings>}></Route>
+                    <Route path="/callendar" element={<Callendar></Callendar>}></Route>
+                    <Route path="/addsubscription" element={<SubscriptionForm></SubscriptionForm>}></Route>
+                </Routes>
+            </div>
         </div>
     )
 }

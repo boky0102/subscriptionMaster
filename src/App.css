@@ -1,0 +1,38 @@
+.main-container{
+    width: 100vw;
+    background-color: bisque;
+    display: flex;
+}
+
+
+
+.graph{
+    width: 80%;
+    margin: auto;
+    height: 20vw;
+    width: 20vw;
+    background-color: aquamarine;
+}
+
+.dashboard-button{
+    width: 100%;
+    height: 8vh;
+}
+
+.actions-container{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    
+}
+
+.dashboard-container{
+    flex-grow: 1;
+    background-color: black;
+}
+
+.outlet-container{
+    flex-grow: 12;
+    background-color: brown;
+}
