@@ -33,7 +33,7 @@ function Home(){
     }, []);
 
     return(
-        <div className="main-container">
+        <>
             <Dashboard></Dashboard>
             <div className="outlet-container">
                 <Routes>
@@ -42,7 +42,7 @@ function Home(){
                     <Route path="/callendar" element={<Callendar></Callendar>}></Route>
                 </Routes>
             </div>
-        </div>
+        </>
     )
 }
 

@@ -13,7 +13,7 @@ function App() {
   
 
   return (
-    <> 
+    <div className="main-grid-container"> 
           <Header></Header>
           <Routes>
             <Route path="/*" element={<Home></Home>}></Route>
@@ -21,7 +21,7 @@ function App() {
             <Route path="/register" element={<LoginForm type="register"></LoginForm>}></Route>
             
           </Routes>
-    </>
+    </div>
   )
 }
 

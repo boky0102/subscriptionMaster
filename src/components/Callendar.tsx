@@ -1,8 +1,6 @@
 function Callendar(){
     return(
-        <div>
-            CALENDAR
-        </div>
+        <div>CALENDAR</div>
     )
 }
 
