@@ -10,26 +10,18 @@ function Home(){
     const serverPath = import.meta.env.VITE_SERVER_LINK;
     const navigate = useNavigate();
 
-    const [userData, setUserData] = useState("");
+    const [userData, setUserData] = useState([]);
 
     useEffect(() => {
-        axios.get(serverPath, {
+        axios.get(serverPath + "/subscriptions", {
             withCredentials: true
         }) .then((response) => {
-            if(response.status === 200){
-                setUserData(response.data);
-
-            } else{
-                console.log(response.status);
-                console.log(userData);
-            }
-            
-        }) .catch((err) => {
-            if(err){
-                navigate("/login");
-                
-            }
-        });
+            console.log(response.data)
+            setUserData(response.data)
+        }) .catch((error) => {
+            console.log("auth error",error);
+            navigate("/login");
+        })
     }, []);
 
     return(
@@ -41,6 +33,11 @@ function Home(){
                     <Route path="/addsubscription" element={<SubscriptionForm></SubscriptionForm>}></Route>
                     <Route path="/callendar" element={<Callendar></Callendar>}></Route>
                 </Routes>
+                {
+                    userData.map((subscription) => {
+                        return <h1>{subscription.subscriptionName} {subscription.chargeAmount}</h1>
+                    })
+                }
             </div>
         </>
     )
