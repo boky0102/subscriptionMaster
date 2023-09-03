@@ -14,7 +14,11 @@ interface Subscription {
     addedDate: Date
 }
 
-function Home(){
+type homeProps = {
+    loggedFlagHandler: (loggedIn: boolean) => void
+}
+
+function Home(props: homeProps){
     const serverPath = import.meta.env.VITE_SERVER_LINK;
     const navigate = useNavigate();
 
@@ -28,7 +32,13 @@ function Home(){
         }) .then((response) => {
             console.log("Render",response.data)
             setSubscriptionData(response.data)
+            if(response.status === 200){
+                props.loggedFlagHandler(true);
+            } else{
+                props.loggedFlagHandler(false);
+            }
         }) .catch((error) => {
+            props.loggedFlagHandler(false);
             console.log("auth error",error);
             navigate("/login");
         })

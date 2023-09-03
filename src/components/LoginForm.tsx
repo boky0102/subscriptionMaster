@@ -4,7 +4,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 type loginFormProps = {
-    type: "login" | "register"
+    type: "login" | "register",
+    loggedFlagHandler: (logged: boolean) => void
 }
 
 interface User {
@@ -64,14 +65,20 @@ const LoginForm = (props: loginFormProps) => {
             .then((response) => {
                 
                 if(response.status === 200){
-                    console.log(response);
-                    navigate("/");
+                    if(props.type === "login"){
+                        props.loggedFlagHandler(true);
+                        navigate("/");
+                    } else {
+                        props.loggedFlagHandler(false);
+                        navigate("/login");
+                    }
                 }
                 
                 
 
             })
             .catch((err) => {
+                props.loggedFlagHandler(false);
                 console.log(err);
             })
 
