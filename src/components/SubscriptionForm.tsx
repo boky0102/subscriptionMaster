@@ -1,85 +1,27 @@
-import { useEffect, useState } from "react";
-import axios from "axios"
 
 
-interface subscriptionData {
-    subscriptionName: string,
-    startDate: Date,
-    renewalDate: Date,
-    cost: number
+type SubscriptionFormProps = {
+    handleSubscriptionFormChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    handleSubscriptionFormSubmit: (event: React.ChangeEvent<HTMLFormElement>) => void
 }
 
 
 
-
-function SubscriptionForm(){
-
-    const [subscriptionData, setSubscriptionData] = useState({} as subscriptionData);
-    
-    function handleSubscriptionDataChange(event: React.ChangeEvent<HTMLInputElement>){
-        const {name, value} = event.currentTarget
-        if(name === "subscriptionName"){
-            setSubscriptionData((prevData) => (
-                {
-                    ...prevData,
-                    [name] : value
-                }
-            ))
-        } else if(name === "chargeAmount"){
-            setSubscriptionData((prevData) => (
-                {
-                    ...prevData,
-                    [name] : value
-                }
-            ))
-        } else if(name === "startDate"){
-            const valueToDate = new Date(value);
-            setSubscriptionData((prevData) => (
-                {
-                    ...prevData,
-                    [name] : valueToDate
-                }
-            ))
-        } else if(name === "renewalDate"){
-            const valueToDate = new Date(value);
-            setSubscriptionData((prevData) => (
-                {
-                    ...prevData,
-                    [name] : valueToDate
-                }
-            ))
-        }
-    }
-
-    function handleFormSubmit(event: React.FormEvent<HTMLFormElement>){
-        event.preventDefault();
-        const serverLink = import.meta.env.VITE_SERVER_LINK
-        axios.post(serverLink + "/newsubscription", subscriptionData, {
-            withCredentials: true
-        }).then((response) => {
-            console.log(response)
-        }).catch((error) => {
-            console.log(error);
-        })
-    }
-
-    useEffect(() => {
-        console.log(subscriptionData);
-    }, [subscriptionData]);
+function SubscriptionForm(props: SubscriptionFormProps){
 
     return(
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={props.handleSubscriptionFormSubmit}>
             <label>Subscription name</label>
-            <input type="text" name="subscriptionName" onChange={handleSubscriptionDataChange}></input>
+            <input type="text" name="subscriptionName" onChange={props.handleSubscriptionFormChange}></input>
 
             <label>Date subscribed</label>
-            <input type="date" name="startDate" onChange={handleSubscriptionDataChange}></input>
+            <input type="date" name="startDate" onChange={props.handleSubscriptionFormChange}></input>
 
             <label>Renewal Date</label>
-            <input type="date" name="renewalDate" onChange={handleSubscriptionDataChange}></input>
+            <input type="date" name="renewalDate" onChange={props.handleSubscriptionFormChange}></input>
 
             <label>Subscription cost per month</label>
-            <input type="text" name="chargeAmount" onChange={handleSubscriptionDataChange}></input>
+            <input type="number" name="chargeAmount" onChange={props.handleSubscriptionFormChange}></input>
             <button type="submit">Add subscription</button>
         </form>
     )
