@@ -22,6 +22,11 @@ const LoginForm = (props: loginFormProps) => {
     function handleFormChange(event: React.ChangeEvent<HTMLInputElement>){
         const { name, value } = event.currentTarget;
         if(name === "username"){
+            if(value.length < 4) {
+                event.currentTarget.setCustomValidity("Username must be longer than 3 letters");
+            } else {
+                event.currentTarget.setCustomValidity("");
+            }
             setFormData((prevData) => (
                 {
                     ...prevData,
@@ -29,6 +34,11 @@ const LoginForm = (props: loginFormProps) => {
                 }
             ))
         } else if( name === "password" ){
+            if(value.length < 8){
+                event.currentTarget.setCustomValidity("Password must be longer than 7 characters");
+            } else {
+                event.currentTarget.setCustomValidity("");
+            }
             setFormData((prevData) => (
                 {
                     ...prevData,
@@ -36,6 +46,11 @@ const LoginForm = (props: loginFormProps) => {
                 }
             ))
         } else {
+            if(formData.password !== value){
+                event.currentTarget.setCustomValidity("Passwords must match");
+            } else {
+                event.currentTarget.setCustomValidity("");
+            }
             setFormData((prevData) => (
                 {
                     ...prevData,
@@ -102,7 +117,7 @@ const LoginForm = (props: loginFormProps) => {
                     {
                         props.type === "register" &&
                         <div className="login-form-section">
-                            <label className="login-form-label">{props.type}</label>
+                            <label className="login-form-label">Confirm Password</label>
                             <input className="login-form-input" type="password" name="confirmPassword" onChange={handleFormChange}></input>
                         </div>
 

@@ -28,6 +28,32 @@
     font-size: 24px;
     outline-style: none;
     padding-left: 15px;
+    transition: 0.2s ease-in-out;
+}
+
+.login-form-input:hover{
+    background-color: var(--card);
+    outline: 1px solid var(--main-dark);
+    outline-offset: -5px;
+}
+
+.login-form-input:focus{
+    background-color: var(--card);
+    outline: 1px solid var(--main-dark);
+    outline-offset: -5px;
+
+}
+
+.login-form-input:invalid{
+    background-color: var(--card);
+    outline: 1px solid red;
+    outline-offset: -5px;
+}
+
+.login-form-input:valid{
+    background-color: var(--card);
+    outline: 1px solid green;
+    outline-offset: -5px;
 }
 
 .login-form-button{
@@ -41,5 +67,11 @@
     border-radius: 19px;
     color: var(--main-dark);
     background-color: var(--main-action);
+    transition: all 0.1s ease-out;
+}
+
+.login-form-button:hover{
+    outline: 2px solid var(--main-dark);
+    outline-offset: -7px;
 }
 
