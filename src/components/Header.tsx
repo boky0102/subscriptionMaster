@@ -1,38 +1,40 @@
 import Button from './Button';
 import './Header.css';
 import { Link } from "react-router-dom";
-import LogOutButton from './LogOutButton';
+import logo from '../assets/logo.svg';
+
 
 type HeaderProps = {
-    userLogged: boolean,
-    loggedFlagHandler: (logged: boolean) => void
+    type: "login" | "register"
 }
 
 function Header(props: HeaderProps){
 
     return(
         <header id="header-container">
+            <div className="header-item">
+                <img src={logo} className="logo"></img>
+            </div>
+            
             <div className="header-buttons-container">
-                {
-                   !props.userLogged && 
-                   <>
-                        <Link to={"/login"}>
-                            <Button label="Login" type="button"></Button>
-                        </Link>
-                        <Link to={"/register"}>
-                            <Button label="Register" type="button"></Button>
-                        </Link>
-                    </>
-                }
-                {
-                    props.userLogged &&
-                    <>
-                        <LogOutButton loggedFlagHandler={props.loggedFlagHandler}></LogOutButton>
-                    </>
-                }
                 
+                        {
+                            props.type === "register" && 
+                            <Link to={"/login"}>
+                                <Button label="Login" type="button" className="header-button"></Button>
+                            </Link>
+                        }
+
+                        {
+                            props.type === "login" &&
+                            <Link to={"/register"}>
+                                <Button label="Register" type="button" className='header-button'></Button>
+                            </Link>
+                        }
+                        
                 
             </div>
+            
         </header>
     )
 

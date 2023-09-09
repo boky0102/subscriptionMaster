@@ -1,3 +1,16 @@
+:root{
+    --main-dark: #0E1C36;
+    --main-light: #FFF3EB;
+    --main-action: #17BEBB;
+    --card: #E8DDD6;
+}
+
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--main-light);
+}
+
 .main-grid-container{
     display: grid;
     width: 100vw;
@@ -6,26 +19,17 @@
     grid-template-rows: repeat(10,10vh);
     grid-template-areas: 
         "header header header header header header header header header header"
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
+        "main main main main main main main main main main"
+        "main main main main main main main main main main"
+        "main main main main main main main main main main"
+        "main main main main main main main main main main"
+        "main main main main main main main main main main"
+        "main main main main main main main main main main"
+        "main main main main main main main main main main"
+        "main main main main main main main main main main"
+        "main main main main main main main main main main"
     ;
-    /* align-items: stretch; */
 }
-
-
-/*  .main-container{
-    width: 100vw;
-    background-color: bisque;
-    display: flex;
-} */
-
 
 
 
@@ -40,10 +44,6 @@
     height: 8vh;
 }
 
-.actions-container{
-    
-    
-}
 
 .dashboard-container{
     grid-area: sidebar;
@@ -55,3 +55,5 @@
     grid-area: main;
     background-color: brown;
 } 
+
+

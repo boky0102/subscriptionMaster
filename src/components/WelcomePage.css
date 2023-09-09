@@ -1,0 +1,27 @@
+.welcome-main-container{
+    width: 100vw;
+    height: 100vh;
+}
+
+.welcome-content-container{
+    width: 80%;
+    height: 90vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.welcome-text{
+    font-size: 34px;
+    font-weight: 200;
+    font-style: italic;
+    line-height: 45px;
+    color: var(--main-dark)
+
+}
+
+.welcome-form-cotnainer{
+}

@@ -1,11 +1,9 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-type LogOutProps = {
-    loggedFlagHandler: (logged: boolean) => void
-}
 
-function LogOutButton(props: LogOutProps){
+
+function LogOutButton(){
     const navigate = useNavigate();
     function handleLogOutButton(){
         const serverLink = import.meta.env.VITE_SERVER_LINK;
@@ -14,7 +12,7 @@ function LogOutButton(props: LogOutProps){
         }).then((response) =>{
             console.log(response)
             if(response.status === 200){
-                props.loggedFlagHandler(false);
+                console.log(response);
             }
         }).catch((error) => {
             console.log(error);
@@ -25,7 +23,7 @@ function LogOutButton(props: LogOutProps){
 
     return(
         <div>
-            <button onClick={handleLogOutButton}>Log out</button>
+            <button onClick={handleLogOutButton} className="header-button">Log out</button>
         </div>
     )
     

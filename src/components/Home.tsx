@@ -14,11 +14,8 @@ interface Subscription {
     addedDate: Date
 }
 
-type homeProps = {
-    loggedFlagHandler: (loggedIn: boolean) => void
-}
 
-function Home(props: homeProps){
+function Home(){
     const serverPath = import.meta.env.VITE_SERVER_LINK;
     const navigate = useNavigate();
 
@@ -30,15 +27,11 @@ function Home(props: homeProps){
         axios.get(serverPath + "/subscriptions", {
             withCredentials: true
         }) .then((response) => {
-            console.log("Render",response.data)
-            setSubscriptionData(response.data)
             if(response.status === 200){
-                props.loggedFlagHandler(true);
-            } else{
-                props.loggedFlagHandler(false);
+                console.log("Render",response.data)
+                setSubscriptionData(response.data)
             }
         }) .catch((error) => {
-            props.loggedFlagHandler(false);
             console.log("auth error",error);
             navigate("/login");
         })
@@ -109,7 +102,7 @@ function Home(props: homeProps){
                     <Route path="/settings" element={<MySettings></MySettings>}></Route>
                     <Route path="/addsubscription" element={<SubscriptionForm handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
                     <Route path="/callendar" element={<Callendar></Callendar>}></Route>
-                    <Route path="" element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}></Route>
+                    <Route path="/home" element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}></Route>
                 </Routes>
             </div>
         </>

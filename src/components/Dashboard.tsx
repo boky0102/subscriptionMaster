@@ -1,4 +1,6 @@
 import DashboardButton from "./DashboardButton";
+import LogOutButton from "./LogOutButton";
+
 
 function Dashboard(){
 
@@ -13,6 +15,7 @@ function Dashboard(){
                 <DashboardButton label="CALENDAR" route="callendar"></DashboardButton>
                 <DashboardButton label="MY SUBSCRIPTIONS" route=""></DashboardButton>
                 <DashboardButton label="ADD SUBSCRIPRION" route="addsubscription"></DashboardButton>
+                <LogOutButton></LogOutButton>
             </div>
         </div>
     )
