@@ -46,15 +46,10 @@
 
 .login-form-input:invalid{
     background-color: var(--card);
-    outline: 1px solid red;
+    outline: 2px solid var(--error);
     outline-offset: -5px;
 }
 
-.login-form-input:valid{
-    background-color: var(--card);
-    outline: 1px solid green;
-    outline-offset: -5px;
-}
 
 .login-form-button{
     border-style: none;
@@ -70,8 +65,31 @@
     transition: all 0.1s ease-out;
 }
 
+
+
 .login-form-button:hover{
     outline: 2px solid var(--main-dark);
     outline-offset: -7px;
 }
+
+.login-form-button:disabled{
+    background-color: var(--card);
+    cursor: default;
+}
+
+#error{
+    transition: transform 0.7s ease-in-out;
+}
+
+.login-error-element{
+    position: absolute;
+    transform: translate(-600px,-60px);
+}
+
+.login-error-active{
+    transform: translate(0px, -60px);
+
+}
+
+
 

@@ -1,8 +1,9 @@
 import Button from "./Button"
-import { useState, useEffect} from "react"
+import { useState, useEffect, useRef} from "react"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import './LoginForm.css';
+import ErrorBox from "./ErrorBox";
 
 type loginFormProps = {
     type: "login" | "register",
@@ -17,15 +18,20 @@ interface User {
 const LoginForm = (props: loginFormProps) => {
 
     const [formData, setFormData] = useState({} as User);
+    const [errorMessage, setErrorMessage] = useState(undefined as undefined | string);
     const navigate = useNavigate();
+    const errorElement = useRef(null);
 
     function handleFormChange(event: React.ChangeEvent<HTMLInputElement>){
         const { name, value } = event.currentTarget;
         if(name === "username"){
-            if(value.length < 4) {
+            if(value.length < 4 && value.length !== 0) {
                 event.currentTarget.setCustomValidity("Username must be longer than 3 letters");
+                setErrorMessage("Username must be longer than 3 letters");
+
             } else {
                 event.currentTarget.setCustomValidity("");
+                setErrorMessage(undefined);
             }
             setFormData((prevData) => (
                 {
@@ -34,10 +40,12 @@ const LoginForm = (props: loginFormProps) => {
                 }
             ))
         } else if( name === "password" ){
-            if(value.length < 8){
+            if(value.length < 8 && value.length !== 0){
                 event.currentTarget.setCustomValidity("Password must be longer than 7 characters");
+                setErrorMessage("Password must be longer than 7 characters");
             } else {
                 event.currentTarget.setCustomValidity("");
+                setErrorMessage(undefined)
             }
             setFormData((prevData) => (
                 {
@@ -46,10 +54,12 @@ const LoginForm = (props: loginFormProps) => {
                 }
             ))
         } else {
-            if(formData.password !== value){
+            if(formData.password !== value && value.length !== 0){
                 event.currentTarget.setCustomValidity("Passwords must match");
+                setErrorMessage("Passwords must match");
             } else {
                 event.currentTarget.setCustomValidity("");
+                setErrorMessage(undefined);
             }
             setFormData((prevData) => (
                 {
@@ -105,6 +115,10 @@ const LoginForm = (props: loginFormProps) => {
     return(
             <div className="login-form-container">
                 <form onSubmit={handleFormSubmit}>
+                    <div id="error" className={errorMessage ? "login-error-element login-error-active" : "login-error-element"} ref={errorElement}>
+                        <ErrorBox message={errorMessage}></ErrorBox>
+                    </div>
+                    
                     <div className="login-form-section">
                         <label className="login-form-label">Username</label>
                         <input className="login-form-input" type="text" name="username" onChange={handleFormChange}></input>
@@ -112,7 +126,6 @@ const LoginForm = (props: loginFormProps) => {
                     <div className="login-form-section">
                         <label className="login-form-label">Password</label>
                         <input className="login-form-input" type="password" name="password" onChange={handleFormChange}></input>
-                        {/* <Button label="Register" type="submit"></Button> */}
                     </div>
                     {
                         props.type === "register" &&
@@ -125,8 +138,8 @@ const LoginForm = (props: loginFormProps) => {
                     <div>
                         {
                         props.type === "register" ? 
-                        <Button className="login-form-button" label="Register" type="submit"></Button> :
-                        <Button className="login-form-button" label="Login" type="submit"></Button>
+                        <Button className="login-form-button" label="Register" type="submit" disabled={errorMessage ? true : false}></Button> :
+                        <Button className="login-form-button" label="Login" type="submit" disabled={errorMessage ? true : false}></Button>
                         }
                     </div>
                 </form>
