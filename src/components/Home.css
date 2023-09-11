@@ -1,0 +1,10 @@
+.dashboard-container{
+    grid-area: sidebar;
+    background-color: black;
+    width: 100%;
+}
+
+.outlet-container{
+    grid-area: main;
+    background-color: var(--card);
+} 

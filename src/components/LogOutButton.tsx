@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./LogOutButton.css";
+
 
 
 
@@ -22,8 +24,8 @@ function LogOutButton(){
     }
 
     return(
-        <div>
-            <button onClick={handleLogOutButton} className="header-button">Log out</button>
+        <div onClick={handleLogOutButton} className="logout-element">
+            Log out
         </div>
     )
     

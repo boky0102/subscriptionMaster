@@ -6,6 +6,7 @@ import MySettings from './MySettings';
 import SubscriptionForm from './SubscriptionForm';
 import Callendar from './Callendar';
 import Mysubscriptions from './Mysubscriptions';
+import './Home.css';
 
 interface Subscription {
     subscriptionName: string,
@@ -95,7 +96,7 @@ function Home(){
 
 
     return(
-        <>
+        <div className="main-grid-container">
             <Dashboard></Dashboard>
             <div className="outlet-container">
                 <Routes>
@@ -105,7 +106,7 @@ function Home(){
                     <Route path="/home" element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}></Route>
                 </Routes>
             </div>
-        </>
+        </div>
     )
 }
 

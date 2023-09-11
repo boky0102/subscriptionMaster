@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import './DashboardButton.css';
 
 interface props{
     label: string,
@@ -9,8 +10,8 @@ interface props{
 function DashboardButton(props: props){
 
     return(
-        <Link to={`/${props.route}`}>
-            <button className="dashboard-button">{props.label}</button>
+        <Link to={`/home/${props.route}`} className="dashboard-link">
+            <div>{props.label}</div>
         </Link>
     )
 }
