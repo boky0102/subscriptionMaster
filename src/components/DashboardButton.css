@@ -8,5 +8,10 @@
 }
 
 .dashboard-link:hover{
+    animation-name: "underscore";
     text-decoration: underline 3px;
+}
+
+@keyframes underscore {
+    
 }

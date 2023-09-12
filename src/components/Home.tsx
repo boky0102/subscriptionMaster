@@ -7,6 +7,7 @@ import SubscriptionForm from './SubscriptionForm';
 import Callendar from './Callendar';
 import Mysubscriptions from './Mysubscriptions';
 import './Home.css';
+import HomeContent from './HomeContent';
 
 interface Subscription {
     subscriptionName: string,
@@ -103,7 +104,8 @@ function Home(){
                     <Route path="/settings" element={<MySettings></MySettings>}></Route>
                     <Route path="/addsubscription" element={<SubscriptionForm handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
                     <Route path="/callendar" element={<Callendar></Callendar>}></Route>
-                    <Route path="/home" element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}></Route>
+                    <Route path="/mysubscriptions" element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}></Route>
+                    <Route path="" element={<HomeContent subscriptionData={subscriptionData}></HomeContent>}></Route>
                 </Routes>
             </div>
         </div>

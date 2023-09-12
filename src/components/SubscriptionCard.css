@@ -1,0 +1,16 @@
+.subscription-card-container{
+    width: 90%;
+    background-color: var(--main-light);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2vh;
+    border-radius: 21px;
+    padding: 20px;
+    
+}
+
+.header-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}

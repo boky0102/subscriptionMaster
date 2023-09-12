@@ -3,7 +3,7 @@ import './DashboardButton.css';
 
 interface props{
     label: string,
-    route: "settings" | "callendar" | "mysubscription" | "addsubscription" | ""
+    route: "settings" | "callendar" | "mysubscription" | "addsubscription" | "" | "mysubscriptions"
 }
 
 

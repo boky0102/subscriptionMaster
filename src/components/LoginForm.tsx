@@ -1,5 +1,5 @@
 import Button from "./Button"
-import { useState, useEffect, useRef} from "react"
+import { useState, useRef, useEffect} from "react"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import './LoginForm.css';
@@ -16,6 +16,19 @@ interface User {
 }
 
 const LoginForm = (props: loginFormProps) => {
+
+    useEffect(() => {
+        const serverLink = import.meta.env.VITE_SERVER_LINK;
+        axios.get(serverLink, {
+            withCredentials: true
+        }).then((response) => {
+            if(response.status === 200){
+                navigate("/home");
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+    }, [])
 
     const [formData, setFormData] = useState({} as User);
     const [errorMessage, setErrorMessage] = useState(undefined as undefined | string);
@@ -95,21 +108,17 @@ const LoginForm = (props: loginFormProps) => {
                     } else {
                         navigate("/login");
                     }
-                }
+                } 
                 
-                
-
             })
             .catch((err) => {
+                setErrorMessage(err.response.statusText);
                 console.log(err);
             })
 
     }
 
-    useEffect(() => {
-        console.log(formData);
-    }, [formData]);
-    
+   
     
 
     return(
