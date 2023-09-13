@@ -1,7 +1,7 @@
 export interface Subscription {
     subscriptionName: string,
     renewalDate: Date,
-    addedDate: Date,
+    dateAdded: Date,
     chargeAmount: number
 }
 

@@ -5,7 +5,7 @@ interface Subscription {
     subscriptionName: string,
     chargeAmount: number,
     renewalDate: Date,
-    addedDate: Date
+    dateAdded: Date
 }
 
 type HomeContentProps = {

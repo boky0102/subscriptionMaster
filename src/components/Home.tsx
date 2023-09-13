@@ -13,7 +13,7 @@ interface Subscription {
     subscriptionName: string,
     chargeAmount: number,
     renewalDate: Date,
-    addedDate: Date
+    dateAdded: Date
 }
 
 
@@ -30,18 +30,20 @@ function Home(){
             withCredentials: true
         }) .then((response) => {
             if(response.status === 200){
-                console.log("Render",response.data)
-                setSubscriptionData(response.data)
+                setSubscriptionData(response.data);
+                const responseData = response.data as Subscription[];
+                const dateObjectArray = responseData.map((subscription) => {
+                    subscription.renewalDate = new Date(subscription.renewalDate);
+                    subscription.dateAdded = new Date(subscription.dateAdded);
+                    return subscription
+                });
+                console.log("Sredena Array", dateObjectArray);
             }
         }) .catch((error) => {
             console.log("auth error",error);
             navigate("/login");
         })
     }, [dataPosted]);
-
-    useEffect(() => {
-        console.log(subscriptionFormData);
-    }, [subscriptionFormData]);
 
     function handleSubscriptionFormChange(event: React.ChangeEvent<HTMLInputElement>){
         const {name, value} = event.currentTarget
