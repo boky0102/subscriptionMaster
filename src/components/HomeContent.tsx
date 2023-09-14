@@ -2,6 +2,7 @@ import './HomeContent.css';
 import SubscriptionCard from './SubscriptionCard';
 
 interface Subscription {
+    id: string,
     subscriptionName: string,
     chargeAmount: number,
     renewalDate: Date,
@@ -18,7 +19,7 @@ export default function HomeContent(props: HomeContentProps){
             <div className='subscriptions-container'>
                 {
                     props.subscriptionData.map((subscription) => 
-                        <SubscriptionCard subscription={subscription}></SubscriptionCard>
+                        <SubscriptionCard subscription={subscription} key={subscription.id}></SubscriptionCard>
                     )
                 }
             </div>

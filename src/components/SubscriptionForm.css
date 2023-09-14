@@ -1,0 +1,54 @@
+.sub-form-container{
+    margin-top:4vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.sub-form-section{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.sub-form-input{
+    width: 90%;
+    height: 50px;
+    border-radius: 5px;
+    outline-style: none;
+    border-style: none;
+    font-size: 20px;
+    padding: 0 20px 0 20px;
+    transition: all 0.15s ease-in;
+}
+
+.sub-form-input:hover{
+    outline: 1px solid var(--main-dark);
+    outline-offset: -2px;
+}
+
+.sub-form-input:focus{
+    outline: 1px solid var(--main-dark);
+    outline-offset: -2px;
+}
+
+.sub-form-button{
+    font-family: poppins;
+    font-size: 15px;
+    font-weight: bolder;
+    padding: 20px;
+    border-style: none;
+    border-radius: 21px;
+    background-color: var(--main-action);
+    transition: all 0.15s ease-in;
+}
+
+.sub-form-button:hover{
+    cursor: pointer;
+    outline: 1px solid var(--main-dark);
+    outline-offset: -5px;
+}

@@ -1,4 +1,4 @@
-
+import './SubscriptionForm.css';
 
 type SubscriptionFormProps = {
     handleSubscriptionFormChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
@@ -10,19 +10,31 @@ type SubscriptionFormProps = {
 function SubscriptionForm(props: SubscriptionFormProps){
 
     return(
-        <form onSubmit={props.handleSubscriptionFormSubmit}>
-            <label>Subscription name</label>
-            <input type="text" name="subscriptionName" onChange={props.handleSubscriptionFormChange}></input>
-
-            <label>Date subscribed</label>
-            <input type="date" name="startDate" onChange={props.handleSubscriptionFormChange}></input>
-
-            <label>Renewal Date</label>
-            <input type="date" name="renewalDate" onChange={props.handleSubscriptionFormChange}></input>
-
-            <label>Subscription cost per month</label>
-            <input type="number" name="chargeAmount" onChange={props.handleSubscriptionFormChange}></input>
-            <button type="submit">Add subscription</button>
+        <form onSubmit={props.handleSubscriptionFormSubmit} className="sub-form-container">
+            <div className="sub-form-section">
+                <label>Subscription name</label>
+                <input type="text" name="subscriptionName" className="sub-form-input" onChange={props.handleSubscriptionFormChange}></input>
+            </div>
+            
+            <div className="sub-form-section">
+                <label>Date subscribed</label>
+                <input type="date" name="startDate" className="sub-form-input" onChange={props.handleSubscriptionFormChange}></input>
+            </div>
+            
+            <div className="sub-form-section">
+                <label>Renewal Date</label>
+                <input type="date" name="renewalDate" className="sub-form-input" onChange={props.handleSubscriptionFormChange}></input>
+            </div>
+            
+            <div className="sub-form-section">
+                <label>Subscription cost per month</label>
+                <input type="number" name="chargeAmount" className="sub-form-input" onChange={props.handleSubscriptionFormChange}></input>
+            </div>
+            
+            <div className="sub-form-section">
+                <button type="submit" className='sub-form-button'>Add subscription</button>
+            </div>
+            
         </form>
     )
 }

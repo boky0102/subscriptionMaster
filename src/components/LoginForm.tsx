@@ -24,6 +24,7 @@ const LoginForm = (props: loginFormProps) => {
         }).then((response) => {
             if(response.status === 200){
                 navigate("/home");
+                console.log("ERROR");
             }
         }).catch((error) => {
             console.log(error);

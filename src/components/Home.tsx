@@ -10,6 +10,7 @@ import './Home.css';
 import HomeContent from './HomeContent';
 
 interface Subscription {
+    id: string,
     subscriptionName: string,
     chargeAmount: number,
     renewalDate: Date,
@@ -30,20 +31,22 @@ function Home(){
             withCredentials: true
         }) .then((response) => {
             if(response.status === 200){
-                setSubscriptionData(response.data);
                 const responseData = response.data as Subscription[];
                 const dateObjectArray = responseData.map((subscription) => {
                     subscription.renewalDate = new Date(subscription.renewalDate);
-                    subscription.dateAdded = new Date(subscription.dateAdded);
                     return subscription
                 });
-                console.log("Sredena Array", dateObjectArray);
+                setSubscriptionData(dateObjectArray);
             }
         }) .catch((error) => {
             console.log("auth error",error);
             navigate("/login");
         })
     }, [dataPosted]);
+
+    useEffect(() => {
+        console.log(subscriptionData)
+    }, [subscriptionData]);
 
     function handleSubscriptionFormChange(event: React.ChangeEvent<HTMLInputElement>){
         const {name, value} = event.currentTarget
