@@ -17,6 +17,12 @@ interface Subscription {
     dateAdded: Date
 }
 
+interface Notification {
+    message: string | undefined,
+    notificationType: "success" | "error" | "warning" | undefined
+}
+
+
 
 function Home(){
     const serverPath = import.meta.env.VITE_SERVER_LINK;
@@ -25,6 +31,7 @@ function Home(){
     const [subscriptionData, setSubscriptionData] = useState<Subscription[]>([]);
     const [subscriptionFormData, setSubscriptionFormData] = useState({} as Subscription);
     const [dataPosted, newDataPosted] = useState(false);
+    const [notification, setNotification] = useState({message: undefined, notificationType: undefined} as Notification);
 
     useEffect(() => {
         axios.get(serverPath + "/subscriptions", {
@@ -92,9 +99,20 @@ function Home(){
             if(response.status === 200){
                 console.log("POSTED");
                 newDataPosted(true);
+                setNotification({
+                    message: "Successfully created added new subscription to your subscriptions, redirecting you to home...",
+                    notificationType: "success"
+                });
             }
         }).catch((error) => {
             console.log(error);
+        }).finally(() => {
+            setTimeout( () => {
+                setNotification({
+                    message: undefined,
+                    notificationType: undefined
+                })
+            }, 2000)
         })
         
     }
@@ -107,7 +125,7 @@ function Home(){
             <div className="outlet-container">
                 <Routes>
                     <Route path="/settings" element={<MySettings></MySettings>}></Route>
-                    <Route path="/addsubscription" element={<SubscriptionForm handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
+                    <Route path="/addsubscription" element={<SubscriptionForm notification={notification} handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
                     <Route path="/callendar" element={<Callendar></Callendar>}></Route>
                     <Route path="/mysubscriptions" element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}></Route>
                     <Route path="" element={<HomeContent subscriptionData={subscriptionData}></HomeContent>}></Route>

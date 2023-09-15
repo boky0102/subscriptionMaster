@@ -23,7 +23,7 @@
     border-style: none;
     font-size: 20px;
     padding: 0 20px 0 20px;
-    transition: all 0.15s ease-in;
+    transition: all 0.1s;
 }
 
 .sub-form-input:hover{
@@ -34,6 +34,15 @@
 .sub-form-input:focus{
     outline: 1px solid var(--main-dark);
     outline-offset: -2px;
+}
+
+.sub-form-invalid{
+    outline: 1px solid var(--error);
+    outline-offset: -2px;
+}
+
+.error-message{
+    color: var(--error);
 }
 
 .sub-form-button{
