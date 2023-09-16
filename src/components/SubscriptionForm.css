@@ -61,3 +61,8 @@
     outline: 1px solid var(--main-dark);
     outline-offset: -5px;
 }
+
+.sub-form-button:disabled:hover{
+    cursor: not-allowed;
+    outline-style: none;
+}

@@ -17,6 +17,13 @@ interface Subscription {
     dateAdded: Date
 }
 
+interface SubscriptionFormValue{
+    subscriptionName: string | undefined,
+    chargeAmount: number | undefined,
+    renewalDate: Date | undefined,
+    dateAdded: Date | undefined
+}
+
 interface Notification {
     message: string | undefined,
     notificationType: "success" | "error" | "warning" | undefined
@@ -29,9 +36,10 @@ function Home(){
     const navigate = useNavigate();
 
     const [subscriptionData, setSubscriptionData] = useState<Subscription[]>([]);
-    const [subscriptionFormData, setSubscriptionFormData] = useState({} as Subscription);
+    const [subscriptionFormData, setSubscriptionFormData] = useState({} as SubscriptionFormValue);
     const [dataPosted, newDataPosted] = useState(false);
     const [notification, setNotification] = useState({message: undefined, notificationType: undefined} as Notification);
+    const [formFilled, setFormFilled] = useState(false);
 
     useEffect(() => {
         axios.get(serverPath + "/subscriptions", {
@@ -52,11 +60,33 @@ function Home(){
     }, [dataPosted]);
 
     useEffect(() => {
+        setSubscriptionFormData({
+            subscriptionName: undefined,
+            renewalDate: undefined,
+            dateAdded: undefined,
+            chargeAmount: undefined
+        })
+    }, []);
+
+    useEffect(() => {
+        if(subscriptionFormData.chargeAmount && subscriptionFormData.dateAdded  && subscriptionFormData.renewalDate && subscriptionFormData.subscriptionName){
+            setFormFilled(true);
+        } else{
+            setFormFilled(false);
+        }
+    }, [subscriptionFormData]);
+
+    
+
+    useEffect(() => {
         console.log(subscriptionData)
     }, [subscriptionData]);
 
     function handleSubscriptionFormChange(event: React.ChangeEvent<HTMLInputElement>){
-        const {name, value} = event.currentTarget
+
+
+        const {name, value} = event.currentTarget;
+        console.log("CURRENT CHANGE", name, "VALUE", value);
         if(name === "subscriptionName"){
             setSubscriptionFormData((prevData) => (
                 {
@@ -71,7 +101,7 @@ function Home(){
                     [name] : parseInt(value)
                 }
             ))
-        } else if(name === "startDate"){
+        } else if(name === "dateAdded"){
             const valueToDate = new Date(value);
             setSubscriptionFormData((prevData) => (
                 {
@@ -88,6 +118,8 @@ function Home(){
                 }
             ))
         }
+
+        
     }
 
     function handleSubscriptionFormSubmit(event: React.ChangeEvent<HTMLFormElement>){
@@ -117,6 +149,15 @@ function Home(){
         
     }
 
+    function clearFormValues() : void{
+        setSubscriptionFormData({
+            subscriptionName: undefined,
+            renewalDate: undefined,
+            dateAdded: undefined,
+            chargeAmount: undefined
+        })
+    }
+
 
 
     return(
@@ -125,7 +166,7 @@ function Home(){
             <div className="outlet-container">
                 <Routes>
                     <Route path="/settings" element={<MySettings></MySettings>}></Route>
-                    <Route path="/addsubscription" element={<SubscriptionForm notification={notification} handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
+                    <Route path="/addsubscription" element={<SubscriptionForm clearFormValues={clearFormValues} formFilled={formFilled} notification={notification} handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
                     <Route path="/callendar" element={<Callendar></Callendar>}></Route>
                     <Route path="/mysubscriptions" element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}></Route>
                     <Route path="" element={<HomeContent subscriptionData={subscriptionData}></HomeContent>}></Route>

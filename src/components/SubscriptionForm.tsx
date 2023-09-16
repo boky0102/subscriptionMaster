@@ -1,23 +1,26 @@
+import { useEffect } from 'react';
 import NotificationMessage from './NotificationMessage';
 import './SubscriptionForm.css';
 
 
 interface Notification {
     message: string | undefined,
-    notificationType: "success" | "error" | "warning" | undefined
+    notificationType: "success" | "error" | "warning" | undefined,
 }
 
 type SubscriptionFormProps = {
     handleSubscriptionFormChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
     handleSubscriptionFormSubmit: (event: React.ChangeEvent<HTMLFormElement>) => void,
-    notification?: Notification
+    notification?: Notification,
+    formFilled: boolean,
+    clearFormValues: () => void
 }
 
 
-
-
-
 function SubscriptionForm(props: SubscriptionFormProps){
+    useEffect(() => {
+        props.clearFormValues();
+    }, []);
 
     return(
         <>
@@ -30,7 +33,7 @@ function SubscriptionForm(props: SubscriptionFormProps){
             
             <div className="sub-form-section">
                 <label>Date subscribed</label>
-                <input type="date" name="startDate" className="sub-form-input" onChange={props.handleSubscriptionFormChange}></input>
+                <input type="date" name="dateAdded" className="sub-form-input" onChange={props.handleSubscriptionFormChange}></input>
                 <div className='error-message'></div>
             </div>
             
@@ -47,7 +50,7 @@ function SubscriptionForm(props: SubscriptionFormProps){
             </div>
             
             <div className="sub-form-section">
-                <button type="submit" className='sub-form-button'>Add subscription</button>
+                <button disabled={!props.formFilled} type="submit" className='sub-form-button'>Add subscription</button>
             </div>
 
             <NotificationMessage message={props.notification?.message} notificationType={props.notification?.notificationType}></NotificationMessage>            
