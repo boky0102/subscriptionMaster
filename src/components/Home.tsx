@@ -17,6 +17,11 @@ interface Subscription {
     dateAdded: Date
 }
 
+export interface UserData {
+    username: string,
+    email?: string
+}
+
 interface SubscriptionFormValue{
     subscriptionName: string | undefined,
     chargeAmount: number | undefined,
@@ -40,18 +45,24 @@ function Home(){
     const [dataPosted, newDataPosted] = useState(false);
     const [notification, setNotification] = useState({message: undefined, notificationType: undefined} as Notification);
     const [formFilled, setFormFilled] = useState(false);
+    const [userData, setUserData] = useState({} as UserData);
 
     useEffect(() => {
         axios.get(serverPath + "/subscriptions", {
             withCredentials: true
         }) .then((response) => {
             if(response.status === 200){
-                const responseData = response.data as Subscription[];
-                const dateObjectArray = responseData.map((subscription) => {
+                const responseSubscriptionData = response.data.subscriptions as Subscription[];
+                const dateObjectArray = responseSubscriptionData.map((subscription) => {
                     subscription.renewalDate = new Date(subscription.renewalDate);
                     return subscription
                 });
                 setSubscriptionData(dateObjectArray);
+                setUserData({
+                    username: response.data.username,
+                    email: response.data.email
+                });
+                
             }
         }) .catch((error) => {
             console.log("auth error",error);
@@ -79,8 +90,8 @@ function Home(){
     
 
     useEffect(() => {
-        console.log(subscriptionData)
-    }, [subscriptionData]);
+        console.log(userData);
+    }, [userData]);
 
     function handleSubscriptionFormChange(event: React.ChangeEvent<HTMLInputElement>){
 
@@ -169,7 +180,7 @@ function Home(){
                     <Route path="/addsubscription" element={<SubscriptionForm clearFormValues={clearFormValues} formFilled={formFilled} notification={notification} handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
                     <Route path="/callendar" element={<Callendar></Callendar>}></Route>
                     <Route path="/mysubscriptions" element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}></Route>
-                    <Route path="" element={<HomeContent subscriptionData={subscriptionData}></HomeContent>}></Route>
+                    <Route path="" element={<HomeContent userData={userData} subscriptionData={subscriptionData}></HomeContent>}></Route>
                 </Routes>
             </div>
         </div>

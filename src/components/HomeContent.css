@@ -14,6 +14,12 @@
     scrollbar-width: 10px;
 }
 
+.widget-link{
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--main-action);
+}
+
 
 
 .subscriptions-container::-webkit-scrollbar{

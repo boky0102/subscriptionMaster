@@ -19,6 +19,7 @@ export default function SubscriptionCard(props: SubscriptionCardProps){
             <div className='division-line'></div>
             <div className='subscription-card-element'>Renewal Date</div>
             <div className='subscription-card-element'>{props.subscription.renewalDate.toDateString()}</div>
+            
         </div>
     )
 }

@@ -1,5 +1,7 @@
 import './HomeContent.css';
 import SubscriptionCard from './SubscriptionCard';
+import { UserData } from './Home';
+import { Link } from 'react-router-dom';
 
 interface Subscription {
     id: string,
@@ -10,7 +12,8 @@ interface Subscription {
 }
 
 type HomeContentProps = {
-    subscriptionData: Subscription[]
+    subscriptionData: Subscription[],
+    userData: UserData
 }
 
 export default function HomeContent(props: HomeContentProps){
@@ -23,7 +26,12 @@ export default function HomeContent(props: HomeContentProps){
                     )
                 }
             </div>
-            <div className='widget-container'></div>
+            <div className='widget-container'>
+                {
+                    props.userData.email === undefined &&
+                        <div>Email address isn't set up. Please go to <Link to="/home/settings" className='widget-link'>SETTINGS</Link> and setup email so you can recieve notificaitons.</div>
+                }
+            </div>
             
         </>
     )
