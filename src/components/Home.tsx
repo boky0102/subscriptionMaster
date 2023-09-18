@@ -52,12 +52,15 @@ function Home(){
             withCredentials: true
         }) .then((response) => {
             if(response.status === 200){
-                const responseSubscriptionData = response.data.subscriptions as Subscription[];
-                const dateObjectArray = responseSubscriptionData.map((subscription) => {
+                if(response.data.subscriptions){
+                    const responseSubscriptionData = response.data.subscriptions as Subscription[];
+                    const dateObjectArray = responseSubscriptionData.map((subscription) => {
                     subscription.renewalDate = new Date(subscription.renewalDate);
                     return subscription
-                });
-                setSubscriptionData(dateObjectArray);
+                    });
+                    setSubscriptionData(dateObjectArray);
+                }
+                
                 setUserData({
                     username: response.data.username,
                     email: response.data.email
