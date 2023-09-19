@@ -22,7 +22,7 @@ export default function HomeContent(props: HomeContentProps){
             <div className='subscriptions-container'>
                 {
                     props.subscriptionData.map((subscription) => 
-                        <SubscriptionCard subscription={subscription} key={subscription.id}></SubscriptionCard>
+                        <SubscriptionCard subscription={subscription} key={subscription.id} id={subscription.id}></SubscriptionCard>
                     )
                 }
             </div>

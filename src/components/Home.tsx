@@ -179,7 +179,7 @@ function Home(){
             <Dashboard></Dashboard>
             <div className="outlet-container">
                 <Routes>
-                    <Route path="/settings" element={<MySettings></MySettings>}></Route>
+                    <Route path="/settings" element={<MySettings email={userData.email}></MySettings>}></Route>
                     <Route path="/addsubscription" element={<SubscriptionForm clearFormValues={clearFormValues} formFilled={formFilled} notification={notification} handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
                     <Route path="/callendar" element={<Callendar></Callendar>}></Route>
                     <Route path="/mysubscriptions" element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}></Route>

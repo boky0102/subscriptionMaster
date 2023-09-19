@@ -25,15 +25,20 @@ function MySettings(props: SettingsProps){
     function handleChangeSettings(event: React.ChangeEvent<HTMLInputElement>){
         const {name, value} = event.currentTarget;
         if(name === "email"){
-            setValidEmail(isValidEmail(value));
-            setSettings( (prevSettings) => (
-                {
-                    ...prevSettings,
-                    [name] : value
-                }
-            )
-                
-            )
+            if(value.length === 0){
+                setValidEmail(undefined)
+            } else {
+                setValidEmail(isValidEmail(value));
+                setSettings( (prevSettings) => (
+                    {
+                        ...prevSettings,
+                        [name] : value
+                    }
+                )
+                    
+                )
+            }
+            
         }
     }
 
@@ -58,9 +63,9 @@ function MySettings(props: SettingsProps){
         <form className="sub-form-container" onSubmit={handleFormSubmit}>
             <div className="sub-form-section">
                 <label htmlFor="email">Email address</label>
-                <input type="email" name="email" className="sub-form-input" value={props.email} onChange={handleChangeSettings}></input>
+                <input type="email" name="email" className="sub-form-input" placeholder={props.email} onChange={handleChangeSettings}></input>
                 {
-                    !validEmail && 
+                    (!validEmail && validEmail !== undefined) &&
                         <div>Email is not valid</div>
                 }
             </div>
