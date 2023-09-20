@@ -4,7 +4,12 @@
     --main-action: #17BEBB;
     --card: #E8DDD6;
     --error: #ed2b4e;
-    --success: #01870d;
+    --error-text: #af0020;
+    --success: #23f134;
+    --success-text: #067910;
+    --warning: #fce046;
+    --warning-text: #bdb002;
+
 }
 
 

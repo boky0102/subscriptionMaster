@@ -2,7 +2,7 @@ import './Slider.css';
 import {useState, useEffect} from 'react';
 
 type SliderProps = {
-    sliderActive: boolean,
+    sliderActive: boolean | undefined,
     handleSliderClick: () => void
 }
 
@@ -12,12 +12,12 @@ export default function Slider(props: SliderProps){
     const [sliderContainerClasses, setSliderContainerClasses] = useState("slider-container" as string);
 
     useEffect(() => {
-        if(props.sliderActive){
+        if(!props.sliderActive || props.sliderActive === undefined){
+            setSliderClasses("slider-control");
+            setSliderContainerClasses("slider-container");
+        } else {
             setSliderClasses("slider-control slider-control-on");
             setSliderContainerClasses("slider-container slider-container-on");
-        } else {
-            setSliderClasses("slider-control");
-            setSliderContainerClasses("slider-container")
         }
         console.log("Slider", props.sliderActive);
 

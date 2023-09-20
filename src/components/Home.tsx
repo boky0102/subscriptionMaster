@@ -8,6 +8,7 @@ import Callendar from './Callendar';
 import Mysubscriptions from './Mysubscriptions';
 import './Home.css';
 import HomeContent from './HomeContent';
+import MainNotification from './MainNotification';
 
 interface Subscription {
     id: string,
@@ -29,9 +30,10 @@ interface SubscriptionFormValue{
     dateAdded: Date | undefined
 }
 
-interface Notification {
-    message: string | undefined,
-    notificationType: "success" | "error" | "warning" | undefined
+export interface Notification {
+    message: string,
+    notificationType: "success" | "error" | "warning",
+    active: boolean
 }
 
 
@@ -43,9 +45,25 @@ function Home(){
     const [subscriptionData, setSubscriptionData] = useState<Subscription[]>([]);
     const [subscriptionFormData, setSubscriptionFormData] = useState({} as SubscriptionFormValue);
     const [dataPosted, newDataPosted] = useState(false);
-    const [notification, setNotification] = useState({message: undefined, notificationType: undefined} as Notification);
     const [formFilled, setFormFilled] = useState(false);
     const [userData, setUserData] = useState({} as UserData);
+    const [notification, setNotification] = useState({} as Notification)
+
+    function triggerNotification(message: Notification["message"], type: Notification["notificationType"]){
+        setNotification({
+            message: message,
+            notificationType: type,
+            active: true
+        });
+        setTimeout(() => {
+            setNotification((prevNotification) => (
+                {
+                    ...prevNotification,
+                    active: false
+                }
+            ))
+        }, 3000)
+    }
 
     useEffect(() => {
         axios.get(serverPath + "/subscriptions", {
@@ -145,19 +163,12 @@ function Home(){
             if(response.status === 200){
                 console.log("POSTED");
                 newDataPosted(true);
-                setNotification({
-                    message: "Successfully created added new subscription to your subscriptions, redirecting you to home...",
-                    notificationType: "success"
-                });
             }
         }).catch((error) => {
             console.log(error);
         }).finally(() => {
             setTimeout( () => {
-                setNotification({
-                    message: undefined,
-                    notificationType: undefined
-                })
+                console.log("notification goes brrr");
             }, 2000)
         })
         
@@ -180,11 +191,12 @@ function Home(){
             <div className="outlet-container">
                 <Routes>
                     <Route path="/settings" element={<MySettings email={userData.email}></MySettings>}></Route>
-                    <Route path="/addsubscription" element={<SubscriptionForm clearFormValues={clearFormValues} formFilled={formFilled} notification={notification} handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
+                    <Route path="/addsubscription" element={<SubscriptionForm clearFormValues={clearFormValues} formFilled={formFilled} handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
                     <Route path="/callendar" element={<Callendar></Callendar>}></Route>
                     <Route path="/mysubscriptions" element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}></Route>
-                    <Route path="" element={<HomeContent userData={userData} subscriptionData={subscriptionData}></HomeContent>}></Route>
+                    <Route path="" element={<HomeContent notificationTrigger={triggerNotification} userData={userData} subscriptionData={subscriptionData}></HomeContent>}></Route>
                 </Routes>
+                <MainNotification message={notification.message} type={notification.notificationType} active={notification.active}></MainNotification>
             </div>
         </div>
     )

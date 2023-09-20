@@ -2,6 +2,7 @@ import './HomeContent.css';
 import SubscriptionCard from './SubscriptionCard';
 import { UserData } from './Home';
 import { Link } from 'react-router-dom';
+import { Notification } from './Home';
 
 interface Subscription {
     id: string,
@@ -13,7 +14,8 @@ interface Subscription {
 
 type HomeContentProps = {
     subscriptionData: Subscription[],
-    userData: UserData
+    userData: UserData,
+    notificationTrigger: (message: Notification["message"], type: Notification["notificationType"]) => void
 }
 
 export default function HomeContent(props: HomeContentProps){
@@ -22,7 +24,7 @@ export default function HomeContent(props: HomeContentProps){
             <div className='subscriptions-container'>
                 {
                     props.subscriptionData.map((subscription) => 
-                        <SubscriptionCard subscription={subscription} key={subscription.id} id={subscription.id}></SubscriptionCard>
+                        <SubscriptionCard notificationTrigger={props.notificationTrigger} subscription={subscription} key={subscription.id} id={subscription.id}></SubscriptionCard>
                     )
                 }
             </div>
