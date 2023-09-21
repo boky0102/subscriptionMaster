@@ -15,7 +15,8 @@ interface Subscription {
 type HomeContentProps = {
     subscriptionData: Subscription[],
     userData: UserData,
-    notificationTrigger: (message: Notification["message"], type: Notification["notificationType"]) => void
+    notificationTrigger: (message: Notification["message"], type: Notification["notificationType"]) => void,
+    handleDeleteClick: (subscriptionId: string) => void
 }
 
 export default function HomeContent(props: HomeContentProps){
@@ -24,7 +25,7 @@ export default function HomeContent(props: HomeContentProps){
             <div className='subscriptions-container'>
                 {
                     props.subscriptionData.map((subscription) => 
-                        <SubscriptionCard notificationTrigger={props.notificationTrigger} subscription={subscription} key={subscription.id} id={subscription.id}></SubscriptionCard>
+                        <SubscriptionCard handleDeleteClick={props.handleDeleteClick} notificationTrigger={props.notificationTrigger} subscription={subscription} key={subscription.id} id={subscription.id}></SubscriptionCard>
                     )
                 }
             </div>

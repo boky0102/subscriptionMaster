@@ -3,8 +3,10 @@
     top: -100px;
     height: 30px;
     left: 50%;
+    border-radius: 8px;
+    margin-top: 20px;
     font: 14px;
-    padding: 5px;
+    padding: 12px;
     font-weight: bold;
     transition: all 0.5s ease-out;
 }
@@ -14,16 +16,17 @@
 }
 
 .error{
-    background-color: var(--error);
-    color: var(--error-text)
+    background-color: var(--error-transparent);
+    color: var(--error-text);
 }
 
 .warning{
-    background-color: var(-warning);
+    background-color: var(-warning-transparent);
     color: var(--warning-text);
 }
 
 .success{
-    background-color: var(--success);
+    background-color: var(--success-transparent);
     color: var(--success-text);
+    border: 1px solid var(--success-text);
 }

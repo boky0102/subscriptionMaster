@@ -9,7 +9,8 @@ import { Notification } from './Home';
 type SubscriptionCardProps = {
     subscription: Subscription,
     id: string,
-    notificationTrigger: (message: Notification["message"], type: Notification["notificationType"]) => void
+    notificationTrigger: (message: Notification["message"], type: Notification["notificationType"]) => void,
+    handleDeleteClick: (susbscriptionId: string) => void
 }
 
 
@@ -50,6 +51,9 @@ export default function SubscriptionCard(props: SubscriptionCardProps){
             <div className='subscription-card-element'>{props.subscription.renewalDate.toDateString()}</div>
             <div className='subscription-card-element'>
                 <Slider sliderActive={sliderActive} handleSliderClick={handleSliderChange}></Slider>
+            </div>
+            <div className='subscription-card-element'>
+                <button className="delete-button" onClick={() => props.handleDeleteClick(props.id)}>DELETE</button>
             </div>
             
         </div>

@@ -65,6 +65,27 @@ function Home(){
         }, 3000)
     }
 
+    function handleDeleteClick(subscriptionId: string){
+        const serverLink = import.meta.env.VITE_SERVER_LINK + "/subscription/" + subscriptionId;
+        axios.delete(serverLink, {
+            withCredentials: true
+        }).then((response) => {
+            if(response.status === 200){
+                triggerNotification("Subscription removed successfully", "success");
+                setSubscriptionData((prevData) => (
+                    prevData.filter((subscription) => {
+                        if(subscription.id !== subscriptionId){
+                            return subscription
+                        }
+                    })
+                ))
+            }
+        }).catch((error) => {
+            const errorMessage: string = error.response.statusText;
+            triggerNotification(errorMessage, "error");
+        })
+    }
+
     useEffect(() => {
         axios.get(serverPath + "/subscriptions", {
             withCredentials: true
@@ -194,7 +215,7 @@ function Home(){
                     <Route path="/addsubscription" element={<SubscriptionForm clearFormValues={clearFormValues} formFilled={formFilled} handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
                     <Route path="/callendar" element={<Callendar></Callendar>}></Route>
                     <Route path="/mysubscriptions" element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}></Route>
-                    <Route path="" element={<HomeContent notificationTrigger={triggerNotification} userData={userData} subscriptionData={subscriptionData}></HomeContent>}></Route>
+                    <Route path="" element={<HomeContent handleDeleteClick={handleDeleteClick} notificationTrigger={triggerNotification} userData={userData} subscriptionData={subscriptionData}></HomeContent>}></Route>
                 </Routes>
                 <MainNotification message={notification.message} type={notification.notificationType} active={notification.active}></MainNotification>
             </div>

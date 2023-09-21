@@ -62,3 +62,21 @@
 .subscription-card-element{
     margin-top: 10px;
 }
+
+.delete-button{
+    font-family: poppins;
+    background-color: var(--error-transparent);
+    border-style: none;
+    border-radius: 8px;
+    padding: 8px 12px 8px 12px;
+    color: var(--error-text);
+    font-weight: bold;
+    transition: all 0.15s;
+
+}
+
+.delete-button:hover{
+    cursor: pointer;
+    outline: 1px solid var(--main-dark);
+    outline-offset: -3px;
+}
