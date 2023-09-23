@@ -27,7 +27,8 @@ interface SubscriptionFormValue{
     subscriptionName: string | undefined,
     chargeAmount: number | undefined,
     renewalDate: Date | undefined,
-    dateAdded: Date | undefined
+    dateAdded: Date | undefined,
+    emailNotification: boolean | undefined
 }
 
 export interface Notification {
@@ -117,7 +118,8 @@ function Home(){
             subscriptionName: undefined,
             renewalDate: undefined,
             dateAdded: undefined,
-            chargeAmount: undefined
+            chargeAmount: undefined,
+            emailNotification: undefined
         })
     }, []);
 
@@ -175,6 +177,26 @@ function Home(){
         
     }
 
+    function handleSliderChange(){
+        let emailNotificationFlag :boolean;
+        if(subscriptionFormData.emailNotification === undefined || subscriptionFormData.emailNotification === false){
+            emailNotificationFlag = true;
+        } else {
+            emailNotificationFlag = false;
+        }
+
+        setSubscriptionFormData((prevData) => (
+            {
+                ...prevData,
+                emailNotification: emailNotificationFlag
+            }
+        ));
+    }
+
+    useEffect(() => {
+        console.log(subscriptionFormData)
+    }, [subscriptionFormData]);
+
     function handleSubscriptionFormSubmit(event: React.ChangeEvent<HTMLFormElement>){
         event.preventDefault();
         const postLink = import.meta.env.VITE_SERVER_LINK + "/newsubscription";
@@ -200,7 +222,8 @@ function Home(){
             subscriptionName: undefined,
             renewalDate: undefined,
             dateAdded: undefined,
-            chargeAmount: undefined
+            chargeAmount: undefined,
+            emailNotification: undefined
         })
     }
 
@@ -212,7 +235,7 @@ function Home(){
             <div className="outlet-container">
                 <Routes>
                     <Route path="/settings" element={<MySettings email={userData.email}></MySettings>}></Route>
-                    <Route path="/addsubscription" element={<SubscriptionForm clearFormValues={clearFormValues} formFilled={formFilled} handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
+                    <Route path="/addsubscription" element={<SubscriptionForm sliderActive={subscriptionFormData.emailNotification} handleSliderChange={handleSliderChange} clearFormValues={clearFormValues} formFilled={formFilled} handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
                     <Route path="/callendar" element={<Callendar></Callendar>}></Route>
                     <Route path="/mysubscriptions" element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}></Route>
                     <Route path="" element={<HomeContent handleDeleteClick={handleDeleteClick} notificationTrigger={triggerNotification} userData={userData} subscriptionData={subscriptionData}></HomeContent>}></Route>
