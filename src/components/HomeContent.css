@@ -33,3 +33,21 @@
     margin-top: 4vh;
     padding: 20px;
 }
+
+
+.chart-action-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrow-icon{
+    width: 30px;
+    color: var(--main-dark);
+    transition: all 0.1s ease-in-out;
+}
+
+.arrow-icon:hover{
+    cursor: pointer;
+    color: var(--main-action);
+}

@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 import { Notification } from './Home';
 import { useEffect, useState } from 'react';
 import { CartesianGrid, XAxis, YAxis, AreaChart, Area, ResponsiveContainer } from 'recharts';
+import '../assets/arrow-right.svg';
+import ArrowIcon from './ArrowIcon';
+
 
 interface Subscription {
     id: string,
@@ -31,6 +34,16 @@ type Months = "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "Jul" | "Aug" | "S
 export default function HomeContent(props: HomeContentProps){
 
     const [chartData, setChartData] = useState([] as ChartData[]);
+    const currentYear = new Date().getFullYear();
+    const [selectedYear, setSelectedYear] = useState(currentYear);
+
+    function handleRightArrowClick(){
+        setSelectedYear(year => year + 1);
+    }
+
+    function handleLeftArrowClick(){
+        setSelectedYear(year => year - 1);
+    }
 
     useEffect(() => {
         setChartData([]);
@@ -40,27 +53,54 @@ export default function HomeContent(props: HomeContentProps){
             let totalCost = 0;
             if(props.subscriptionData.length > 0){
                 props.subscriptionData.forEach((subscription) => {
-                    if(index >= subscription.dateAdded.getMonth() && currentMonth >= index){
-                        totalCost += subscription.chargeAmount;
-                        
+                    if(selectedYear === currentYear){
+                        if(index >= subscription.dateAdded.getMonth() && currentMonth >= index){
+                            totalCost += subscription.chargeAmount;
+                            
+                        }
+                    } else{
+                        if(subscription.dateAdded.getFullYear() === selectedYear){
+                            if(index >= subscription.dateAdded.getMonth()){
+                                totalCost += subscription.chargeAmount;
+                            }
+                        } else{
+                            if(subscription.dateAdded.getFullYear() < selectedYear){
+                                totalCost += subscription.chargeAmount;
+                                console.log(subscription.dateAdded);
+                            }
+                        }
                     }
+                    
                 })
             }
             const monthData: ChartData = {
                 month: month,
                 totalCostForMonth: totalCost
             }
+            console.log(monthData);
 
-            if(currentMonth >= index){
+            if(currentMonth >= index && selectedYear === currentYear){
                 setChartData((prevData) => {
                     const newData = [...prevData, monthData];
                     return newData
                 });
+            } else {
+                if(selectedYear !== currentYear){
+                    setChartData((prevData) => {
+                        const newData = [...prevData, monthData];
+                        return newData;
+                    })
+                }
             }
             
         })
-    }, [props.subscriptionData])
+    }, [props.subscriptionData, selectedYear]);
 
+
+   /*  useEffect(() => {
+        console.log(chartData);
+    }, [chartData])
+ */
 
 
     return(
@@ -92,6 +132,11 @@ export default function HomeContent(props: HomeContentProps){
                             <YAxis stroke="#0E1C36"></YAxis>
                         </AreaChart>
                     </ResponsiveContainer>
+                    <div className='chart-action-container'>    
+                        <ArrowIcon className='arrow-icon' direction='left' color={"#17BEBB"} handleClick={() => handleLeftArrowClick()}></ArrowIcon>
+                        <span>{selectedYear}</span>
+                        <ArrowIcon className='arrow-icon' direction='right' color={"#17BEBB"} handleClick={() => handleRightArrowClick()}></ArrowIcon>
+                    </div>
                 </div>
             </div>
             
