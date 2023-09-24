@@ -96,6 +96,7 @@ function Home(){
                     const responseSubscriptionData = response.data.subscriptions as Subscription[];
                     const dateObjectArray = responseSubscriptionData.map((subscription) => {
                     subscription.renewalDate = new Date(subscription.renewalDate);
+                    subscription.dateAdded = new Date(subscription.dateAdded);
                     return subscription
                     });
                     setSubscriptionData(dateObjectArray);
@@ -133,9 +134,6 @@ function Home(){
 
     
 
-    useEffect(() => {
-        console.log(userData);
-    }, [userData]);
 
     function handleSubscriptionFormChange(event: React.ChangeEvent<HTMLInputElement>){
 
@@ -193,9 +191,6 @@ function Home(){
         ));
     }
 
-    useEffect(() => {
-        console.log(subscriptionFormData)
-    }, [subscriptionFormData]);
 
     function handleSubscriptionFormSubmit(event: React.ChangeEvent<HTMLFormElement>){
         event.preventDefault();

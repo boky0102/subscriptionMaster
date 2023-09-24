@@ -19,7 +19,6 @@ export default function Slider(props: SliderProps){
             setSliderClasses("slider-control slider-control-on");
             setSliderContainerClasses("slider-container slider-container-on");
         }
-        console.log("Slider", props.sliderActive);
 
     }, [props.sliderActive])
 
