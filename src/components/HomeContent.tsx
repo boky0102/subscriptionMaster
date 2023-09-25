@@ -29,13 +29,20 @@ type ChartData = {
     totalCostForMonth: number
 }
 
+type ChartYearData = {
+    year: number,
+    totalCostForYear: number
+}
+
 type Months = "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "Jul" | "Aug" | "Sep" | "Oct" | "Nov" | "Dec";
 
 export default function HomeContent(props: HomeContentProps){
 
     const [chartData, setChartData] = useState([] as ChartData[]);
+    const [chartYearData, setChartYearData] = useState([] as ChartYearData[]);
     const currentYear = new Date().getFullYear();
     const [selectedYear, setSelectedYear] = useState(currentYear);
+    const [chartType, setChartType] = useState("year");
 
     function handleRightArrowClick(){
         setSelectedYear(year => year + 1);
@@ -45,62 +52,98 @@ export default function HomeContent(props: HomeContentProps){
         setSelectedYear(year => year - 1);
     }
 
-    useEffect(() => {
-        setChartData([]);
-        const months: Months[] = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"] ;
+    function handleChartTypeChange(event: React.ChangeEvent<HTMLSelectElement>){
+        const value = event.target.value;
+        setChartType(value);
+    }
+
+    function getChartDataYear(subscriptionData: Subscription[], year: number){
+        const currentYear = new Date().getFullYear();
         const currentMonth = new Date().getMonth();
-        months.forEach((month, index) => {
-            let totalCost = 0;
-            if(props.subscriptionData.length > 0){
-                props.subscriptionData.forEach((subscription) => {
-                    if(selectedYear === currentYear){
-                        if(index >= subscription.dateAdded.getMonth() && currentMonth >= index){
-                            totalCost += subscription.chargeAmount;
-                            
-                        }
-                    } else{
-                        if(subscription.dateAdded.getFullYear() === selectedYear){
-                            if(index >= subscription.dateAdded.getMonth()){
-                                totalCost += subscription.chargeAmount;
-                            }
-                        } else{
-                            if(subscription.dateAdded.getFullYear() < selectedYear){
-                                totalCost += subscription.chargeAmount;
-                                console.log(subscription.dateAdded);
+        const currentDay = new Date().getDay();
+        const months: Months[] = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"] ;
+        const chartYearDataArray: ChartData[] = [];
+        if(subscriptionData){
+            months.forEach((month, index) => {
+                let totalMonthCost = 0;
+                subscriptionData.forEach((subscription) => {
+                    if(subscription.dateAdded.getFullYear() < year){
+                        totalMonthCost += subscription.chargeAmount;
+                    } else if(subscription.dateAdded.getFullYear() === year){
+                        if(subscription.dateAdded.getMonth() < index){
+                            totalMonthCost += subscription.chargeAmount;
+                        } else if(subscription.dateAdded.getMonth() === index){
+                            if(subscription.dateAdded.getDay() <= currentDay){
+                                totalMonthCost += subscription.chargeAmount
                             }
                         }
+                        
                     }
                     
+                });
+
+                const monthChartData: ChartData = {
+                    month: month,
+                    totalCostForMonth: totalMonthCost
+                }
+
+                if(currentYear === year){
+                    if(currentMonth >= index){
+                        chartYearDataArray.push(monthChartData);
+                    }
+                    
+                } else if(currentYear !== year){
+                    chartYearDataArray.push(monthChartData);
+                }
+                
+
+            })
+        }
+        return chartYearDataArray;
+    }
+
+    function getChartDataAllYears(subscriptionData: Subscription[]){
+        const currentYear = new Date().getFullYear();
+        let lowestYear = currentYear;
+        if(subscriptionData){
+            subscriptionData.forEach((subscription) => {
+                if(subscription.dateAdded.getFullYear() < lowestYear){
+                    lowestYear = subscription.dateAdded.getFullYear();
+                }
+            })
+        }
+        const chartYearData: ChartYearData[] = [];
+        for(let j = lowestYear; j <= currentYear; j++){ 
+            let yearTotalCost = 0;
+            const yearCostByMonths = getChartDataYear(subscriptionData, j);
+            if(yearCostByMonths){
+                yearCostByMonths.forEach((month) => {
+                    yearTotalCost += month.totalCostForMonth;
                 })
             }
-            const monthData: ChartData = {
-                month: month,
-                totalCostForMonth: totalCost
+            const iterationYearData: ChartYearData = {
+                year: j,
+                totalCostForYear: yearTotalCost
             }
-            console.log(monthData);
+            chartYearData.push(iterationYearData);
+        }
+        return chartYearData;
+    }
 
-            if(currentMonth >= index && selectedYear === currentYear){
-                setChartData((prevData) => {
-                    const newData = [...prevData, monthData];
-                    return newData
-                });
-            } else {
-                if(selectedYear !== currentYear){
-                    setChartData((prevData) => {
-                        const newData = [...prevData, monthData];
-                        return newData;
-                    })
-                }
-            }
-            
-        })
-    }, [props.subscriptionData, selectedYear]);
+    useEffect(() => {
+        setChartData([]);
+        const chartDataArray = getChartDataYear(props.subscriptionData, selectedYear);
+        setChartData(chartDataArray);
+        const chartAllyearsData = getChartDataAllYears(props.subscriptionData);
+        setChartYearData(chartAllyearsData);
+
+        
+    }, [props.subscriptionData, selectedYear, chartType]);
 
 
-   /*  useEffect(() => {
-        console.log(chartData);
-    }, [chartData])
- */
+   useEffect(() => {
+    console.log(chartYearData)
+   }, [chartYearData])
 
 
     return(
@@ -136,6 +179,12 @@ export default function HomeContent(props: HomeContentProps){
                         <ArrowIcon className='arrow-icon' direction='left' color={"#17BEBB"} handleClick={() => handleLeftArrowClick()}></ArrowIcon>
                         <span>{selectedYear}</span>
                         <ArrowIcon className='arrow-icon' direction='right' color={"#17BEBB"} handleClick={() => handleRightArrowClick()}></ArrowIcon>
+                        <div>
+                            <select onChange={handleChartTypeChange}>
+                                <option value="all-time">ALL TIME GRAPH</option>
+                                <option value="year">YEAR CHART</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
