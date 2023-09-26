@@ -4,9 +4,10 @@ import { UserData } from './Home';
 import { Link } from 'react-router-dom';
 import { Notification } from './Home';
 import { useEffect, useState } from 'react';
-import { CartesianGrid, XAxis, YAxis, AreaChart, Area, ResponsiveContainer } from 'recharts';
 import '../assets/arrow-right.svg';
 import ArrowIcon from './ArrowIcon';
+import AreaYearChart from './AreaYearChart';
+import BarChartAllYears from './BarChartAllYears';
 
 
 interface Subscription {
@@ -161,20 +162,16 @@ export default function HomeContent(props: HomeContentProps){
                         <div>Email address isn't set up. Please go to <Link to="/home/settings" className='widget-link'>SETTINGS</Link> and setup email so you can recieve notificaitons.</div>
                 }
                 <div className='chart-container'>
-                    <ResponsiveContainer width={"100%"} height={300} >
-                        <AreaChart data={chartData} margin={{top: 20, left: 0, right: 50, bottom: 0}}>
-                        <defs>
-                            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#17BEBB" stopOpacity={1}/>
-                                <stop offset="95%" stopColor="#17BEBB" stopOpacity={0.3}/>
-                            </linearGradient>
-                        </defs>
-                            <Area type="monotone" dataKey="totalCostForMonth" stroke="#17BEBB" fillOpacity={1} fill="url(#colorUv)" />
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="month" fontWeight={"bold"} stroke="#0E1C36"></XAxis>
-                            <YAxis stroke="#0E1C36"></YAxis>
-                        </AreaChart>
-                    </ResponsiveContainer>
+
+                    {
+                            chartType === "year" &&
+                            <AreaYearChart chartData={chartData}></AreaYearChart>
+                    }
+                    {
+                        chartType === "all-time" &&
+                            <BarChartAllYears chartData={chartYearData}></BarChartAllYears>
+                    }
+                    
                     <div className='chart-action-container'>    
                         <ArrowIcon className='arrow-icon' direction='left' color={"#17BEBB"} handleClick={() => handleLeftArrowClick()}></ArrowIcon>
                         <span>{selectedYear}</span>
