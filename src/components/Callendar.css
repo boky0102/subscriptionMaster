@@ -1,0 +1,42 @@
+.calendar-container{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.calendar{
+    background-color: aquamarine;
+    width: 90%;
+    height: 90vh;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    border-radius: 30px;
+}
+
+.calendar-field{
+    border: 1px solid black;
+}
+
+.calendar-header{
+    width: 90%;
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    height: 40px;
+}
+
+.calendar-header-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+
+}
+
+.date-select-container{
+    display: flex;
+    align-items: center;
+}
