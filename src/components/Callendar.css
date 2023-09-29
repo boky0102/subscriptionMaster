@@ -13,9 +13,13 @@
     height: 90vh;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(6, 1fr);
+    grid-template-rows: repeat(5, 1fr);
     border-bottom: 1px solid black;
     border-right: 1px solid black;
+}
+
+.calendar-additionalWeek{
+    grid-template-rows: repeat(6, 1fr);
 }
 
 .calendar-field{

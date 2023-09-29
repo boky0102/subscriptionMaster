@@ -29,11 +29,6 @@ function Callendar(){
         setCurrentDate(newDate);
     }
 
-    function increaseOneDay(date: Date){
-        const returnDate = new Date(date);
-        returnDate.setDate(date.getDate() + 1);
-        return returnDate;
-    }
 
     function getDaysForMonth(date: Date): Date[]{
         const requestedDate = new Date(date);
@@ -102,9 +97,9 @@ function Callendar(){
                 <div className='calendar-header-item'>SAT</div>
                 <div className='calendar-header-item'>SUN</div>
             </div>
-            <div className='calendar'>
+            <div className={daysDateArray.length > 35 ? "calendar calendar-additionalWeek" : "calendar"}>
                 {
-                    daysDateArray.map((day, index) => {
+                    daysDateArray.map((day) => {
                         if(day.getMonth() < currentDate.getMonth() || day.getMonth() > currentDate.getMonth()){
                             return(
                                 <CalendarDay key={day.toLocaleDateString()} date={day} insideScope={false}></CalendarDay>
