@@ -8,17 +8,20 @@
 }
 
 .calendar{
-    background-color: aquamarine;
+    background-color: var(--main-light);
     width: 90%;
     height: 90vh;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    border-radius: 30px;
+    grid-template-rows: repeat(6, 1fr);
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
 }
 
 .calendar-field{
-    border: 1px solid black;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    box-sizing: border-box;
 }
 
 .calendar-header{
@@ -39,4 +42,21 @@
 .date-select-container{
     display: flex;
     align-items: center;
+}
+
+.year-text{
+    margin-left: 20px;
+}
+
+.date-number{
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.date-current{
+    font-weight: 600;
+}
+
+.date-outside{
+    font-weight: 300;
 }
