@@ -2,12 +2,16 @@ import ArrowIcon from './ArrowIcon';
 import CalendarDay from './CalendarDay';
 import './Callendar.css';
 import { useEffect, useState } from 'react';
+import { Subscription } from './Mysubscriptions';
+
 
 //IDEJA =)$#?"=)$"?=)$=?"# DODAJ MOGUCNOST DODAVANJA NOVOG SUBSCRIPTIONA SA KALENDARA PREKO MODALA"
 
-//BUG ///////////////// SOME MONTHS E.G JANUARY 2023 NEED 6 ROWS IN TABLE AND NOT SHOWING DATA PROPERLY
+type CalendarProps = {
+    subscriptionData?: Subscription[]
+}
 
-function Callendar(){
+function Callendar(props: CalendarProps){
 
     const testArray = [];
     for(let j = 0; j<35; j++){
@@ -68,9 +72,7 @@ function Callendar(){
             
     }, [currentDate]);
 
-    useEffect(() => {
-        console.log(daysDateArray[34].toLocaleDateString());
-    }, [daysDateArray]);
+    
     return(
         <div className='calendar-container'>
             <div className='date-select-container'>
@@ -102,12 +104,12 @@ function Callendar(){
                     daysDateArray.map((day) => {
                         if(day.getMonth() < currentDate.getMonth() || day.getMonth() > currentDate.getMonth()){
                             return(
-                                <CalendarDay key={day.toLocaleDateString()} date={day} insideScope={false}></CalendarDay>
+                                <CalendarDay subscriptionData={props.subscriptionData} key={day.toLocaleDateString()} date={day} insideScope={false}></CalendarDay>
                             )
                             
                         } else {
                             return(
-                                <CalendarDay key={day.toLocaleDateString()} date={day} insideScope={true}></CalendarDay>
+                                <CalendarDay subscriptionData={props.subscriptionData} key={day.toLocaleDateString()} date={day} insideScope={true}></CalendarDay>
                             )
                         }
                     })

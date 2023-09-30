@@ -231,7 +231,7 @@ function Home(){
                 <Routes>
                     <Route path="/settings" element={<MySettings email={userData.email}></MySettings>}></Route>
                     <Route path="/addsubscription" element={<SubscriptionForm sliderActive={subscriptionFormData.emailNotification} handleSliderChange={handleSliderChange} clearFormValues={clearFormValues} formFilled={formFilled} handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
-                    <Route path="/callendar" element={<Callendar></Callendar>}></Route>
+                    <Route path="/callendar" element={<Callendar subscriptionData={subscriptionData}></Callendar>}></Route>
                     <Route path="/mysubscriptions" element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}></Route>
                     <Route path="" element={<HomeContent handleDeleteClick={handleDeleteClick} notificationTrigger={triggerNotification} userData={userData} subscriptionData={subscriptionData}></HomeContent>}></Route>
                 </Routes>
