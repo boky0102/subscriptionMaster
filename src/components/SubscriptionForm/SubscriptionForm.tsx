@@ -1,20 +1,18 @@
 import { useEffect } from 'react';
-import NotificationMessage from './NotificationMessage';
 import './SubscriptionForm.css';
-import Slider from './Slider';
+import Slider from '../Slider/Slider';
 
-
+/* 
 interface Notification {
     message: string | undefined,
     notificationType: "success" | "error" | "warning" | undefined,
-}
+} */
 
 type SubscriptionFormProps = {
     handleSubscriptionFormChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
     handleSubscriptionFormSubmit: (event: React.ChangeEvent<HTMLFormElement>) => void,
     handleSliderChange: () => void,
     sliderActive: boolean | undefined,
-    notification?: Notification,
     formFilled: boolean,
     clearFormValues: () => void
 }
@@ -62,8 +60,7 @@ function SubscriptionForm(props: SubscriptionFormProps){
                 <button disabled={!props.formFilled} type="submit" className='sub-form-button'>Add subscription</button>
             </div>
             
-
-            <NotificationMessage message={props.notification?.message} notificationType={props.notification?.notificationType}></NotificationMessage>            
+          
         </form>
         </>
     )

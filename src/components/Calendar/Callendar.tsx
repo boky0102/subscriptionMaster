@@ -1,8 +1,8 @@
-import ArrowIcon from './ArrowIcon';
-import CalendarDay from './CalendarDay';
+import ArrowIcon from '../ArrowIcon/ArrowIcon';
+import CalendarDay from './CalendarDay/CalendarDay';
 import './Callendar.css';
 import { useEffect, useState, useRef } from 'react';
-import { Subscription } from './Mysubscriptions';
+import { Subscription } from '../MySubscriptions/Mysubscriptions';
 
 
 //IDEJA =)$#?"=)$"?=)$=?"# DODAJ MOGUCNOST DODAVANJA NOVOG SUBSCRIPTIONA SA KALENDARA PREKO MODALA"
@@ -35,8 +35,6 @@ function Callendar(props: CalendarProps){
 
     const [currentDate, setCurrentDate] = useState(new Date());
     const [daysDateArray, setDaysDateArray] = useState(getDaysForMonth(currentDate));
-    const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
-    const [selectedMonth, setSelectedMonth] = useState(currentDate.toLocaleDateString("en-GB", {month: "long"}));
     const yearsArray = useRef(getYearsTo1970());
     const monthsArray = useRef(getMonthsInYear());
 

@@ -1,7 +1,7 @@
 import DashboardButton from "./DashboardButton";
-import LogOutButton from "./LogOutButton";
+import LogOutButton from "../LogOutButton/LogOutButton";
 import './Dashboard.css';
-import logo from '../assets/logo.svg';
+import logo from '../../assets/logo.svg';
 
 function Dashboard(){
 

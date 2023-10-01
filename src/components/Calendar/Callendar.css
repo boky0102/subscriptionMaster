@@ -31,7 +31,7 @@
 
 
 .calendar-field:hover{
-    border: 1px solid black;
+    border: 1px solid var(--main-dark);
 }
 
 
@@ -49,7 +49,6 @@
     font-weight: 600;
 
 }
-
 
 
 .date-select-container{

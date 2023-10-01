@@ -1,5 +1,5 @@
-import Header from "./Header";
-import LoginForm from "./LoginForm";
+import Header from "../Header/Header";
+import LoginForm from "../LoginForm/LoginForm";
 import "./WelcomePage.css";
 
 type WelcomePageProps =

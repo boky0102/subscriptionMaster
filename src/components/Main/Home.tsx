@@ -1,14 +1,14 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
 import {  Route, Routes, useNavigate } from 'react-router-dom';
-import Dashboard from './Dashboard';
-import MySettings from './MySettings';
-import SubscriptionForm from './SubscriptionForm';
-import Callendar from './Callendar';
-import Mysubscriptions from './Mysubscriptions';
+import Dashboard from '../Dashboard/Dashboard';
+import MySettings from '../Settings/MySettings';
+import SubscriptionForm from '../SubscriptionForm/SubscriptionForm';
+import Callendar from '../Calendar/Callendar';
+import Mysubscriptions from '../MySubscriptions/Mysubscriptions';
 import './Home.css';
-import HomeContent from './HomeContent';
-import MainNotification from './MainNotification';
+import HomeContent from '../HomeContent/HomeContent';
+import MainNotification from '../MainNotification/MainNotification';
 
 interface Subscription {
     id: string,

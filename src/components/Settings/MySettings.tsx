@@ -1,5 +1,5 @@
 import axios from "axios";
-import Button from "./Button";
+import Button from "../Button/Button";
 import { useState  } from "react";
 
 type SettingsProps = {

@@ -1,10 +1,10 @@
 
-import { Subscription } from './Mysubscriptions';
+import { Subscription } from '../MySubscriptions/Mysubscriptions';
 import './SubscriptionCard.css';
-import Slider from './Slider';
+import Slider from '../Slider/Slider';
 import {useState} from 'react';
 import axios from 'axios';
-import { Notification } from './Home';
+import { Notification } from '../Main/Home';
 
 type SubscriptionCardProps = {
     subscription: Subscription,

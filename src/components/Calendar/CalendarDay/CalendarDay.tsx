@@ -1,4 +1,4 @@
-import { Subscription } from "./Mysubscriptions";
+import { Subscription } from "../../MySubscriptions/Mysubscriptions";
 import { useEffect, useState } from "react";
 
  
@@ -61,7 +61,7 @@ export default function CalendarDay(props: CalendarDayProps){
             setCurrentDayFlag(false);
         }
         
-    }, [])
+    }, [props.subscriptionData, props.date])
 
     
     

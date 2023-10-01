@@ -1,9 +1,9 @@
-import Button from "./Button"
+import Button from "../Button/Button"
 import { useState, useRef, useEffect} from "react"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import './LoginForm.css';
-import ErrorBox from "./ErrorBox";
+import ErrorBox from "../ErrorBox";
 
 type loginFormProps = {
     type: "login" | "register",
@@ -130,17 +130,17 @@ const LoginForm = (props: loginFormProps) => {
                     </div>
                     
                     <div className="login-form-section">
-                        <label className="login-form-label">Username</label>
+                        <label className="login-form-label" htmlFor="username">Username</label>
                         <input className="login-form-input" type="text" name="username" onChange={handleFormChange}></input>
                     </div>
                     <div className="login-form-section">
-                        <label className="login-form-label">Password</label>
+                        <label className="login-form-label" htmlFor="password">Password</label>
                         <input className="login-form-input" type="password" name="password" onChange={handleFormChange}></input>
                     </div>
                     {
                         props.type === "register" &&
                         <div className="login-form-section">
-                            <label className="login-form-label">Confirm Password</label>
+                            <label className="login-form-label" htmlFor="confirmPassword">Confirm Password</label>
                             <input className="login-form-input" type="password" name="confirmPassword" onChange={handleFormChange}></input>
                         </div>
 

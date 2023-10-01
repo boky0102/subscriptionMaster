@@ -1,13 +1,13 @@
 import './HomeContent.css';
-import SubscriptionCard from './SubscriptionCard';
-import { UserData } from './Home';
+import SubscriptionCard from '../SubscriptionCard/SubscriptionCard';
+import { UserData } from '../Main/Home';
 import { Link } from 'react-router-dom';
-import { Notification } from './Home';
+import { Notification } from '../Main/Home';
 import { useEffect, useState } from 'react';
-import '../assets/arrow-right.svg';
-import ArrowIcon from './ArrowIcon';
-import AreaYearChart from './AreaYearChart';
-import BarChartAllYears from './BarChartAllYears';
+import '../../assets/arrow-left.svg';
+import ArrowIcon from '../ArrowIcon/ArrowIcon';
+import AreaYearChart from '../charts/AreaYearChart';
+import BarChartAllYears from '../charts/BarChartAllYears';
 
 
 interface Subscription {
@@ -177,7 +177,7 @@ export default function HomeContent(props: HomeContentProps){
                         <span>{selectedYear}</span>
                         <ArrowIcon className='arrow-icon' direction='right' color={"#17BEBB"} handleClick={() => handleRightArrowClick()}></ArrowIcon>
                         <div>
-                            <select onChange={handleChartTypeChange}>
+                            <select onChange={handleChartTypeChange} name="chartType">
                                 <option value="all-time">ALL TIME GRAPH</option>
                                 <option value="year">YEAR CHART</option>
                             </select>
