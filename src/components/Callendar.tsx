@@ -1,7 +1,7 @@
 import ArrowIcon from './ArrowIcon';
 import CalendarDay from './CalendarDay';
 import './Callendar.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Subscription } from './Mysubscriptions';
 
 
@@ -11,15 +11,53 @@ type CalendarProps = {
     subscriptionData?: Subscription[]
 }
 
+function getYearsTo1970(){
+    const currentDate = new Date();
+    const yearsArray: number[] = []
+    for(let year = currentDate.getFullYear(); year >= 1970; year--){
+        yearsArray.push(year);
+    }
+    return yearsArray;
+}
+
+function getMonthsInYear(){
+    const date = new Date(2000, 0, 1);
+    const monthsArray: string[] = [];
+    for(let monthIndex = 0; monthIndex < 12 ; monthIndex++){
+        monthsArray.push(date.toLocaleDateString("en-GB", {month: "long"}));
+        date.setMonth(monthIndex+1);
+    }
+    return monthsArray;
+}
+
 function Callendar(props: CalendarProps){
 
-    const testArray = [];
-    for(let j = 0; j<35; j++){
-        testArray.push(0);
-    }
 
     const [currentDate, setCurrentDate] = useState(new Date());
     const [daysDateArray, setDaysDateArray] = useState(getDaysForMonth(currentDate));
+    const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
+    const [selectedMonth, setSelectedMonth] = useState(currentDate.toLocaleDateString("en-GB", {month: "long"}));
+    const yearsArray = useRef(getYearsTo1970());
+    const monthsArray = useRef(getMonthsInYear());
+
+    function handleYearChange(event: React.ChangeEvent<HTMLSelectElement>){
+        const value = parseInt(event.currentTarget.value);
+        setCurrentDate((prevDate) => {
+            const returnDate = new Date(prevDate);
+            returnDate.setFullYear(value);
+            return returnDate;
+        })
+    }
+
+    function handleMonthChange(event: React.ChangeEvent<HTMLSelectElement>){
+        const value = parseInt(event.currentTarget.value);
+        setCurrentDate((prevDate) => {
+            const returnDate = new Date(prevDate);
+            returnDate.setMonth(value);
+            return returnDate;
+        });
+    }
+    
 
     function handleNextMonthClick(){
         const newDate = new Date(currentDate);
@@ -76,19 +114,37 @@ function Callendar(props: CalendarProps){
     return(
         <div className='calendar-container'>
             <div className='date-select-container'>
-                <ArrowIcon direction='left' color="#0E1C36" handleClick={() => handlePreviousMonthClick()} className='arrow-icon'></ArrowIcon>
-                <span className='month-text'>
-                {
-                    currentDate.toLocaleDateString("en-GB", {month: "short"})
-                }
-                </span>
-                <span className='year-text'>
-                {
-                    currentDate.getFullYear()
-                }
-                </span>
-                
-                <ArrowIcon direction='right' color="#0E1C36" handleClick={() => handleNextMonthClick()} className='arrow-icon'></ArrowIcon>
+                <div className='date-select-container'>
+                    <ArrowIcon direction='left' color="#0E1C36" handleClick={() => handlePreviousMonthClick()} className='arrow-icon'></ArrowIcon>
+                    <span className='month-text'>
+                    {
+                        currentDate.toLocaleDateString("en-GB", {month: "short"})
+                    }
+                    </span>
+                    <span className='year-text'>
+                    {
+                        currentDate.getFullYear()
+                    }
+                    </span>
+                    
+                    <ArrowIcon direction='right' color="#0E1C36" handleClick={() => handleNextMonthClick()} className='arrow-icon'></ArrowIcon>
+                </div>
+                <div className='manual-select-container'>
+                    <select onChange={handleYearChange}>
+                        {
+                            yearsArray.current.map((year) => (
+                                <option value={year} key={year}>{year}</option>
+                            ))
+                        }
+                    </select>
+                    <select onChange={handleMonthChange}>
+                        {
+                            monthsArray.current.map((month, index) => (
+                                <option value={index} key={month}>{month}</option>
+                            ))
+                        }
+                    </select>
+                </div>
             </div>
             <div className='calendar-header'>
                 <div className='calendar-header-item'>MON</div>

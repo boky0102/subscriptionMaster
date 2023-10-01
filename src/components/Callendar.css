@@ -28,6 +28,13 @@
     box-sizing: border-box;
 }
 
+
+
+.calendar-field:hover{
+    border: 1px solid black;
+}
+
+
 .calendar-header{
     width: 90%;
     display: grid;
@@ -43,6 +50,8 @@
 
 }
 
+
+
 .date-select-container{
     display: flex;
     align-items: center;
@@ -55,6 +64,12 @@
 .date-number{
     margin-top: 10px;
     margin-left: 10px;
+    
+}
+
+.date-number-today{
+    color: var(--main-action);
+    font-size: 22px;
 }
 
 .date-current{
@@ -69,4 +84,10 @@
     width: 80%;
     font-size: 12px;
     color: var(--main-dark);
+    font-weight: 600;
+    background-color: var(--main-action);
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 10px;
 }
+

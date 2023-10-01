@@ -3,7 +3,8 @@ export interface Subscription {
     renewalDate: Date,
     dateAdded: Date,
     chargeAmount: number,
-    emailNotification?: boolean
+    emailNotification?: boolean,
+    id?: string
 }
 
 

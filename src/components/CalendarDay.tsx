@@ -37,14 +37,28 @@ function getSubscriptionsRenewalOnDate(subscriptionsArray: Subscription[] ,date:
     return subscriptionsOnDate;
 }
 
+function isToday(date: Date){
+    const currentDate = new Date();
+    if(date.getFullYear() === currentDate.getFullYear() && date.getMonth() === currentDate.getMonth() && date.getDate() === currentDate.getDate()){
+        return true;
+    }
+    return false;
+}
+
 
 export default function CalendarDay(props: CalendarDayProps){
 
     const [subscriptionsOnDay, setSubscriptions] = useState([] as Subscription[]);
+    const [isCurrentDay, setCurrentDayFlag] = useState(false);
 
     useEffect(() => {
         if(props.subscriptionData){
             setSubscriptions(getSubscriptionsRenewalOnDate(props.subscriptionData, props.date))
+        }
+        if(isToday(props.date)){
+            setCurrentDayFlag(true);
+        } else {
+            setCurrentDayFlag(false);
         }
         
     }, [])
@@ -53,11 +67,11 @@ export default function CalendarDay(props: CalendarDayProps){
     
     return(
         <div className={props.insideScope ? "calendar-field date-current" : "calendar-field date-outside"}>
-            <div className="date-number">
+            <div className={isCurrentDay ? "date-number date-number-today" : "date-number"}>
                 {props.date.getDate()}
                 {
                     subscriptionsOnDay.map((subscription) => (
-                        <div className="calendar-subscription-name">{subscription.subscriptionName}</div>
+                        <div key={subscription.id} className="calendar-subscription-name">{subscription.subscriptionName}</div>
                     ))
                 }
             </div>

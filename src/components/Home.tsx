@@ -115,6 +115,10 @@ function Home(){
     }, [dataPosted]);
 
     useEffect(() => {
+        console.log(subscriptionData)
+    }, [subscriptionData]);
+
+    useEffect(() => {
         setSubscriptionFormData({
             subscriptionName: undefined,
             renewalDate: undefined,
