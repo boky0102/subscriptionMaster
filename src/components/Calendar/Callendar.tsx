@@ -37,6 +37,7 @@ function Callendar(props: CalendarProps){
     const [daysDateArray, setDaysDateArray] = useState(getDaysForMonth(currentDate));
     const yearsArray = useRef(getYearsTo1970());
     const monthsArray = useRef(getMonthsInYear());
+    const calendarElement = useRef<HTMLDivElement>(null);
 
     function handleYearChange(event: React.ChangeEvent<HTMLSelectElement>){
         const value = parseInt(event.currentTarget.value);
@@ -110,7 +111,7 @@ function Callendar(props: CalendarProps){
 
     
     return(
-        <div className='calendar-container'>
+        <div className='calendar-container' ref={calendarElement}>
             <div className='date-select-container'>
                 <div className='date-select-container'>
                     <ArrowIcon direction='left' color="#0E1C36" handleClick={() => handlePreviousMonthClick()} className='arrow-icon'></ArrowIcon>
@@ -158,12 +159,12 @@ function Callendar(props: CalendarProps){
                     daysDateArray.map((day) => {
                         if(day.getMonth() < currentDate.getMonth() || day.getMonth() > currentDate.getMonth()){
                             return(
-                                <CalendarDay subscriptionData={props.subscriptionData} key={day.toLocaleDateString()} date={day} insideScope={false}></CalendarDay>
+                                <CalendarDay calendarElementRef={calendarElement.current!} subscriptionData={props.subscriptionData} key={day.toLocaleDateString()} date={day} insideScope={false}></CalendarDay>
                             )
                             
                         } else {
                             return(
-                                <CalendarDay subscriptionData={props.subscriptionData} key={day.toLocaleDateString()} date={day} insideScope={true}></CalendarDay>
+                                <CalendarDay calendarElementRef={calendarElement.current!} subscriptionData={props.subscriptionData} key={day.toLocaleDateString()} date={day} insideScope={true}></CalendarDay>
                             )
                         }
                     })

@@ -1,11 +1,14 @@
+import { createPortal } from "react-dom";
 import { Subscription } from "../../MySubscriptions/Mysubscriptions";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import CalendarDayModal from "../CallendarDayModal";
 
  
 type CalendarDayProps = {
     date: Date,
     insideScope: boolean,
-    subscriptionData?: Subscription[]
+    subscriptionData?: Subscription[],
+    calendarElementRef: HTMLDivElement
 }
 
 function subscriptionActiveOnDate(currentDate: Date, subscriptionRenewal: Date, subscriptionAdded: Date){
@@ -46,10 +49,12 @@ function isToday(date: Date){
 }
 
 
+
 export default function CalendarDay(props: CalendarDayProps){
 
     const [subscriptionsOnDay, setSubscriptions] = useState([] as Subscription[]);
     const [isCurrentDay, setCurrentDayFlag] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
         if(props.subscriptionData){
@@ -63,10 +68,22 @@ export default function CalendarDay(props: CalendarDayProps){
         
     }, [props.subscriptionData, props.date])
 
+    function handleDayClick(){
+        setModalOpen((open) => !open);
+    }
+
+    function handleModalClose(event: React.MouseEvent<HTMLDivElement>){
+        console.log("CLICKED");
+        event.stopPropagation();
+        setModalOpen(false);
+    }
+    
     
     
     return(
-        <div className={props.insideScope ? "calendar-field date-current" : "calendar-field date-outside"}>
+        <>
+        <div className={props.insideScope ? "calendar-field date-current" : "calendar-field date-outside"} onClick={handleDayClick}>
+            
             <div className={isCurrentDay ? "date-number date-number-today" : "date-number"}>
                 {props.date.getDate()}
                 {
@@ -76,5 +93,10 @@ export default function CalendarDay(props: CalendarDayProps){
                 }
             </div>
         </div>
+        {
+            modalOpen && 
+                createPortal(<CalendarDayModal handleModalClose={handleModalClose} isOpen={modalOpen}></CalendarDayModal>, props.calendarElementRef)
+        }
+        </>
     )
 }
