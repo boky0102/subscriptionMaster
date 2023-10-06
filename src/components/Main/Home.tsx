@@ -23,12 +23,15 @@ export interface UserData {
     email?: string
 }
 
+type subscriptionCategories = "Streaming service" | "Gaming" | "Clothing" | "Food" | "Utility" | "Education" | "Software" | "Other";
+
 interface SubscriptionFormValue{
     subscriptionName: string | undefined,
     chargeAmount: number | undefined,
     renewalDate: Date | undefined,
     dateAdded: Date | undefined,
-    emailNotification: boolean | undefined
+    emailNotification: boolean | undefined,
+    category: subscriptionCategories | undefined
 }
 
 export interface Notification {
@@ -124,7 +127,8 @@ function Home(){
             renewalDate: undefined,
             dateAdded: undefined,
             chargeAmount: undefined,
-            emailNotification: undefined
+            emailNotification: undefined,
+            category: undefined
         })
     }, []);
 
@@ -134,6 +138,7 @@ function Home(){
         } else{
             setFormFilled(false);
         }
+        console.log(subscriptionFormData);
     }, [subscriptionFormData]);
 
     
@@ -141,9 +146,7 @@ function Home(){
 
     function handleSubscriptionFormChange(event: React.ChangeEvent<HTMLInputElement>){
 
-
         const {name, value} = event.currentTarget;
-        console.log("CURRENT CHANGE", name, "VALUE", value);
         if(name === "subscriptionName"){
             setSubscriptionFormData((prevData) => (
                 {
@@ -155,7 +158,7 @@ function Home(){
             setSubscriptionFormData((prevData) => (
                 {
                     ...prevData,
-                    [name] : parseInt(value)
+                    [name] : parseFloat(value)
                 }
             ))
         } else if(name === "dateAdded"){
@@ -174,9 +177,20 @@ function Home(){
                     [name] : valueToDate
                 }
             ))
-        }
+        }  
+    }
 
-        
+    function handleSubscriptionFormSelectChange(event: React.ChangeEvent<HTMLSelectElement>){
+        const name = event.currentTarget.name;
+        const value = event.currentTarget.value as subscriptionCategories
+        if(name === "category"){
+            setSubscriptionFormData((prevData) => (
+                {
+                    ...prevData,
+                    [name] : value
+                }
+            ))
+        }
     }
 
     function handleSliderChange(){
@@ -222,7 +236,8 @@ function Home(){
             renewalDate: undefined,
             dateAdded: undefined,
             chargeAmount: undefined,
-            emailNotification: undefined
+            emailNotification: undefined,
+            category: undefined
         })
     }
 
@@ -234,7 +249,7 @@ function Home(){
             <div className="outlet-container">
                 <Routes>
                     <Route path="/settings" element={<MySettings email={userData.email}></MySettings>}></Route>
-                    <Route path="/addsubscription" element={<SubscriptionForm sliderActive={subscriptionFormData.emailNotification} handleSliderChange={handleSliderChange} clearFormValues={clearFormValues} formFilled={formFilled} handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
+                    <Route path="/addsubscription" element={<SubscriptionForm sliderActive={subscriptionFormData.emailNotification} handleSliderChange={handleSliderChange} clearFormValues={clearFormValues} formFilled={formFilled} handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSelectChange={handleSubscriptionFormSelectChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
                     <Route path="/callendar" element={<Callendar subscriptionData={subscriptionData}></Callendar>}></Route>
                     <Route path="/mysubscriptions" element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}></Route>
                     <Route path="" element={<HomeContent handleDeleteClick={handleDeleteClick} notificationTrigger={triggerNotification} userData={userData} subscriptionData={subscriptionData}></HomeContent>}></Route>
