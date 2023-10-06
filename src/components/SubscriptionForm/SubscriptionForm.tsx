@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import './SubscriptionForm.css';
 import Slider from '../Slider/Slider';
 
@@ -19,8 +19,14 @@ type SubscriptionFormProps = {
 
 
 function SubscriptionForm(props: SubscriptionFormProps){
+
+    const formStartInputElement = useRef(null as HTMLInputElement | null);
+
     useEffect(() => {
         props.clearFormValues();
+        if(formStartInputElement.current){
+            formStartInputElement.current.focus();
+        }
     }, []);
 
 
@@ -28,25 +34,25 @@ function SubscriptionForm(props: SubscriptionFormProps){
         <>
         <form onSubmit={props.handleSubscriptionFormSubmit} className="sub-form-container">
             <div className="sub-form-section">
-                <label>Subscription name</label>
-                <input type="text" name="subscriptionName" className="sub-form-input" onChange={props.handleSubscriptionFormChange}></input>
+                <label htmlFor='subscriptionName'>Subscription name</label>
+                <input ref={formStartInputElement} type="text" name="subscriptionName" className="sub-form-input" onChange={props.handleSubscriptionFormChange}></input>
                 <div className='error-message'></div>
             </div>
             
             <div className="sub-form-section">
-                <label>Date subscribed</label>
+                <label htmlFor='dateAdded'>Date subscribed</label>
                 <input type="date" name="dateAdded" className="sub-form-input" onChange={props.handleSubscriptionFormChange}></input>
                 <div className='error-message'></div>
             </div>
             
             <div className="sub-form-section">
-                <label>Renewal Date</label>
+                <label htmlFor='renewalDate'>Renewal Date</label>
                 <input type="date" name="renewalDate" className="sub-form-input" onChange={props.handleSubscriptionFormChange}></input>
                 <div className='error-message'></div>
             </div>
             
             <div className="sub-form-section">
-                <label>Subscription cost per month</label>
+                <label htmlFor='chargeAmount'>Subscription cost per month</label>
                 <input type="number" name="chargeAmount" className="sub-form-input" onChange={props.handleSubscriptionFormChange}></input>
                 <div className='error-message'></div>
             </div>

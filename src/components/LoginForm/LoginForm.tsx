@@ -17,6 +17,8 @@ interface User {
 
 const LoginForm = (props: loginFormProps) => {
 
+    const usernameInputElement = useRef(null as HTMLInputElement | null);
+
     useEffect(() => {
         const serverLink = import.meta.env.VITE_SERVER_LINK;
         axios.get(serverLink, {
@@ -31,10 +33,17 @@ const LoginForm = (props: loginFormProps) => {
         })
     }, [])
 
+    useEffect(() => {
+        if(usernameInputElement.current){
+            usernameInputElement.current.focus();
+        }
+    }, [])
+
     const [formData, setFormData] = useState({} as User);
     const [errorMessage, setErrorMessage] = useState(undefined as undefined | string);
     const navigate = useNavigate();
     const errorElement = useRef(null);
+    
 
     function handleFormChange(event: React.ChangeEvent<HTMLInputElement>){
         const { name, value } = event.currentTarget;
@@ -131,7 +140,7 @@ const LoginForm = (props: loginFormProps) => {
                     
                     <div className="login-form-section">
                         <label className="login-form-label" htmlFor="username">Username</label>
-                        <input className="login-form-input" type="text" name="username" onChange={handleFormChange}></input>
+                        <input className="login-form-input" type="text" name="username" onChange={handleFormChange} ref={usernameInputElement}></input>
                     </div>
                     <div className="login-form-section">
                         <label className="login-form-label" htmlFor="password">Password</label>
