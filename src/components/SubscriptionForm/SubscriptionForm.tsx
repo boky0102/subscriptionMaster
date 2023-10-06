@@ -7,8 +7,10 @@ type SubscriptionFormProps = {
     handleSubscriptionFormChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
     handleSubscriptionFormSubmit: (event: React.ChangeEvent<HTMLFormElement>) => void,
     handleSubscriptionFormSelectChange: (event: React.ChangeEvent<HTMLSelectElement>) => void,
-    handleSliderChange: () => void,
-    sliderActive: boolean | undefined,
+    handleEmailSliderChange: () => void,
+    handleFreeTrialSliderChange: () => void,
+    freeTrialSliderActive: boolean | undefined,
+    emailSliderActive: boolean | undefined,
     formFilled: boolean,
     clearFormValues: () => void
 }
@@ -66,10 +68,15 @@ function SubscriptionForm(props: SubscriptionFormProps){
                     <option value="Other">Other</option>
                 </select>
             </div>
+            
+            <div className="sub-form-section">
+                <label>Free trial</label>
+                <Slider sliderActive={props.freeTrialSliderActive} handleSliderClick={props.handleFreeTrialSliderChange}></Slider>
+            </div>
 
             <div className="sub-form-section">
                 <label>Email notification</label>
-                <Slider sliderActive={props.sliderActive} handleSliderClick={props.handleSliderChange}></Slider>
+                <Slider sliderActive={props.emailSliderActive} handleSliderClick={props.handleEmailSliderChange}></Slider>
             </div>
             
             <div className="sub-form-section">

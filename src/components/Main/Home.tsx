@@ -31,7 +31,12 @@ interface SubscriptionFormValue{
     renewalDate: Date | undefined,
     dateAdded: Date | undefined,
     emailNotification: boolean | undefined,
-    category: subscriptionCategories | undefined
+    freeTrial?: {
+        trial: boolean,
+        timeMetric: "days" | "months",
+        duration: number,
+    }
+    category: subscriptionCategories | undefined,
 }
 
 export interface Notification {
@@ -128,7 +133,8 @@ function Home(){
             dateAdded: undefined,
             chargeAmount: undefined,
             emailNotification: undefined,
-            category: undefined
+            category: undefined,
+            freeTrial: undefined
         })
     }, []);
 
@@ -193,7 +199,7 @@ function Home(){
         }
     }
 
-    function handleSliderChange(){
+    function handleEmailSliderChange(){
         let emailNotificationFlag :boolean;
         if(subscriptionFormData.emailNotification === undefined || subscriptionFormData.emailNotification === false){
             emailNotificationFlag = true;
@@ -207,6 +213,19 @@ function Home(){
                 emailNotification: emailNotificationFlag
             }
         ));
+    }
+
+    function handleFreeTrialSliderChange(){
+        const freeTrialObject = {
+            trial: true
+        }
+        setSubscriptionFormData((prevData) => (
+            {
+                ...prevData,
+                freeTrialObject
+            }
+            
+        ))
     }
 
 
@@ -237,7 +256,8 @@ function Home(){
             dateAdded: undefined,
             chargeAmount: undefined,
             emailNotification: undefined,
-            category: undefined
+            category: undefined,
+            freeTrial: undefined
         })
     }
 
@@ -249,7 +269,7 @@ function Home(){
             <div className="outlet-container">
                 <Routes>
                     <Route path="/settings" element={<MySettings email={userData.email}></MySettings>}></Route>
-                    <Route path="/addsubscription" element={<SubscriptionForm sliderActive={subscriptionFormData.emailNotification} handleSliderChange={handleSliderChange} clearFormValues={clearFormValues} formFilled={formFilled} handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSelectChange={handleSubscriptionFormSelectChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
+                    <Route path="/addsubscription" element={<SubscriptionForm emailSliderActive={subscriptionFormData.emailNotification} freeTrialSliderActive={subscriptionFormData.freeTrial?.trial} handleEmailSliderChange={handleEmailSliderChange} handleFreeTrialSliderChange={handleFreeTrialSliderChange} clearFormValues={clearFormValues} formFilled={formFilled} handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSelectChange={handleSubscriptionFormSelectChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
                     <Route path="/callendar" element={<Callendar subscriptionData={subscriptionData}></Callendar>}></Route>
                     <Route path="/mysubscriptions" element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}></Route>
                     <Route path="" element={<HomeContent handleDeleteClick={handleDeleteClick} notificationTrigger={triggerNotification} userData={userData} subscriptionData={subscriptionData}></HomeContent>}></Route>
