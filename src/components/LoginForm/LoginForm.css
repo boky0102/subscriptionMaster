@@ -1,95 +1,84 @@
-.login-form-container{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+.login-form-container {
+     width: 100%;
+     display: flex;
+     flex-direction: column;
 }
 
-
-.login-form-section{
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
+.login-form-section {
+     display: flex;
+     flex-direction: column;
+     margin-bottom: 20px;
 }
 
-
-.login-form-label{
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--main-dark);
-    margin-left: 15px;
+.login-form-label {
+     font-size: 24px;
+     font-weight: bold;
+     color: var(--main-dark);
+     margin-left: 15px;
 }
 
-
-.login-form-input{
-    border-style: none;
-    border-radius: 21px;
-    width: 400px;
-    height: 61px;
-    font-size: 24px;
-    outline-style: none;
-    padding-left: 15px;
-    transition: 0.2s ease-in-out;
+.login-form-input {
+     border-style: none;
+     border-radius: 21px;
+     width: 400px;
+     height: 61px;
+     font-size: 24px;
+     outline-style: none;
+     padding-left: 15px;
+     transition: 0.2s ease-in-out;
 }
 
-.login-form-input:hover{
-    background-color: var(--card);
-    outline: 1px solid var(--main-dark);
-    outline-offset: -5px;
+.login-form-input:hover {
+     background-color: var(--card);
+     outline: 1px solid var(--main-dark);
+     outline-offset: -5px;
 }
 
-.login-form-input:focus{
-    background-color: var(--card);
-    outline: 1px solid var(--main-dark);
-    outline-offset: -5px;
-
+.login-form-input:focus {
+     background-color: var(--card);
+     outline: 1px solid var(--main-dark);
+     outline-offset: -5px;
 }
 
-.login-form-input:invalid{
-    background-color: var(--card);
-    outline: 2px solid var(--error);
-    outline-offset: -5px;
+.login-form-input:invalid {
+     background-color: var(--card);
+     outline: 2px solid var(--error);
+     outline-offset: -5px;
 }
 
-
-.login-form-button{
-    border-style: none;
-    cursor: pointer;
-    width: 183px;
-    height: 69px;
-    font-family: poppins;
-    font-size: 24px;
-    font-weight: bold;
-    border-radius: 19px;
-    color: var(--main-dark);
-    background-color: var(--main-action);
-    transition: all 0.1s ease-out;
+.login-form-button {
+     border-style: none;
+     cursor: pointer;
+     width: 183px;
+     height: 69px;
+     font-family: poppins;
+     font-size: 24px;
+     font-weight: bold;
+     border-radius: 19px;
+     color: var(--main-dark);
+     background-color: var(--main-action);
+     transition: all 0.1s ease-out;
 }
 
-
-
-.login-form-button:hover{
-    outline: 2px solid var(--main-dark);
-    outline-offset: -7px;
+.login-form-button:hover {
+     outline: 2px solid var(--main-dark);
+     outline-offset: -7px;
 }
 
-.login-form-button:disabled{
-    background-color: var(--card);
-    cursor: default;
+.login-form-button:disabled {
+     background-color: var(--card);
+     cursor: default;
 }
 
-#error{
-    transition: transform 0.3s ease-in-out;
+#error {
+     transition: transform 0.3s ease-in-out;
 }
 
-.login-error-element{
-    position: absolute;
-    transform: translate(-600px,-60px);
+.login-error-element {
+     position: absolute;
+     transform: translate(-600px, -60px);
 }
 
-.login-error-active{
-    transform: translate(0px, -60px);
-
+.login-error-active {
+     transform: translate(0px, -60px);
 }
-
-
-

@@ -1,15 +1,15 @@
-.error-box{
-    width: 400px;
-    height: 50px;
-    border: 1px solid var(--error);
-    border-radius: 21px;
-    background-color: rgba(247, 34, 34, 0.288);
-    color: var(--error);
-    font-family: poppins;
-    font-style: oblique;
-    font-weight: bold;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.error-box {
+     width: 400px;
+     height: 50px;
+     border: 1px solid var(--error);
+     border-radius: 21px;
+     background-color: rgba(247, 34, 34, 0.288);
+     color: var(--error);
+     font-family: poppins;
+     font-style: oblique;
+     font-weight: bold;
+
+     display: flex;
+     justify-content: center;
+     align-items: center;
 }

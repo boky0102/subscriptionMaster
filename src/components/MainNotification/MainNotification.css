@@ -1,32 +1,32 @@
-.main-notification-container{
-    position: absolute;
-    top: -100px;
-    height: 30px;
-    left: 50%;
-    border-radius: 8px;
-    margin-top: 20px;
-    font: 14px;
-    padding: 12px;
-    font-weight: bold;
-    transition: all 0.5s ease-out;
+.main-notification-container {
+     position: absolute;
+     top: -100px;
+     height: 30px;
+     left: 50%;
+     border-radius: 8px;
+     margin-top: 20px;
+     font: 14px;
+     padding: 12px;
+     font-weight: bold;
+     transition: all 0.5s ease-out;
 }
 
-.main-notification-container-activated{
-    transform: translateY(100px);
+.main-notification-container-activated {
+     transform: translateY(100px);
 }
 
-.error{
-    background-color: var(--error-transparent);
-    color: var(--error-text);
+.error {
+     background-color: var(--error-transparent);
+     color: var(--error-text);
 }
 
-.warning{
-    background-color: var(-warning-transparent);
-    color: var(--warning-text);
+.warning {
+     background-color: var(-warning-transparent);
+     color: var(--warning-text);
 }
 
-.success{
-    background-color: var(--success-transparent);
-    color: var(--success-text);
-    border: 1px solid var(--success-text);
+.success {
+     background-color: var(--success-transparent);
+     color: var(--success-text);
+     border: 1px solid var(--success-text);
 }

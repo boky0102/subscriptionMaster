@@ -1,47 +1,39 @@
-:root{
-    --main-dark: #0E1C36;
-    --main-light: #FFF3EB;
-    --main-action: #17BEBB;
-    --card: #E8DDD6;
-    --error: #ed2b4e;
-    --error-text: #af0020;
-    --error-transparent: rgba(237, 43, 78, 0.8);
-    --success: #23f134;
-    --success-text: #067910;
-    --success-transparent: rgba(35, 241, 52, 0.8);
-    --warning: #fce046;
-    --warning-text: #bdb002;
-    --warning-transparent: rgba(252, 224, 70, 0.8);
-
+:root {
+     --main-dark: #0e1c36;
+     --main-light: #fff3eb;
+     --main-action: #17bebb;
+     --card: #e8ddd6;
+     --error: #ed2b4e;
+     --error-text: #af0020;
+     --error-transparent: rgba(237, 43, 78, 0.8);
+     --success: #23f134;
+     --success-text: #067910;
+     --success-transparent: rgba(35, 241, 52, 0.8);
+     --warning: #fce046;
+     --warning-text: #bdb002;
+     --warning-transparent: rgba(252, 224, 70, 0.8);
 }
 
-
-body{
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--main-light);
+body {
+     font-family: 'Poppins', sans-serif;
+     background-color: var(--main-light);
 }
 
-.main-grid-container{
-    display: grid;
-    width: 100vw;
-    height: 100vh;
-    grid-template-columns: repeat(10, 10vw);
-    grid-template-rows: repeat(10,10vh);
-    grid-template-areas: 
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
-        "sidebar sidebar main main main main main main main main"
-    ;
+.main-grid-container {
+     display: grid;
+     width: 100vw;
+     height: 100vh;
+     grid-template-columns: repeat(10, 10vw);
+     grid-template-rows: repeat(10, 10vh);
+     grid-template-areas:
+          'sidebar sidebar main main main main main main main main'
+          'sidebar sidebar main main main main main main main main'
+          'sidebar sidebar main main main main main main main main'
+          'sidebar sidebar main main main main main main main main'
+          'sidebar sidebar main main main main main main main main'
+          'sidebar sidebar main main main main main main main main'
+          'sidebar sidebar main main main main main main main main'
+          'sidebar sidebar main main main main main main main main'
+          'sidebar sidebar main main main main main main main main'
+          'sidebar sidebar main main main main main main main main';
 }
-
-
-
-
-

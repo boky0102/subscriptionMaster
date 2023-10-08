@@ -1,93 +1,86 @@
-.calendar-container{
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
+.calendar-container {
+     width: 100%;
+     height: 100vh;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-direction: column;
+     position: relative;
 }
 
-.calendar{
-    background-color: var(--main-light);
-    width: 90%;
-    height: 90vh;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
+.calendar {
+     background-color: var(--main-light);
+     width: 90%;
+     height: 90vh;
+     display: grid;
+     grid-template-columns: repeat(7, 1fr);
+     grid-template-rows: repeat(5, 1fr);
+     border-bottom: 1px solid black;
+     border-right: 1px solid black;
 }
 
-.calendar-additionalWeek{
-    grid-template-rows: repeat(6, 1fr);
+.calendar-additionalWeek {
+     grid-template-rows: repeat(6, 1fr);
 }
 
-.calendar-field{
-    border-top: 1px solid black;
-    border-left: 1px solid black;
-    box-sizing: border-box;
+.calendar-field {
+     border-top: 1px solid black;
+     border-left: 1px solid black;
+     box-sizing: border-box;
 }
 
-
-
-.calendar-field:hover{
-    border: 1px solid var(--main-dark);
+.calendar-field:hover {
+     border: 1px solid var(--main-dark);
 }
 
-
-.calendar-header{
-    width: 90%;
-    display: grid;
-    grid-template-columns: repeat(7,1fr);
-    height: 40px;
+.calendar-header {
+     width: 90%;
+     display: grid;
+     grid-template-columns: repeat(7, 1fr);
+     height: 40px;
 }
 
-.calendar-header-item{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-
+.calendar-header-item {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-weight: 600;
 }
 
-
-.date-select-container{
-    display: flex;
-    align-items: center;
+.date-select-container {
+     display: flex;
+     align-items: center;
 }
 
-.year-text{
-    margin-left: 20px;
+.year-text {
+     margin-left: 20px;
 }
 
-.date-number{
-    margin-top: 10px;
-    margin-left: 10px;
-    
+.date-number {
+     margin-top: 10px;
+     margin-left: 10px;
 }
 
-.date-number-today{
-    color: var(--main-action);
-    font-size: 22px;
+.date-number-today {
+     color: var(--main-action);
+     font-size: 22px;
 }
 
-.date-current{
-    font-weight: 600;
+.date-current {
+     font-weight: 600;
 }
 
-.date-outside{
-    font-weight: 300;
+.date-outside {
+     font-weight: 300;
 }
 
-.calendar-subscription-name{
-    width: 80%;
-    font-size: 12px;
-    color: var(--main-dark);
-    font-weight: 600;
-    background-color: var(--main-action);
-    border-radius: 5px;
-    padding: 5px;
-    margin-top: 10px;
+.calendar-subscription-name {
+     width: 80%;
+     font-size: 12px;
+     color: var(--main-dark);
+     font-weight: 600;
+     background-color: var(--main-action);
+     border-radius: 5px;
+     padding: 5px;
+     margin-top: 10px;
 }
-

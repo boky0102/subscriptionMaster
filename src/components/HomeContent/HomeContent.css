@@ -1,53 +1,49 @@
-.widget-container{
-    width: 40%;
-    height: 100%;
-    
+.widget-container {
+     width: 40%;
+     height: 100%;
 }
 
-.subscriptions-container{
-    width: 60%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 4vh;
-    overflow-y: scroll;
-    scrollbar-width: 10px;
+.subscriptions-container {
+     width: 60%;
+     display: flex;
+     align-items: center;
+     flex-direction: column;
+     margin-top: 4vh;
+     overflow-y: scroll;
+     scrollbar-width: 10px;
 }
 
-.widget-link{
-    text-decoration: none;
-    font-weight: bold;
-    color: var(--main-action);
+.widget-link {
+     text-decoration: none;
+     font-weight: bold;
+     color: var(--main-action);
 }
 
-
-
-.subscriptions-container::-webkit-scrollbar{
-    display: none;
+.subscriptions-container::-webkit-scrollbar {
+     display: none;
 }
 
-.chart-container{
-    background-color: var(--main-light);
-    border-radius: 15px;
-    margin-right: 20px;
-    margin-top: 4vh;
-    padding: 20px;
+.chart-container {
+     background-color: var(--main-light);
+     border-radius: 15px;
+     margin-right: 20px;
+     margin-top: 4vh;
+     padding: 20px;
 }
 
-
-.chart-action-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.chart-action-container {
+     display: flex;
+     align-items: center;
+     justify-content: center;
 }
 
-.arrow-icon{
-    width: 30px;
-    color: var(--main-dark);
-    transition: all 0.1s ease-in-out;
+.arrow-icon {
+     width: 30px;
+     color: var(--main-dark);
+     transition: all 0.1s ease-in-out;
 }
 
-.arrow-icon:hover{
-    cursor: pointer;
-    color: var(--main-action);
+.arrow-icon:hover {
+     cursor: pointer;
+     color: var(--main-action);
 }

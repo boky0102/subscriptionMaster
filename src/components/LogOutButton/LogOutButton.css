@@ -1,10 +1,10 @@
-.logout-element{
-    font-family: poppins;
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 3vh;
+.logout-element {
+     font-family: poppins;
+     font-size: 18px;
+     font-weight: bold;
+     margin-top: 3vh;
 }
 
-.logout-element:hover{
-    cursor: pointer;
+.logout-element:hover {
+     cursor: pointer;
 }

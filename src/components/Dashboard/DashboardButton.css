@@ -1,17 +1,16 @@
-.dashboard-link{
-    color: var(--main-dark);
-    font-family: poppins;
-    font-size: 18px;
-    font-weight: bold;
-    text-decoration: none;
-    margin-top: 3vh;
+.dashboard-link {
+     color: var(--main-dark);
+     font-family: poppins;
+     font-size: 18px;
+     font-weight: bold;
+     text-decoration: none;
+     margin-top: 3vh;
 }
 
-.dashboard-link:hover{
-    animation-name: "underscore";
-    text-decoration: underline 3px;
+.dashboard-link:hover {
+     animation-name: 'underscore';
+     text-decoration: underline 3px;
 }
 
 @keyframes underscore {
-    
 }

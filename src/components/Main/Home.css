@@ -1,6 +1,5 @@
-
-.outlet-container{
-    grid-area: main;
-    background-color: var(--card);
-    display: flex;
-} 
+.outlet-container {
+     grid-area: main;
+     background-color: var(--card);
+     display: flex;
+}

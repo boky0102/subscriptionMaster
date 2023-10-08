@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {useEffect, useState} from 'react';
-import {  Route, Routes, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Dashboard from '../Dashboard/Dashboard';
 import MySettings from '../Settings/MySettings';
 import SubscriptionForm from '../SubscriptionForm/SubscriptionForm';
@@ -11,273 +11,304 @@ import HomeContent from '../HomeContent/HomeContent';
 import MainNotification from '../MainNotification/MainNotification';
 
 interface Subscription {
-    id: string,
-    subscriptionName: string,
-    chargeAmount: number,
-    renewalDate: Date,
-    dateAdded: Date
+     id: string;
+     subscriptionName: string;
+     chargeAmount: number;
+     renewalDate: Date;
+     dateAdded: Date;
 }
 
 export interface UserData {
-    username: string,
-    email?: string
+     username: string;
+     email?: string;
 }
 
-type subscriptionCategories = "Streaming service" | "Gaming" | "Clothing" | "Food" | "Utility" | "Education" | "Software" | "Other";
+type subscriptionCategories =
+     | 'Streaming service'
+     | 'Gaming'
+     | 'Clothing'
+     | 'Food'
+     | 'Utility'
+     | 'Education'
+     | 'Software'
+     | 'Other';
 
-interface SubscriptionFormValue{
-    subscriptionName: string | undefined,
-    chargeAmount: number | undefined,
-    renewalDate: Date | undefined,
-    dateAdded: Date | undefined,
-    emailNotification: boolean | undefined,
-    freeTrial?: {
-        trial: boolean,
-        timeMetric: "days" | "months",
-        duration: number,
-    }
-    category: subscriptionCategories | undefined,
+interface SubscriptionFormValue {
+     subscriptionName: string | undefined;
+     chargeAmount: number | undefined;
+     renewalDate: Date | undefined;
+     dateAdded: Date | undefined;
+     emailNotification: boolean | undefined;
+     freeTrial: boolean | undefined;
+     category: subscriptionCategories | undefined;
 }
 
 export interface Notification {
-    message: string,
-    notificationType: "success" | "error" | "warning",
-    active: boolean
+     message: string;
+     notificationType: 'success' | 'error' | 'warning';
+     active: boolean;
 }
 
+function Home() {
+     const serverPath = import.meta.env.VITE_SERVER_LINK;
+     const navigate = useNavigate();
 
+     const [subscriptionData, setSubscriptionData] = useState<Subscription[]>([]);
+     const [subscriptionFormData, setSubscriptionFormData] = useState({} as SubscriptionFormValue);
+     const [dataPosted, newDataPosted] = useState(false);
+     const [formFilled, setFormFilled] = useState(false);
+     const [userData, setUserData] = useState({} as UserData);
+     const [notification, setNotification] = useState({} as Notification);
 
-function Home(){
-    const serverPath = import.meta.env.VITE_SERVER_LINK;
-    const navigate = useNavigate();
-
-    const [subscriptionData, setSubscriptionData] = useState<Subscription[]>([]);
-    const [subscriptionFormData, setSubscriptionFormData] = useState({} as SubscriptionFormValue);
-    const [dataPosted, newDataPosted] = useState(false);
-    const [formFilled, setFormFilled] = useState(false);
-    const [userData, setUserData] = useState({} as UserData);
-    const [notification, setNotification] = useState({} as Notification)
-
-    function triggerNotification(message: Notification["message"], type: Notification["notificationType"]){
-        setNotification({
-            message: message,
-            notificationType: type,
-            active: true
-        });
-        setTimeout(() => {
-            setNotification((prevNotification) => (
-                {
+     function triggerNotification(message: Notification['message'], type: Notification['notificationType']) {
+          setNotification({
+               message: message,
+               notificationType: type,
+               active: true,
+          });
+          setTimeout(() => {
+               setNotification((prevNotification) => ({
                     ...prevNotification,
-                    active: false
-                }
-            ))
-        }, 3000)
-    }
+                    active: false,
+               }));
+          }, 3000);
+     }
 
-    function handleDeleteClick(subscriptionId: string){
-        const serverLink = import.meta.env.VITE_SERVER_LINK + "/subscription/" + subscriptionId;
-        axios.delete(serverLink, {
-            withCredentials: true
-        }).then((response) => {
-            if(response.status === 200){
-                triggerNotification("Subscription removed successfully", "success");
-                setSubscriptionData((prevData) => (
-                    prevData.filter((subscription) => {
-                        if(subscription.id !== subscriptionId){
-                            return subscription
-                        }
-                    })
-                ))
-            }
-        }).catch((error) => {
-            const errorMessage: string = error.response.statusText;
-            triggerNotification(errorMessage, "error");
-        })
-    }
+     function handleDeleteClick(subscriptionId: string) {
+          const serverLink = import.meta.env.VITE_SERVER_LINK + '/subscription/' + subscriptionId;
+          axios.delete(serverLink, {
+               withCredentials: true,
+          })
+               .then((response) => {
+                    if (response.status === 200) {
+                         triggerNotification('Subscription removed successfully', 'success');
+                         setSubscriptionData((prevData) =>
+                              prevData.filter((subscription) => {
+                                   if (subscription.id !== subscriptionId) {
+                                        return subscription;
+                                   }
+                              }),
+                         );
+                    }
+               })
+               .catch((error) => {
+                    const errorMessage: string = error.response.statusText;
+                    triggerNotification(errorMessage, 'error');
+               });
+     }
 
-    useEffect(() => {
-        axios.get(serverPath + "/subscriptions", {
-            withCredentials: true
-        }) .then((response) => {
-            if(response.status === 200){
-                if(response.data.subscriptions){
-                    const responseSubscriptionData = response.data.subscriptions as Subscription[];
-                    const dateObjectArray = responseSubscriptionData.map((subscription) => {
-                    subscription.renewalDate = new Date(subscription.renewalDate);
-                    subscription.dateAdded = new Date(subscription.dateAdded);
-                    return subscription
-                    });
-                    setSubscriptionData(dateObjectArray);
-                }
-                
-                setUserData({
-                    username: response.data.username,
-                    email: response.data.email
-                });
-                
-            }
-        }) .catch((error) => {
-            console.log("auth error",error);
-            navigate("/login");
-        })
-    }, [dataPosted]);
+     useEffect(() => {
+          axios.get(serverPath + '/subscriptions', {
+               withCredentials: true,
+          })
+               .then((response) => {
+                    if (response.status === 200) {
+                         if (response.data.subscriptions) {
+                              const responseSubscriptionData = response.data.subscriptions as Subscription[];
+                              const dateObjectArray = responseSubscriptionData.map((subscription) => {
+                                   subscription.renewalDate = new Date(subscription.renewalDate);
+                                   subscription.dateAdded = new Date(subscription.dateAdded);
+                                   return subscription;
+                              });
+                              setSubscriptionData(dateObjectArray);
+                         }
 
-    useEffect(() => {
-        console.log(subscriptionData)
-    }, [subscriptionData]);
+                         setUserData({
+                              username: response.data.username,
+                              email: response.data.email,
+                         });
+                    }
+               })
+               .catch((error) => {
+                    console.log('auth error', error);
+                    navigate('/login');
+               });
+     }, [dataPosted]);
 
-    useEffect(() => {
-        setSubscriptionFormData({
-            subscriptionName: undefined,
-            renewalDate: undefined,
-            dateAdded: undefined,
-            chargeAmount: undefined,
-            emailNotification: undefined,
-            category: undefined,
-            freeTrial: undefined
-        })
-    }, []);
+     useEffect(() => {
+          console.log(subscriptionData);
+     }, [subscriptionData]);
 
-    useEffect(() => {
-        if(subscriptionFormData.chargeAmount && subscriptionFormData.dateAdded  && subscriptionFormData.renewalDate && subscriptionFormData.subscriptionName){
-            setFormFilled(true);
-        } else{
-            setFormFilled(false);
-        }
-        console.log(subscriptionFormData);
-    }, [subscriptionFormData]);
+     useEffect(() => {
+          setSubscriptionFormData({
+               subscriptionName: undefined,
+               renewalDate: undefined,
+               dateAdded: undefined,
+               chargeAmount: undefined,
+               emailNotification: undefined,
+               category: undefined,
+               freeTrial: undefined,
+          });
+     }, []);
 
-    
+     useEffect(() => {
+          if (
+               subscriptionFormData.chargeAmount &&
+               subscriptionFormData.dateAdded &&
+               subscriptionFormData.renewalDate &&
+               subscriptionFormData.subscriptionName
+          ) {
+               setFormFilled(true);
+          } else {
+               setFormFilled(false);
+          }
+          console.log(subscriptionFormData);
+     }, [subscriptionFormData]);
 
-
-    function handleSubscriptionFormChange(event: React.ChangeEvent<HTMLInputElement>){
-
-        const {name, value} = event.currentTarget;
-        if(name === "subscriptionName"){
-            setSubscriptionFormData((prevData) => (
-                {
+     function handleSubscriptionFormChange(event: React.ChangeEvent<HTMLInputElement>) {
+          const { name, value } = event.currentTarget;
+          if (name === 'subscriptionName') {
+               setSubscriptionFormData((prevData) => ({
                     ...prevData,
-                    [name] : value
-                }
-            ))
-        } else if(name === "chargeAmount"){
-            setSubscriptionFormData((prevData) => (
-                {
+                    [name]: value,
+               }));
+          } else if (name === 'chargeAmount') {
+               setSubscriptionFormData((prevData) => ({
                     ...prevData,
-                    [name] : parseFloat(value)
-                }
-            ))
-        } else if(name === "dateAdded"){
-            const valueToDate = new Date(value);
-            setSubscriptionFormData((prevData) => (
-                {
+                    [name]: parseFloat(value),
+               }));
+          } else if (name === 'dateAdded') {
+               const valueToDate = new Date(value);
+               setSubscriptionFormData((prevData) => ({
                     ...prevData,
-                    [name] : valueToDate
-                }
-            ))
-        } else if(name === "renewalDate"){
-            const valueToDate = new Date(value);
-            setSubscriptionFormData((prevData) => (
-                {
+                    [name]: valueToDate,
+               }));
+          } else if (name === 'renewalDate') {
+               const valueToDate = new Date(value);
+               setSubscriptionFormData((prevData) => ({
                     ...prevData,
-                    [name] : valueToDate
-                }
-            ))
-        }  
-    }
+                    [name]: valueToDate,
+               }));
+          }
+     }
 
-    function handleSubscriptionFormSelectChange(event: React.ChangeEvent<HTMLSelectElement>){
-        const name = event.currentTarget.name;
-        const value = event.currentTarget.value as subscriptionCategories
-        if(name === "category"){
-            setSubscriptionFormData((prevData) => (
-                {
+     function handleSubscriptionFormSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+          const name = event.currentTarget.name;
+          const value = event.currentTarget.value as subscriptionCategories;
+          if (name === 'category') {
+               setSubscriptionFormData((prevData) => ({
                     ...prevData,
-                    [name] : value
-                }
-            ))
-        }
-    }
+                    [name]: value,
+               }));
+          }
+     }
 
-    function handleEmailSliderChange(){
-        let emailNotificationFlag :boolean;
-        if(subscriptionFormData.emailNotification === undefined || subscriptionFormData.emailNotification === false){
-            emailNotificationFlag = true;
-        } else {
-            emailNotificationFlag = false;
-        }
+     function handleEmailSliderChange() {
+          let emailNotificationFlag: boolean;
+          if (
+               subscriptionFormData.emailNotification === undefined ||
+               subscriptionFormData.emailNotification === false
+          ) {
+               emailNotificationFlag = true;
+          } else {
+               emailNotificationFlag = false;
+          }
 
-        setSubscriptionFormData((prevData) => (
-            {
-                ...prevData,
-                emailNotification: emailNotificationFlag
-            }
-        ));
-    }
+          setSubscriptionFormData((prevData) => ({
+               ...prevData,
+               emailNotification: emailNotificationFlag,
+          }));
+     }
 
-    function handleFreeTrialSliderChange(){
-        const freeTrialObject = {
-            trial: true
-        }
-        setSubscriptionFormData((prevData) => (
-            {
-                ...prevData,
-                freeTrialObject
-            }
-            
-        ))
-    }
+     function handleFreeTrialChange() {
+          if (subscriptionFormData.freeTrial === undefined || subscriptionFormData.freeTrial === false) {
+               setSubscriptionFormData((prevData) => ({
+                    ...prevData,
+                    freeTrial: true,
+               }));
+          } else {
+               setSubscriptionFormData((prevData) => ({
+                    ...prevData,
+                    freeTrial: false,
+               }));
+          }
+     }
 
+     function handleSubscriptionFormSubmit(event: React.ChangeEvent<HTMLFormElement>) {
+          event.preventDefault();
+          const postLink = import.meta.env.VITE_SERVER_LINK + '/newsubscription';
+          axios.post(postLink, subscriptionFormData, {
+               withCredentials: true,
+          })
+               .then((response) => {
+                    if (response.status === 200) {
+                         console.log('POSTED');
+                         newDataPosted(true);
+                    }
+               })
+               .catch((error) => {
+                    console.log(error);
+               })
+               .finally(() => {
+                    setTimeout(() => {
+                         console.log('notification goes brrr');
+                    }, 2000);
+               });
+     }
 
-    function handleSubscriptionFormSubmit(event: React.ChangeEvent<HTMLFormElement>){
-        event.preventDefault();
-        const postLink = import.meta.env.VITE_SERVER_LINK + "/newsubscription";
-        axios.post(postLink, subscriptionFormData, {
-            withCredentials: true
-        }).then((response) => {
-            if(response.status === 200){
-                console.log("POSTED");
-                newDataPosted(true);
-            }
-        }).catch((error) => {
-            console.log(error);
-        }).finally(() => {
-            setTimeout( () => {
-                console.log("notification goes brrr");
-            }, 2000)
-        })
-        
-    }
+     function clearFormValues(): void {
+          setSubscriptionFormData({
+               subscriptionName: undefined,
+               renewalDate: undefined,
+               dateAdded: undefined,
+               chargeAmount: undefined,
+               emailNotification: undefined,
+               category: undefined,
+               freeTrial: undefined,
+          });
+     }
 
-    function clearFormValues() : void{
-        setSubscriptionFormData({
-            subscriptionName: undefined,
-            renewalDate: undefined,
-            dateAdded: undefined,
-            chargeAmount: undefined,
-            emailNotification: undefined,
-            category: undefined,
-            freeTrial: undefined
-        })
-    }
-
-
-
-    return(
-        <div className="main-grid-container">
-            <Dashboard></Dashboard>
-            <div className="outlet-container">
-                <Routes>
-                    <Route path="/settings" element={<MySettings email={userData.email}></MySettings>}></Route>
-                    <Route path="/addsubscription" element={<SubscriptionForm emailSliderActive={subscriptionFormData.emailNotification} freeTrialSliderActive={subscriptionFormData.freeTrial?.trial} handleEmailSliderChange={handleEmailSliderChange} handleFreeTrialSliderChange={handleFreeTrialSliderChange} clearFormValues={clearFormValues} formFilled={formFilled} handleSubscriptionFormChange={handleSubscriptionFormChange} handleSubscriptionFormSelectChange={handleSubscriptionFormSelectChange} handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}></SubscriptionForm>}></Route>
-                    <Route path="/callendar" element={<Callendar subscriptionData={subscriptionData}></Callendar>}></Route>
-                    <Route path="/mysubscriptions" element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}></Route>
-                    <Route path="" element={<HomeContent handleDeleteClick={handleDeleteClick} notificationTrigger={triggerNotification} userData={userData} subscriptionData={subscriptionData}></HomeContent>}></Route>
-                </Routes>
-                <MainNotification message={notification.message} type={notification.notificationType} active={notification.active}></MainNotification>
-            </div>
-        </div>
-    )
+     return (
+          <div className="main-grid-container">
+               <Dashboard></Dashboard>
+               <div className="outlet-container">
+                    <Routes>
+                         <Route path="/settings" element={<MySettings email={userData.email}></MySettings>}></Route>
+                         <Route
+                              path="/addsubscription"
+                              element={
+                                   <SubscriptionForm
+                                        emailSliderActive={subscriptionFormData.emailNotification}
+                                        handleEmailSliderChange={handleEmailSliderChange}
+                                        handleFreeTrialChange={handleFreeTrialChange}
+                                        freeTrial={subscriptionFormData.freeTrial}
+                                        clearFormValues={clearFormValues}
+                                        formFilled={formFilled}
+                                        handleSubscriptionFormChange={handleSubscriptionFormChange}
+                                        handleSubscriptionFormSelectChange={handleSubscriptionFormSelectChange}
+                                        handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}
+                                        triggerNotification={triggerNotification}
+                                   ></SubscriptionForm>
+                              }
+                         ></Route>
+                         <Route
+                              path="/callendar"
+                              element={<Callendar subscriptionData={subscriptionData}></Callendar>}
+                         ></Route>
+                         <Route
+                              path="/mysubscriptions"
+                              element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}
+                         ></Route>
+                         <Route
+                              path=""
+                              element={
+                                   <HomeContent
+                                        handleDeleteClick={handleDeleteClick}
+                                        notificationTrigger={triggerNotification}
+                                        userData={userData}
+                                        subscriptionData={subscriptionData}
+                                   ></HomeContent>
+                              }
+                         ></Route>
+                    </Routes>
+                    <MainNotification
+                         message={notification.message}
+                         type={notification.notificationType}
+                         active={notification.active}
+                    ></MainNotification>
+               </div>
+          </div>
+     );
 }
 
 export default Home;
