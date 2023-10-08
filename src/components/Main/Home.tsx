@@ -126,18 +126,14 @@ function Home() {
      }, [dataPosted]);
 
      useEffect(() => {
-          console.log(subscriptionData);
-     }, [subscriptionData]);
-
-     useEffect(() => {
           setSubscriptionFormData({
                subscriptionName: undefined,
                renewalDate: undefined,
                dateAdded: undefined,
                chargeAmount: undefined,
-               emailNotification: undefined,
+               emailNotification: false,
                category: undefined,
-               freeTrial: undefined,
+               freeTrial: false,
           });
      }, []);
 
@@ -146,8 +142,10 @@ function Home() {
                subscriptionFormData.chargeAmount &&
                subscriptionFormData.dateAdded &&
                subscriptionFormData.renewalDate &&
-               subscriptionFormData.subscriptionName
+               subscriptionFormData.subscriptionName &&
+               subscriptionFormData.category
           ) {
+               console.log('filled');
                setFormFilled(true);
           } else {
                setFormFilled(false);
@@ -234,14 +232,16 @@ function Home() {
                     if (response.status === 200) {
                          console.log('POSTED');
                          newDataPosted(true);
+                         triggerNotification('Subscription added successfully', 'success');
                     }
                })
                .catch((error) => {
                     console.log(error);
+                    triggerNotification('An error occured, please try again later', 'error');
                })
                .finally(() => {
                     setTimeout(() => {
-                         console.log('notification goes brrr');
+                         navigate('/home');
                     }, 2000);
                });
      }

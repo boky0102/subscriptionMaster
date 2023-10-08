@@ -102,6 +102,7 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                               className="sub-form-select"
                               onChange={props.handleSubscriptionFormSelectChange}
                          >
+                              <option value={undefined}></option>
                               <option value="Streaming service">Streaming service</option>
                               <option value="Gaming">Gaming</option>
                               <option value="Clothing">Clothing</option>
