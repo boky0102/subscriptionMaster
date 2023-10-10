@@ -6,11 +6,17 @@
 .subscriptions-container {
      width: 60%;
      display: flex;
+     flex-direction: column;
+     align-items: center;
+     margin-top: 4vh;
+}
+
+.subscriptions-cards-container {
+     overflow-y: scroll;
+     width: 100%;
+     display: flex;
      align-items: center;
      flex-direction: column;
-     margin-top: 4vh;
-     overflow-y: scroll;
-     scrollbar-width: 10px;
 }
 
 .widget-link {
@@ -19,7 +25,7 @@
      color: var(--main-action);
 }
 
-.subscriptions-container::-webkit-scrollbar {
+.subscriptions-cards-container::-webkit-scrollbar {
      display: none;
 }
 

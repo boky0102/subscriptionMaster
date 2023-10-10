@@ -6,36 +6,12 @@
      margin-bottom: 2vh;
      border-radius: 21px;
      padding: 20px;
-     animation:
-          animate-in linear forwards,
-          animate-out linear forwards;
-     animation-duration: 3s;
-     animation-timeline: view();
-     animation-range: entry, exit;
 }
 
 .header-container {
      width: 100%;
      display: flex;
      justify-content: space-between;
-}
-
-@keyframes animate-in {
-     0% {
-          transform: translateY(100%);
-     }
-     100% {
-          transform: translateY(0);
-     }
-}
-
-@keyframes animate-out {
-     0% {
-          transform: translateY(0);
-     }
-     100% {
-          transform: translateY(-100%);
-     }
 }
 
 .subscription-name {

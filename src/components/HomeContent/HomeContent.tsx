@@ -8,6 +8,7 @@ import '../../assets/arrow-left.svg';
 import ArrowIcon from '../ArrowIcon/ArrowIcon';
 import AreaYearChart from '../charts/AreaYearChart';
 import BarChartAllYears from '../charts/BarChartAllYears';
+import SubscriptionTypeSelect from '../SubscriptionTypeSelect.tsx/SubscriptionTypeSelect';
 
 interface Subscription {
      id: string;
@@ -15,6 +16,7 @@ interface Subscription {
      chargeAmount: number;
      renewalDate: Date;
      dateAdded: Date;
+     freeTrial: boolean;
 }
 
 type HomeContentProps = {
@@ -36,12 +38,16 @@ type ChartYearData = {
 
 type Months = 'Jan' | 'Feb' | 'Mar' | 'Apr' | 'May' | 'Jun' | 'Jul' | 'Aug' | 'Sep' | 'Oct' | 'Nov' | 'Dec';
 
+type FilterStates = 'all' | 'free-trial' | 'subscription';
+
 export default function HomeContent(props: HomeContentProps) {
      const [chartData, setChartData] = useState([] as ChartData[]);
      const [chartYearData, setChartYearData] = useState([] as ChartYearData[]);
      const currentYear = new Date().getFullYear();
      const [selectedYear, setSelectedYear] = useState(currentYear);
      const [chartType, setChartType] = useState('year');
+     const [filterState, setFilterState] = useState('all' as FilterStates);
+     const [filteredSubscriptionData, setFilteredSubscriptionData] = useState(props.subscriptionData as Subscription[]);
 
      function handleRightArrowClick() {
           setSelectedYear((year) => year + 1);
@@ -132,22 +138,66 @@ export default function HomeContent(props: HomeContentProps) {
           setChartYearData(chartAllyearsData);
      }, [props.subscriptionData, selectedYear, chartType]);
 
+     function handleFreeTrialFilter() {
+          setFilterState('free-trial');
+     }
+
+     function handleAllFilter() {
+          setFilterState('all');
+     }
+
+     function handleSubscriptionFilter() {
+          setFilterState('subscription');
+     }
+
      useEffect(() => {
-          console.log(chartYearData);
-     }, [chartYearData]);
+          if (filterState === 'free-trial') {
+               console.log(filterState);
+               setFilteredSubscriptionData(() => {
+                    const returnArray = props.subscriptionData.filter((subscription) => {
+                         console.log(subscription.freeTrial);
+                         if (subscription.freeTrial === true) {
+                              return subscription;
+                         }
+                    });
+                    return returnArray;
+               });
+          } else if (filterState === 'subscription') {
+               console.log(filterState);
+               setFilteredSubscriptionData(() => {
+                    const returnArray = props.subscriptionData.filter((subscription) => {
+                         if (subscription.freeTrial !== true) {
+                              return subscription;
+                         }
+                    });
+                    return returnArray;
+               });
+          } else if (filterState === 'all') {
+               console.log(filterState);
+               setFilteredSubscriptionData(props.subscriptionData);
+          }
+     }, [filterState, props.subscriptionData]);
 
      return (
           <>
                <div className="subscriptions-container">
-                    {props.subscriptionData.map((subscription) => (
-                         <SubscriptionCard
-                              handleDeleteClick={props.handleDeleteClick}
-                              notificationTrigger={props.notificationTrigger}
-                              subscription={subscription}
-                              key={subscription.id}
-                              id={subscription.id}
-                         ></SubscriptionCard>
-                    ))}
+                    <SubscriptionTypeSelect
+                         handleAllChange={handleAllFilter}
+                         handleFreeTrialChange={handleFreeTrialFilter}
+                         handleSubscriptionsChange={handleSubscriptionFilter}
+                         filterState={filterState}
+                    ></SubscriptionTypeSelect>
+                    <div className="subscriptions-cards-container">
+                         {filteredSubscriptionData.map((subscription) => (
+                              <SubscriptionCard
+                                   handleDeleteClick={props.handleDeleteClick}
+                                   notificationTrigger={props.notificationTrigger}
+                                   subscription={subscription}
+                                   key={subscription.id}
+                                   id={subscription.id}
+                              ></SubscriptionCard>
+                         ))}
+                    </div>
                </div>
                <div className="widget-container">
                     {props.userData.email === undefined && (

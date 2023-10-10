@@ -1,0 +1,37 @@
+.select-nav-container {
+     width: 45%;
+     height: 5vh;
+     border-radius: 15px;
+     background-color: var(--main-light);
+     display: flex;
+     position: relative;
+     margin-bottom: 4vh;
+}
+
+.select-nav-item {
+     width: calc(100% / 3);
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     font-size: 13px;
+     z-index: 2;
+}
+
+.select-nav-marker {
+     position: absolute;
+     width: calc(100% / 3);
+     height: 100%;
+     border-radius: 15px;
+     background-color: rgba(23, 190, 187, 0.7);
+     left: calc(100% / 3);
+     z-index: 1;
+     transition: transform 0.3s ease-in-out;
+}
+
+.select-nav-move-left {
+     transform: translateX(-100%);
+}
+
+.select-nav-move-right {
+     transform: translateX(100%);
+}
