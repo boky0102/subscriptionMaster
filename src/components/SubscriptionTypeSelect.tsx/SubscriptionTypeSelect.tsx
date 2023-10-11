@@ -22,13 +22,22 @@ export default function SubscriptionTypeSelect(props: SubscriptionTypeSelectProp
      return (
           <div className="select-nav-container">
                <div className={animationClasses}></div>
-               <div className="select-nav-item" onClick={props.handleFreeTrialChange}>
+               <div
+                    className={props.filterState === 'free-trial' ? 'select-nav-item marked-text' : 'select-nav-item'}
+                    onClick={props.handleFreeTrialChange}
+               >
                     Free trials
                </div>
-               <div className="select-nav-item" onClick={props.handleAllChange}>
+               <div
+                    className={props.filterState === 'all' ? 'select-nav-item marked-text' : 'select-nav-item'}
+                    onClick={props.handleAllChange}
+               >
                     All
                </div>
-               <div className="select-nav-item" onClick={props.handleSubscriptionsChange}>
+               <div
+                    className={props.filterState === 'subscription' ? 'select-nav-item marked-text' : 'select-nav-item'}
+                    onClick={props.handleSubscriptionsChange}
+               >
                     Subscriptions
                </div>
           </div>

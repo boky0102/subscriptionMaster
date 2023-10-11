@@ -1,6 +1,5 @@
 .select-nav-container {
-     width: 45%;
-     height: 5vh;
+     width: 55%;
      border-radius: 15px;
      background-color: var(--main-light);
      display: flex;
@@ -11,10 +10,12 @@
 .select-nav-item {
      width: calc(100% / 3);
      display: flex;
+     height: 30px;
      justify-content: center;
      align-items: center;
      font-size: 13px;
      z-index: 2;
+     cursor: pointer;
 }
 
 .select-nav-marker {
@@ -34,4 +35,8 @@
 
 .select-nav-move-right {
      transform: translateX(100%);
+}
+
+.marked-text {
+     font-weight: bold;
 }

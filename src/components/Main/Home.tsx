@@ -16,6 +16,7 @@ interface Subscription {
      chargeAmount: number;
      renewalDate: Date;
      dateAdded: Date;
+     freeTrial: boolean;
 }
 
 export interface UserData {
