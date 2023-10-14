@@ -1,9 +1,21 @@
+type subscriptionCategories =
+     | 'Streaming service'
+     | 'Gaming'
+     | 'Clothing'
+     | 'Food'
+     | 'Utility'
+     | 'Education'
+     | 'Software'
+     | 'Other';
+
 export interface Subscription {
      subscriptionName: string;
      renewalDate: Date;
      dateAdded: Date;
      chargeAmount: number;
      emailNotification?: boolean;
+     freeTrial?: boolean;
+     category?: subscriptionCategories;
      id?: string;
 }
 

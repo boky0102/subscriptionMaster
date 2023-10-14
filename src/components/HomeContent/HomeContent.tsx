@@ -9,6 +9,7 @@ import ArrowIcon from '../ArrowIcon/ArrowIcon';
 import AreaYearChart from '../charts/AreaYearChart';
 import BarChartAllYears from '../charts/BarChartAllYears';
 import SubscriptionTypeSelect from '../SubscriptionTypeSelect.tsx/SubscriptionTypeSelect';
+import PieCategoryChart from '../charts/PieCategoryChart';
 
 interface Subscription {
      id: string;
@@ -17,6 +18,7 @@ interface Subscription {
      renewalDate: Date;
      dateAdded: Date;
      freeTrial: boolean;
+     category: subscriptionCategories;
 }
 
 type HomeContentProps = {
@@ -36,13 +38,29 @@ type ChartYearData = {
      totalCostForYear: number;
 };
 
+type ChartYearCategoryData = {
+     name: subscriptionCategories;
+     totalCost: number;
+};
+
 type Months = 'Jan' | 'Feb' | 'Mar' | 'Apr' | 'May' | 'Jun' | 'Jul' | 'Aug' | 'Sep' | 'Oct' | 'Nov' | 'Dec';
+
+type subscriptionCategories =
+     | 'Streaming service'
+     | 'Gaming'
+     | 'Clothing'
+     | 'Food'
+     | 'Utility'
+     | 'Education'
+     | 'Software'
+     | 'Other';
 
 type FilterStates = 'all' | 'free-trial' | 'subscription';
 
 export default function HomeContent(props: HomeContentProps) {
      const [chartData, setChartData] = useState([] as ChartData[]);
      const [chartYearData, setChartYearData] = useState([] as ChartYearData[]);
+     const [chartCategoryYearData, setChartCategoryYearData] = useState([] as ChartYearCategoryData[]);
      const currentYear = new Date().getFullYear();
      const [selectedYear, setSelectedYear] = useState(currentYear);
      const [chartType, setChartType] = useState('year');
@@ -102,6 +120,67 @@ export default function HomeContent(props: HomeContentProps) {
           return chartYearDataArray;
      }
 
+     function getChartCategoryDataYear(subscriptionData: Subscription[], year: number) {
+          const currentYear = new Date().getFullYear();
+          const currentMonth = new Date().getMonth();
+          const currentDay = new Date().getDay();
+          const months: Months[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+          const categories: subscriptionCategories[] = [
+               'Streaming service',
+               'Gaming',
+               'Clothing',
+               'Food',
+               'Utility',
+               'Education',
+               'Software',
+               'Other',
+          ];
+
+          const chartYearCategoryDataArray: ChartYearCategoryData[] = [];
+          if (subscriptionData) {
+               let totalCostAllCategories = 0;
+               categories.forEach((category) => {
+                    let totalCostYear = 0;
+                    months.forEach((month, index) => {
+                         let totalMonthCost = 0;
+                         subscriptionData.forEach((subscription) => {
+                              if (subscription.category === category) {
+                                   if (subscription.dateAdded.getFullYear() < year) {
+                                        totalMonthCost += subscription.chargeAmount;
+                                   } else if (subscription.dateAdded.getFullYear() === year) {
+                                        if (subscription.dateAdded.getMonth() < index) {
+                                             totalMonthCost += subscription.chargeAmount;
+                                        } else if (subscription.dateAdded.getMonth() === index) {
+                                             if (subscription.dateAdded.getDay() <= currentDay) {
+                                                  totalMonthCost += subscription.chargeAmount;
+                                             }
+                                        }
+                                   }
+                              }
+                         });
+
+                         if (currentYear === year) {
+                              if (currentMonth >= index) {
+                                   totalCostYear += totalMonthCost;
+                              }
+                         } else if (currentYear !== year) {
+                              totalCostYear += totalMonthCost;
+                         }
+                    });
+                    const categoryData: ChartYearCategoryData = {
+                         name: category,
+                         totalCost: totalCostYear,
+                    };
+                    totalCostAllCategories += totalCostYear;
+                    if (totalCostYear !== 0) {
+                         chartYearCategoryDataArray.push(categoryData);
+                    }
+               });
+          }
+
+          return chartYearCategoryDataArray;
+     }
+
      function getChartDataAllYears(subscriptionData: Subscription[]) {
           const currentYear = new Date().getFullYear();
           let lowestYear = currentYear;
@@ -136,6 +215,8 @@ export default function HomeContent(props: HomeContentProps) {
           setChartData(chartDataArray);
           const chartAllyearsData = getChartDataAllYears(props.subscriptionData);
           setChartYearData(chartAllyearsData);
+          const chartCategoryData = getChartCategoryDataYear(props.subscriptionData, selectedYear);
+          setChartCategoryYearData(chartCategoryData);
      }, [props.subscriptionData, selectedYear, chartType]);
 
      function handleFreeTrialFilter() {
@@ -152,7 +233,6 @@ export default function HomeContent(props: HomeContentProps) {
 
      useEffect(() => {
           if (filterState === 'free-trial') {
-               console.log(filterState);
                setFilteredSubscriptionData(() => {
                     const returnArray = props.subscriptionData.filter((subscription) => {
                          console.log(subscription.freeTrial);
@@ -163,7 +243,6 @@ export default function HomeContent(props: HomeContentProps) {
                     return returnArray;
                });
           } else if (filterState === 'subscription') {
-               console.log(filterState);
                setFilteredSubscriptionData(() => {
                     const returnArray = props.subscriptionData.filter((subscription) => {
                          if (subscription.freeTrial !== true) {
@@ -173,7 +252,6 @@ export default function HomeContent(props: HomeContentProps) {
                     return returnArray;
                });
           } else if (filterState === 'all') {
-               console.log(filterState);
                setFilteredSubscriptionData(props.subscriptionData);
           }
      }, [filterState, props.subscriptionData]);
@@ -234,6 +312,9 @@ export default function HomeContent(props: HomeContentProps) {
                                    </select>
                               </div>
                          </div>
+                    </div>
+                    <div className="chart-container">
+                         <PieCategoryChart chartData={chartCategoryYearData}></PieCategoryChart>
                     </div>
                </div>
           </>

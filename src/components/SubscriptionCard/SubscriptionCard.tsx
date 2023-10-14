@@ -52,8 +52,10 @@ export default function SubscriptionCard(props: SubscriptionCardProps) {
                     <div className="subscription-amount">{props.subscription.chargeAmount}</div>
                </div>
                <div className="division-line"></div>
-               <div className="subscription-card-element">Renewal Date</div>
-               <div className="subscription-card-element">{props.subscription.renewalDate.toDateString()}</div>
+               <div className="subscription-card-element">Date started</div>
+               <div className="subscription-card-element">{props.subscription.dateAdded.toDateString()}</div>
+               <div className="subscription-card-element">Category</div>
+               <div className="subscription-card-element">{props.subscription.category}</div>
                <div className="subscription-card-element">
                     <Slider sliderActive={sliderActive} handleSliderClick={handleSliderChange}></Slider>
                </div>

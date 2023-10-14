@@ -1,0 +1,15 @@
+.tooltip-container {
+     width: 150px;
+     background-color: azure;
+     border-radius: 13px;
+     padding: 5px;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+}
+
+.tooltip-text {
+     font-family: poppins;
+     font-size: 12px;
+}
