@@ -17,11 +17,13 @@ interface Subscription {
      renewalDate: Date;
      dateAdded: Date;
      freeTrial: boolean;
+     category: subscriptionCategories;
 }
 
 export interface UserData {
      username: string;
      email?: string;
+     userColorData?: UserColorData[];
 }
 
 type subscriptionCategories =
@@ -33,6 +35,11 @@ type subscriptionCategories =
      | 'Education'
      | 'Software'
      | 'Other';
+
+type UserColorData = {
+     category: subscriptionCategories;
+     color: string;
+};
 
 interface SubscriptionFormValue {
      subscriptionName: string | undefined;
@@ -117,6 +124,7 @@ function Home() {
                          setUserData({
                               username: response.data.username,
                               email: response.data.email,
+                              userColorData: response.data.userCategoryColor,
                          });
                     }
                })

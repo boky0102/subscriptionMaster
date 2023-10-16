@@ -37,6 +37,23 @@
      padding: 20px;
 }
 
+.chart-container-pie {
+     display: flex;
+     margin-right: 20px;
+     justify-content: space-between;
+}
+
+.chart {
+     width: 60%;
+}
+
+.categories-container {
+     width: 35%;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+}
+
 .chart-action-container {
      display: flex;
      align-items: center;

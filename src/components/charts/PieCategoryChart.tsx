@@ -14,6 +14,7 @@ type subscriptionCategories =
 type ChartYearCategoryData = {
      name: subscriptionCategories;
      totalCost: number;
+     percentage?: number;
 };
 
 type PieChartProps = {

@@ -9,12 +9,13 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameT
                maximumFractionDigits: 2,
                minimumFractionDigits: 2,
           });
-          const shortenAmount = numberFormatter.format(payload[0].value as number);
+          const shortenAmountCost = numberFormatter.format(payload[0].value as number);
+          const shortenAmountPercentage = numberFormatter.format(payload[0].payload.percentage);
           return (
                <div className="tooltip-container">
                     <p className="tooltip-text">{payload[0].name}</p>
-                    <p className="tooltip-text">{`Amount : ${shortenAmount}`}</p>
-                    <p className="tooltip-text">{`Share :`}</p>
+                    <p className="tooltip-text">{`Amount : ${shortenAmountCost}`}</p>
+                    <p className="tooltip-text">{`Share : ${shortenAmountPercentage}%`}</p>
                </div>
           );
      }

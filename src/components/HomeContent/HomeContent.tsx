@@ -10,6 +10,7 @@ import AreaYearChart from '../charts/AreaYearChart';
 import BarChartAllYears from '../charts/BarChartAllYears';
 import SubscriptionTypeSelect from '../SubscriptionTypeSelect.tsx/SubscriptionTypeSelect';
 import PieCategoryChart from '../charts/PieCategoryChart';
+import { CategoryColor } from '../CategoryColor.tsx/CategoryColor';
 
 interface Subscription {
      id: string;
@@ -41,6 +42,7 @@ type ChartYearData = {
 type ChartYearCategoryData = {
      name: subscriptionCategories;
      totalCost: number;
+     percentage?: number;
 };
 
 type Months = 'Jan' | 'Feb' | 'Mar' | 'Apr' | 'May' | 'Jun' | 'Jul' | 'Aug' | 'Sep' | 'Oct' | 'Nov' | 'Dec';
@@ -167,18 +169,26 @@ export default function HomeContent(props: HomeContentProps) {
                               totalCostYear += totalMonthCost;
                          }
                     });
+
+                    totalCostAllCategories += totalCostYear;
                     const categoryData: ChartYearCategoryData = {
                          name: category,
                          totalCost: totalCostYear,
                     };
-                    totalCostAllCategories += totalCostYear;
                     if (totalCostYear !== 0) {
                          chartYearCategoryDataArray.push(categoryData);
                     }
                });
+               const returnArray = chartYearCategoryDataArray.map((category) => {
+                    const mapObject: ChartYearCategoryData = {
+                         name: category.name,
+                         totalCost: category.totalCost,
+                         percentage: (category.totalCost / totalCostAllCategories) * 100,
+                    };
+                    return mapObject;
+               });
+               return returnArray;
           }
-
-          return chartYearCategoryDataArray;
      }
 
      function getChartDataAllYears(subscriptionData: Subscription[]) {
@@ -216,7 +226,9 @@ export default function HomeContent(props: HomeContentProps) {
           const chartAllyearsData = getChartDataAllYears(props.subscriptionData);
           setChartYearData(chartAllyearsData);
           const chartCategoryData = getChartCategoryDataYear(props.subscriptionData, selectedYear);
-          setChartCategoryYearData(chartCategoryData);
+          if (chartCategoryData) {
+               setChartCategoryYearData(chartCategoryData);
+          }
      }, [props.subscriptionData, selectedYear, chartType]);
 
      function handleFreeTrialFilter() {
@@ -313,8 +325,17 @@ export default function HomeContent(props: HomeContentProps) {
                               </div>
                          </div>
                     </div>
-                    <div className="chart-container">
-                         <PieCategoryChart chartData={chartCategoryYearData}></PieCategoryChart>
+                    <div className="chart-container chart-container-pie">
+                         <div className="chart">
+                              <PieCategoryChart chartData={chartCategoryYearData}></PieCategoryChart>
+                         </div>
+
+                         <div className="categories-container">
+                              {props.userData.userColorData !== undefined &&
+                                   props.userData.userColorData.map((category) => (
+                                        <CategoryColor name={category.category} color={category.color}></CategoryColor>
+                                   ))}
+                         </div>
                     </div>
                </div>
           </>
