@@ -18,6 +18,13 @@
      color: var(--main-dark);
      font-weight: bolder;
      font-size: 20px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+
+.subscription-name svg {
+     margin-left: 10px;
 }
 
 .subscription-amount {
@@ -54,4 +61,15 @@
      cursor: pointer;
      outline: 1px solid var(--main-dark);
      outline-offset: -3px;
+}
+
+#trash-bin-icon {
+     width: 25px;
+     height: 25px;
+     transition: all 0.14s ease-in-out;
+}
+
+#trash-bin-icon:hover {
+     color: var(--error-text);
+     cursor: pointer;
 }

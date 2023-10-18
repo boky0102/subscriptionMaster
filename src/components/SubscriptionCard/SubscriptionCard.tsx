@@ -4,6 +4,7 @@ import Slider from '../Slider/Slider';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Notification } from '../Main/Home';
+import { TrashBin } from '../Icons/TrashBinSvg';
 
 type SubscriptionCardProps = {
      subscription: Subscription;
@@ -58,7 +59,11 @@ export default function SubscriptionCard(props: SubscriptionCardProps) {
      return (
           <div className="subscription-card-container">
                <div className="header-container">
-                    <div className="subscription-name">{props.subscription.subscriptionName.toUpperCase()}</div>
+                    <div className="subscription-name">
+                         <div>{props.subscription.subscriptionName.toUpperCase()}</div>
+                         <TrashBin id="trash-bin-icon" onClick={() => props.handleDeleteClick(props.id)}></TrashBin>
+                    </div>
+
                     <div className="subscription-amount">{props.subscription.chargeAmount}</div>
                </div>
                <div className="division-line"></div>
@@ -83,11 +88,6 @@ export default function SubscriptionCard(props: SubscriptionCardProps) {
                <div className="subscription-card-element">
                     <div>Email notification</div>
                     <Slider sliderActive={sliderActive} handleSliderClick={handleSliderChange}></Slider>
-               </div>
-               <div className="subscription-card-element">
-                    <button className="delete-button" onClick={() => props.handleDeleteClick(props.id)}>
-                         DELETE
-                    </button>
                </div>
           </div>
      );
