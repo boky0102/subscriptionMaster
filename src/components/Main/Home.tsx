@@ -18,6 +18,7 @@ interface Subscription {
      dateAdded: Date;
      freeTrial: boolean;
      category: subscriptionCategories;
+     subscriptionStopped?: Date;
 }
 
 export interface UserData {

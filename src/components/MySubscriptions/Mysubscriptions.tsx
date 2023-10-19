@@ -17,6 +17,7 @@ export interface Subscription {
      freeTrial?: boolean;
      category?: subscriptionCategories;
      id?: string;
+     subscriptionStopped?: Date;
 }
 
 type MySubscriptionProps = {

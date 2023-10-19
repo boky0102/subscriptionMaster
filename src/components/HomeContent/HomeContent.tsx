@@ -20,6 +20,7 @@ interface Subscription {
      dateAdded: Date;
      freeTrial: boolean;
      category: subscriptionCategories;
+     subscriptionStopped?: Date;
 }
 
 type HomeContentProps = {
@@ -333,7 +334,11 @@ export default function HomeContent(props: HomeContentProps) {
                          <div className="categories-container">
                               {props.userData.userColorData !== undefined &&
                                    props.userData.userColorData.map((category) => (
-                                        <CategoryColor name={category.category} color={category.color}></CategoryColor>
+                                        <CategoryColor
+                                             name={category.category}
+                                             color={category.color}
+                                             key={category.color}
+                                        ></CategoryColor>
                                    ))}
                          </div>
                     </div>

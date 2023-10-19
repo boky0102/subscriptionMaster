@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Notification } from '../Main/Home';
 import { TrashBin } from '../Icons/TrashBinSvg';
+import Button from '../Button/Button';
 
 type SubscriptionCardProps = {
      subscription: Subscription;
@@ -56,12 +57,31 @@ export default function SubscriptionCard(props: SubscriptionCardProps) {
                });
      }
 
+     function handleUnsubscribe(id: string) {
+          const serverLink = import.meta.env.VITE_SERVER_LINK + '/subscription-stop';
+          axios.put(
+               serverLink,
+               {
+                    subscriptionId: id,
+               },
+               {
+                    withCredentials: true,
+               },
+          );
+     }
+
      return (
           <div className="subscription-card-container">
                <div className="header-container">
                     <div className="subscription-name">
                          <div>{props.subscription.subscriptionName.toUpperCase()}</div>
                          <TrashBin id="trash-bin-icon" onClick={() => props.handleDeleteClick(props.id)}></TrashBin>
+                         <Button
+                              className="subscription-card-button"
+                              label="UNSUBSCRIBE"
+                              type="button"
+                              onClick={() => handleUnsubscribe(props.id)}
+                         ></Button>
                     </div>
 
                     <div className="subscription-amount">{props.subscription.chargeAmount}</div>
