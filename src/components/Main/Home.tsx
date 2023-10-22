@@ -117,6 +117,10 @@ function Home() {
                               const dateObjectArray = responseSubscriptionData.map((subscription) => {
                                    subscription.renewalDate = new Date(subscription.renewalDate);
                                    subscription.dateAdded = new Date(subscription.dateAdded);
+                                   if (subscription.subscriptionStopped) {
+                                        subscription.subscriptionStopped = new Date(subscription.subscriptionStopped);
+                                   }
+
                                    return subscription;
                               });
                               setSubscriptionData(dateObjectArray);

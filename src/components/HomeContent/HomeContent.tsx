@@ -93,14 +93,45 @@ export default function HomeContent(props: HomeContentProps) {
                months.forEach((month, index) => {
                     let totalMonthCost = 0;
                     subscriptionData.forEach((subscription) => {
-                         if (subscription.dateAdded.getFullYear() < year) {
-                              totalMonthCost += subscription.chargeAmount;
-                         } else if (subscription.dateAdded.getFullYear() === year) {
-                              if (subscription.dateAdded.getMonth() < index) {
+                         if (subscription.subscriptionStopped) {
+                              if (
+                                   subscription.dateAdded.getFullYear() < year &&
+                                   year < subscription.subscriptionStopped.getFullYear()
+                              ) {
                                    totalMonthCost += subscription.chargeAmount;
-                              } else if (subscription.dateAdded.getMonth() === index) {
-                                   if (subscription.dateAdded.getDay() <= currentDay) {
+                              } else if (subscription.dateAdded.getFullYear() === year) {
+                                   if (
+                                        subscription.dateAdded.getMonth() < index &&
+                                        subscription.dateAdded.getMonth() < subscription.subscriptionStopped.getMonth()
+                                   ) {
                                         totalMonthCost += subscription.chargeAmount;
+                                   } else if (subscription.dateAdded.getMonth() === index) {
+                                        if (
+                                             subscription.dateAdded.getDay() <= currentDay &&
+                                             subscription.dateAdded.getDay() < subscription.subscriptionStopped.getDay()
+                                        ) {
+                                             totalMonthCost += subscription.chargeAmount;
+                                        }
+                                   }
+                              }
+                              console.log(
+                                   'STOP SUBSCRIPTION',
+                                   subscription.subscriptionName,
+                                   '   ',
+                                   months[index],
+                                   ': ',
+                                   totalMonthCost,
+                              );
+                         } else {
+                              if (subscription.dateAdded.getFullYear() < year) {
+                                   totalMonthCost += subscription.chargeAmount;
+                              } else if (subscription.dateAdded.getFullYear() === year) {
+                                   if (subscription.dateAdded.getMonth() < index) {
+                                        totalMonthCost += subscription.chargeAmount;
+                                   } else if (subscription.dateAdded.getMonth() === index) {
+                                        if (subscription.dateAdded.getDay() <= currentDay) {
+                                             totalMonthCost += subscription.chargeAmount;
+                                        }
                                    }
                               }
                          }
@@ -249,7 +280,7 @@ export default function HomeContent(props: HomeContentProps) {
                setFilteredSubscriptionData(() => {
                     const returnArray = props.subscriptionData.filter((subscription) => {
                          console.log(subscription.freeTrial);
-                         if (subscription.freeTrial === true) {
+                         if (subscription.freeTrial === true && !subscription.subscriptionStopped) {
                               return subscription;
                          }
                     });
@@ -258,15 +289,23 @@ export default function HomeContent(props: HomeContentProps) {
           } else if (filterState === 'subscription') {
                setFilteredSubscriptionData(() => {
                     const returnArray = props.subscriptionData.filter((subscription) => {
-                         if (subscription.freeTrial !== true) {
+                         if (subscription.freeTrial !== true && !subscription.subscriptionStopped) {
                               return subscription;
                          }
                     });
                     return returnArray;
                });
           } else if (filterState === 'all') {
-               setFilteredSubscriptionData(props.subscriptionData);
+               setFilteredSubscriptionData(() => {
+                    const returnArray = props.subscriptionData.filter((subscription) => {
+                         if (!subscription.subscriptionStopped) {
+                              return subscription;
+                         }
+                    });
+                    return returnArray;
+               });
           }
+          console.log(props.subscriptionData);
      }, [filterState, props.subscriptionData]);
 
      return (

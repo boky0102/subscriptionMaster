@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import WelcomePage from './components/WelcomePage/WelcomePage';
 
 function App() {
+     console.log(import.meta.env.VITE_SERVER_LINK);
      return (
           <Routes>
                <Route path="/" element={<WelcomePage route="login"></WelcomePage>}></Route>
