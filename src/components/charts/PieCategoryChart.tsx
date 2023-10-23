@@ -17,19 +17,32 @@ type ChartYearCategoryData = {
      percentage?: number;
 };
 
+type categoryColor = {
+     category: subscriptionCategories;
+     color: string;
+};
+
 type PieChartProps = {
      chartData: ChartYearCategoryData[];
+     userColors?: categoryColor[];
 };
 
 export default function PieCategoryChart(props: PieChartProps) {
-     const COLORS = ['#7E57F2', '#F073BE', '#63ABFA', '#EDA751', '#79F56E', '#F4F570', '#F5DE6C', '#59F5CA'];
-
      return (
           <ResponsiveContainer width={'100%'} height={300}>
                <PieChart width={400} height={400}>
                     <Pie data={props.chartData} dataKey={'totalCost'} outerRadius={135}>
-                         {props.chartData.map((entry, index) => {
-                              return <Cell key={entry.name} fill={COLORS[index]}></Cell>;
+                         {props.chartData.map((entry) => {
+                              let fillColor = '';
+                              if (props.userColors) {
+                                   props.userColors.forEach((colorCategory) => {
+                                        if (colorCategory.category === entry.name) {
+                                             fillColor = colorCategory.color;
+                                             return;
+                                        }
+                                   });
+                              }
+                              return <Cell key={entry.name} fill={fillColor}></Cell>;
                          })}
                          <LabelList dataKey={'category'} position={'outside'} fill={'#cccccc'}></LabelList>
                     </Pie>

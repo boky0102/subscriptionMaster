@@ -4,7 +4,6 @@ import { ValueType, NameType } from 'recharts/types/component/DefaultTooltipCont
 
 const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
      if (active && payload && payload.length) {
-          console.log(label);
           const numberFormatter = new Intl.NumberFormat('en-US', {
                maximumFractionDigits: 2,
                minimumFractionDigits: 2,

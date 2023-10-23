@@ -102,10 +102,11 @@ export default function HomeContent(props: HomeContentProps) {
                               } else if (subscription.dateAdded.getFullYear() === year) {
                                    if (
                                         subscription.dateAdded.getMonth() < index &&
-                                        subscription.dateAdded.getMonth() < subscription.subscriptionStopped.getMonth()
+                                        index < subscription.subscriptionStopped.getMonth()
                                    ) {
                                         totalMonthCost += subscription.chargeAmount;
                                    } else if (subscription.dateAdded.getMonth() === index) {
+                                        //BUG ON JANUARY CURRENT YEAR
                                         if (
                                              subscription.dateAdded.getDay() <= currentDay &&
                                              subscription.dateAdded.getDay() < subscription.subscriptionStopped.getDay()
@@ -114,14 +115,6 @@ export default function HomeContent(props: HomeContentProps) {
                                         }
                                    }
                               }
-                              console.log(
-                                   'STOP SUBSCRIPTION',
-                                   subscription.subscriptionName,
-                                   '   ',
-                                   months[index],
-                                   ': ',
-                                   totalMonthCost,
-                              );
                          } else {
                               if (subscription.dateAdded.getFullYear() < year) {
                                    totalMonthCost += subscription.chargeAmount;
@@ -141,6 +134,8 @@ export default function HomeContent(props: HomeContentProps) {
                          month: month,
                          totalCostForMonth: totalMonthCost,
                     };
+
+                    console.log('MONTH ', month, 'TOTAL COST', totalMonthCost);
 
                     if (currentYear === year) {
                          if (currentMonth >= index) {
@@ -367,7 +362,10 @@ export default function HomeContent(props: HomeContentProps) {
                     </div>
                     <div className="chart-container chart-container-pie">
                          <div className="chart">
-                              <PieCategoryChart chartData={chartCategoryYearData}></PieCategoryChart>
+                              <PieCategoryChart
+                                   chartData={chartCategoryYearData}
+                                   userColors={props.userData.userColorData}
+                              ></PieCategoryChart>
                          </div>
 
                          <div className="categories-container">

@@ -10,8 +10,13 @@ import Button from '../Button/Button';
 type SubscriptionCardProps = {
      subscription: Subscription;
      id: string;
-     notificationTrigger: (message: Notification['message'], type: Notification['notificationType']) => void;
+     notificationTrigger: (
+          message: Notification['message'],
+          type: Notification['notificationType'],
+          dataChanged?: boolean,
+     ) => void;
      handleDeleteClick: (susbscriptionId: string) => void;
+     unsubscribed?: boolean;
 };
 
 export default function SubscriptionCard(props: SubscriptionCardProps) {
@@ -67,7 +72,20 @@ export default function SubscriptionCard(props: SubscriptionCardProps) {
                {
                     withCredentials: true,
                },
-          );
+          )
+               .then((response) => {
+                    if (response.status === 200) {
+                         props.notificationTrigger(
+                              `Successfully unsubscribed ${props.subscription.subscriptionName}`,
+                              'success',
+                              true,
+                         );
+                    }
+               })
+               .catch((error) => {
+                    console.log(error.message);
+                    props.notificationTrigger('Something went wrong, please try again later', 'error');
+               });
      }
 
      return (
@@ -76,12 +94,14 @@ export default function SubscriptionCard(props: SubscriptionCardProps) {
                     <div className="subscription-name">
                          <div>{props.subscription.subscriptionName.toUpperCase()}</div>
                          <TrashBin id="trash-bin-icon" onClick={() => props.handleDeleteClick(props.id)}></TrashBin>
-                         <Button
-                              className="subscription-card-button"
-                              label="UNSUBSCRIBE"
-                              type="button"
-                              onClick={() => handleUnsubscribe(props.id)}
-                         ></Button>
+                         {!props.unsubscribed && (
+                              <Button
+                                   className="subscription-card-button"
+                                   label="UNSUBSCRIBE"
+                                   type="button"
+                                   onClick={() => handleUnsubscribe(props.id)}
+                              ></Button>
+                         )}
                     </div>
 
                     <div className="subscription-amount">{props.subscription.chargeAmount}</div>
@@ -92,14 +112,26 @@ export default function SubscriptionCard(props: SubscriptionCardProps) {
                     <div>{props.subscription.dateAdded.toDateString()}</div>
                </div>
                <div className="subscription-card-element">
-                    <div>Next renewal</div>
-                    <div>
-                         {nextRenewal.toLocaleDateString('en-GB', {
-                              month: 'long',
-                              day: 'numeric',
-                              year: 'numeric',
-                         })}
-                    </div>
+                    {props.unsubscribed && (
+                         <>
+                              <div>Date unsubscribed</div>
+                              <div>{props.subscription.subscriptionStopped?.toLocaleDateString()}</div>
+                         </>
+                    )}
+               </div>
+               <div className="subscription-card-element">
+                    {!props.unsubscribed && (
+                         <>
+                              <div>Next renewal</div>
+                              <div>
+                                   {nextRenewal.toLocaleDateString('en-GB', {
+                                        month: 'long',
+                                        day: 'numeric',
+                                        year: 'numeric',
+                                   })}
+                              </div>
+                         </>
+                    )}
                </div>
                <div className="subscription-card-element">
                     <div>Category</div>

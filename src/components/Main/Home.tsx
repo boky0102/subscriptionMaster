@@ -64,12 +64,19 @@ function Home() {
 
      const [subscriptionData, setSubscriptionData] = useState<Subscription[]>([]);
      const [subscriptionFormData, setSubscriptionFormData] = useState({} as SubscriptionFormValue);
-     const [dataPosted, newDataPosted] = useState(false);
+     const [dataPosted, newDataPosted] = useState(0);
      const [formFilled, setFormFilled] = useState(false);
      const [userData, setUserData] = useState({} as UserData);
      const [notification, setNotification] = useState({} as Notification);
 
-     function triggerNotification(message: Notification['message'], type: Notification['notificationType']) {
+     function triggerNotification(
+          message: Notification['message'],
+          type: Notification['notificationType'],
+          dataChanged?: boolean,
+     ) {
+          if (dataChanged) {
+               newDataPosted((number) => number + 1);
+          }
           setNotification({
                message: message,
                notificationType: type,
@@ -245,7 +252,7 @@ function Home() {
                .then((response) => {
                     if (response.status === 200) {
                          console.log('POSTED');
-                         newDataPosted(true);
+                         newDataPosted((number) => number + 1);
                          triggerNotification('Subscription added successfully', 'success');
                     }
                })
@@ -301,7 +308,13 @@ function Home() {
                          ></Route>
                          <Route
                               path="/mysubscriptions"
-                              element={<Mysubscriptions subscriptionData={subscriptionData}></Mysubscriptions>}
+                              element={
+                                   <Mysubscriptions
+                                        subscriptionData={subscriptionData}
+                                        notificationTrigger={triggerNotification}
+                                        handleDeleteClick={handleDeleteClick}
+                                   ></Mysubscriptions>
+                              }
                          ></Route>
                          <Route
                               path=""

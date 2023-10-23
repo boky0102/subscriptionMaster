@@ -1,3 +1,7 @@
+import { useEffect, useState } from 'react';
+import SubscriptionCard from '../SubscriptionCard/SubscriptionCard';
+import { Notification } from '../Main/Home';
+
 type subscriptionCategories =
      | 'Streaming service'
      | 'Gaming'
@@ -16,23 +20,45 @@ export interface Subscription {
      emailNotification?: boolean;
      freeTrial?: boolean;
      category?: subscriptionCategories;
-     id?: string;
+     id: string;
      subscriptionStopped?: Date;
 }
 
 type MySubscriptionProps = {
      subscriptionData: Subscription[];
+     notificationTrigger: (
+          message: Notification['message'],
+          type: Notification['notificationType'],
+          active?: Notification['active'],
+     ) => void;
+     handleDeleteClick: (id: string) => void;
 };
 
 export default function Mysubscriptions(props: MySubscriptionProps) {
+     const [stoppedSubscriptions, setStoppedSubscriptions] = useState([] as Subscription[]);
+     useEffect(() => {
+          setStoppedSubscriptions(() => {
+               const filteredArray = props.subscriptionData.filter((subscription) => {
+                    if (subscription.subscriptionStopped) {
+                         return subscription;
+                    }
+               });
+               return filteredArray;
+          });
+     }, [props.subscriptionData]);
+
      return (
-          <div>
-               {props.subscriptionData.map((subscription) => {
+          <div className="subscriptions-cards-container">
+               {stoppedSubscriptions.map((subscription) => {
                     return (
-                         <div>
-                              {' '}
-                              {subscription.subscriptionName} - {subscription.chargeAmount}
-                         </div>
+                         <SubscriptionCard
+                              subscription={subscription}
+                              id={subscription.id}
+                              notificationTrigger={props.notificationTrigger}
+                              handleDeleteClick={props.handleDeleteClick}
+                              key={subscription.id}
+                              unsubscribed={true}
+                         ></SubscriptionCard>
                     );
                })}
           </div>
