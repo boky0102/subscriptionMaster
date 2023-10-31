@@ -48,7 +48,7 @@ export default function Mysubscriptions(props: MySubscriptionProps) {
      }, [props.subscriptionData]);
 
      return (
-          <div className="subscriptions-cards-container">
+          <div className="subscriptions-cards-container subscription-history-container">
                {stoppedSubscriptions.map((subscription) => {
                     return (
                          <SubscriptionCard

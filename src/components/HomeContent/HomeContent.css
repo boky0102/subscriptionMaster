@@ -11,6 +11,10 @@
      margin-top: 4vh;
 }
 
+.subscription-history-container {
+     margin-top: 4vh;
+}
+
 .subscriptions-cards-container {
      overflow-y: scroll;
      width: 100%;

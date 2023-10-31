@@ -3,7 +3,14 @@ import './DashboardButton.css';
 
 interface props {
      label: string;
-     route: 'settings' | 'callendar' | 'mysubscription' | 'addsubscription' | '' | 'mysubscriptions' | 'addfreetrial';
+     route:
+          | 'settings'
+          | 'callendar'
+          | 'subscriptionHistory'
+          | 'addsubscription'
+          | ''
+          | 'mysubscriptions'
+          | 'addfreetrial';
 }
 
 function DashboardButton(props: props) {
