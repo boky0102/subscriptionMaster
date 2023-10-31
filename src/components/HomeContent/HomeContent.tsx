@@ -94,36 +94,41 @@ export default function HomeContent(props: HomeContentProps) {
                     let totalMonthCost = 0;
                     subscriptionData.forEach((subscription) => {
                          if (subscription.subscriptionStopped) {
-                              if (
-                                   subscription.dateAdded.getFullYear() < year &&
-                                   year < subscription.subscriptionStopped.getFullYear()
-                              ) {
-                                   totalMonthCost += subscription.chargeAmount;
-                              } else if (subscription.dateAdded.getFullYear() === year) {
+                              if (!subscription.freeTrial) {
                                    if (
-                                        subscription.dateAdded.getMonth() < index &&
-                                        index < subscription.subscriptionStopped.getMonth()
+                                        subscription.dateAdded.getFullYear() < year &&
+                                        year < subscription.subscriptionStopped.getFullYear()
                                    ) {
                                         totalMonthCost += subscription.chargeAmount;
-                                   } else if (subscription.dateAdded.getMonth() === index) {
-                                        //BUG ON JANUARY CURRENT YEAR
+                                   } else if (subscription.dateAdded.getFullYear() === year) {
                                         if (
-                                             subscription.dateAdded.getDay() <= currentDay &&
-                                             subscription.dateAdded.getDay() < subscription.subscriptionStopped.getDay()
+                                             subscription.dateAdded.getMonth() < index &&
+                                             index < subscription.subscriptionStopped.getMonth()
                                         ) {
                                              totalMonthCost += subscription.chargeAmount;
+                                        } else if (subscription.dateAdded.getMonth() === index) {
+                                             //BUG ON JANUARY CURRENT YEAR
+                                             if (
+                                                  subscription.dateAdded.getDay() <= currentDay &&
+                                                  subscription.dateAdded.getDay() <
+                                                       subscription.subscriptionStopped.getDay()
+                                             ) {
+                                                  totalMonthCost += subscription.chargeAmount;
+                                             }
                                         }
                                    }
                               }
                          } else {
-                              if (subscription.dateAdded.getFullYear() < year) {
-                                   totalMonthCost += subscription.chargeAmount;
-                              } else if (subscription.dateAdded.getFullYear() === year) {
-                                   if (subscription.dateAdded.getMonth() < index) {
+                              if (!subscription.freeTrial) {
+                                   if (subscription.dateAdded.getFullYear() < year) {
                                         totalMonthCost += subscription.chargeAmount;
-                                   } else if (subscription.dateAdded.getMonth() === index) {
-                                        if (subscription.dateAdded.getDay() <= currentDay) {
+                                   } else if (subscription.dateAdded.getFullYear() === year) {
+                                        if (subscription.dateAdded.getMonth() < index) {
                                              totalMonthCost += subscription.chargeAmount;
+                                        } else if (subscription.dateAdded.getMonth() === index) {
+                                             if (subscription.dateAdded.getDay() <= currentDay) {
+                                                  totalMonthCost += subscription.chargeAmount;
+                                             }
                                         }
                                    }
                               }
@@ -173,7 +178,7 @@ export default function HomeContent(props: HomeContentProps) {
                     months.forEach((month, index) => {
                          let totalMonthCost = 0;
                          subscriptionData.forEach((subscription) => {
-                              if (subscription.category === category) {
+                              if (subscription.category === category && !subscription.freeTrial) {
                                    if (subscription.dateAdded.getFullYear() < year) {
                                         totalMonthCost += subscription.chargeAmount;
                                    } else if (subscription.dateAdded.getFullYear() === year) {
@@ -223,7 +228,7 @@ export default function HomeContent(props: HomeContentProps) {
           let lowestYear = currentYear;
           if (subscriptionData) {
                subscriptionData.forEach((subscription) => {
-                    if (subscription.dateAdded.getFullYear() < lowestYear) {
+                    if (subscription.dateAdded.getFullYear() < lowestYear && !subscription.freeTrial) {
                          lowestYear = subscription.dateAdded.getFullYear();
                     }
                });
