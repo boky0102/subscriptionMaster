@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import SubscriptionCard from '../SubscriptionCard/SubscriptionCard';
 import { Notification } from '../Main/Home';
+import { getSingleSubscriptionData } from '../../utility/subscription.utility';
 
 type subscriptionCategories =
      | 'Streaming service'
@@ -58,6 +59,7 @@ export default function Mysubscriptions(props: MySubscriptionProps) {
                               handleDeleteClick={props.handleDeleteClick}
                               key={subscription.id}
                               unsubscribed={true}
+                              totalCost={getSingleSubscriptionData(subscription)}
                          ></SubscriptionCard>
                     );
                })}

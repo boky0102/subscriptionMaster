@@ -17,6 +17,7 @@ type SubscriptionCardProps = {
      ) => void;
      handleDeleteClick: (susbscriptionId: string) => void;
      unsubscribed?: boolean;
+     totalCost?: number;
 };
 
 export default function SubscriptionCard(props: SubscriptionCardProps) {
@@ -141,6 +142,7 @@ export default function SubscriptionCard(props: SubscriptionCardProps) {
                     <div>Email notification</div>
                     <Slider sliderActive={sliderActive} handleSliderClick={handleSliderChange}></Slider>
                </div>
+               {props.unsubscribed && <div className="subscription-card-element">{props.totalCost}</div>}
           </div>
      );
 }

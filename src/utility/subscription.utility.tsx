@@ -4,8 +4,8 @@ interface Subscription {
      chargeAmount: number;
      renewalDate: Date;
      dateAdded: Date;
-     freeTrial: boolean;
-     category: subscriptionCategories;
+     freeTrial?: boolean;
+     category?: subscriptionCategories;
      subscriptionStopped?: Date;
 }
 
@@ -202,4 +202,62 @@ export function getChartDataAllYears(subscriptionData: Subscription[]) {
           chartYearData.push(iterationYearData);
      }
      return chartYearData;
+}
+
+//Ceck for day when it stopped because if stopped before renewal date shouldn't be calculated
+export function getSingleSubscriptionData(subscription: Subscription) {
+     let iterationYear = new Date(subscription.dateAdded).getFullYear();
+     const months: Months[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+     let totalCostAllYears = 0;
+     if (subscription.subscriptionStopped) {
+          while (iterationYear <= subscription.subscriptionStopped.getFullYear()) {
+               let totalCostYear = 0;
+               if (
+                    iterationYear === subscription.subscriptionStopped.getFullYear() &&
+                    iterationYear === subscription.dateAdded.getFullYear()
+               ) {
+                    months.forEach((month, index) => {
+                         if (
+                              index < subscription.subscriptionStopped!.getMonth() &&
+                              index >= subscription.dateAdded.getMonth()
+                         ) {
+                              if (index === subscription.subscriptionStopped?.getMonth()) {
+                                   if (subscription.dateAdded.getDate() >= subscription.subscriptionStopped.getDate()) {
+                                        totalCostYear += subscription.chargeAmount;
+                                   }
+                              } else {
+                                   totalCostYear += subscription.chargeAmount;
+                              }
+                         }
+                    });
+               } else if (iterationYear === subscription.subscriptionStopped.getFullYear()) {
+                    months.forEach((month, index) => {
+                         if (index < subscription.subscriptionStopped!.getMonth()) {
+                              if (index === subscription.subscriptionStopped?.getMonth()) {
+                                   if (subscription.dateAdded.getDate() >= subscription.subscriptionStopped.getDate()) {
+                                        totalCostYear += subscription.chargeAmount;
+                                   }
+                              } else {
+                                   totalCostYear += subscription.chargeAmount;
+                              }
+                         }
+                    });
+               } else if (iterationYear === subscription.dateAdded.getFullYear()) {
+                    months.forEach((month, index) => {
+                         if (index >= subscription.dateAdded.getMonth()) {
+                              totalCostYear += subscription.chargeAmount;
+                         }
+                    });
+               } else {
+                    months.forEach(() => {
+                         totalCostYear += subscription.chargeAmount;
+                    });
+               }
+               totalCostAllYears += totalCostYear;
+               iterationYear++;
+          }
+     }
+
+     return totalCostAllYears;
 }
