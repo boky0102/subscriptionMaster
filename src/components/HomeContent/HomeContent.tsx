@@ -175,21 +175,28 @@ export default function HomeContent(props: HomeContentProps) {
                          {chartType === 'all-time' && <BarChartAllYears chartData={chartYearData}></BarChartAllYears>}
 
                          <div className="chart-action-container">
-                              <ArrowIcon
-                                   className="arrow-icon"
-                                   direction="left"
-                                   color={'#17BEBB'}
-                                   handleClick={() => handleLeftArrowClick()}
-                              ></ArrowIcon>
-                              <span>{selectedYear}</span>
-                              <ArrowIcon
-                                   className="arrow-icon"
-                                   direction="right"
-                                   color={'#17BEBB'}
-                                   handleClick={() => handleRightArrowClick()}
-                              ></ArrowIcon>
-                              <div>
-                                   <select onChange={handleChartTypeChange} name="chartType">
+                              <div className="year-select-container">
+                                   <ArrowIcon
+                                        className="arrow-icon"
+                                        direction="left"
+                                        color={'#17BEBB'}
+                                        handleClick={() => handleLeftArrowClick()}
+                                   ></ArrowIcon>
+                                   <span>{selectedYear}</span>
+                                   <ArrowIcon
+                                        className="arrow-icon"
+                                        direction="right"
+                                        color={'#17BEBB'}
+                                        handleClick={() => handleRightArrowClick()}
+                                   ></ArrowIcon>
+                              </div>
+
+                              <div className="chart-type-select-container">
+                                   <select
+                                        onChange={handleChartTypeChange}
+                                        name="chartType"
+                                        className="data-select-item"
+                                   >
                                         <option value="all-time">ALL TIME GRAPH</option>
                                         <option value="year">YEAR CHART</option>
                                    </select>

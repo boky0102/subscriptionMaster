@@ -61,7 +61,10 @@
 .chart-action-container {
      display: flex;
      align-items: center;
-     justify-content: center;
+     justify-content: space-around;
+     margin-top: 20px;
+     margin-left: 20px;
+     margin-right: 20px;
 }
 
 .arrow-icon {
@@ -73,4 +76,32 @@
 .arrow-icon:hover {
      cursor: pointer;
      color: var(--main-action);
+}
+
+.data-select-item {
+     font-family: poppins;
+     color: var(--main-dark);
+     font-weight: 500;
+     outline-style: none;
+     border-style: none;
+     padding: 5px;
+     border-radius: 5px;
+     font-size: 14px;
+     transition: all 0.1s ease-out;
+}
+
+.data-select-item:hover {
+     cursor: pointer;
+     outline: 1px solid var(--main-dark);
+     outline-offset: -3px;
+}
+
+.chart-type-select-container {
+     justify-self: flex-start;
+}
+
+.year-select-container {
+     display: flex;
+     justify-content: center;
+     align-items: center;
 }
