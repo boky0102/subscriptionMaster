@@ -101,3 +101,21 @@
      outline-offset: -2px;
      outline: 1px solid var(--main-dark);
 }
+
+.calendar-button {
+     padding: 5px 10px 5px 10px;
+     font-family: poppins;
+     outline-style: none;
+     border-style: none;
+     border-radius: 5px;
+     background-color: var(--main-action);
+     color: var(--main-dark);
+     font-weight: 500;
+     transition: all 0.1s ease-in;
+}
+
+.calendar-button:hover {
+     cursor: pointer;
+     outline-offset: -2px;
+     outline: 1px solid var(--main-dark);
+}

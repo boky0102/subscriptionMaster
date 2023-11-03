@@ -95,6 +95,12 @@ function Callendar(props: CalendarProps) {
           return arrayOfDates;
      }
 
+     function handleNowClick() {
+          setCurrentDate(() => {
+               return new Date();
+          });
+     }
+
      useEffect(() => {
           setDaysDateArray(getDaysForMonth(currentDate));
      }, [currentDate]);
@@ -136,6 +142,9 @@ function Callendar(props: CalendarProps) {
                                    </option>
                               ))}
                          </select>
+                         <button className="calendar-button" onClick={handleNowClick}>
+                              NOW
+                         </button>
                     </div>
                </div>
                <div className="calendar-header">
