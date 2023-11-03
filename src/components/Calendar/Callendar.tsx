@@ -122,14 +122,14 @@ function Callendar(props: CalendarProps) {
                          ></ArrowIcon>
                     </div>
                     <div className="manual-select-container">
-                         <select onChange={handleYearChange}>
+                         <select onChange={handleYearChange} className="calendar-select-item">
                               {yearsArray.current.map((year) => (
                                    <option value={year} key={year}>
                                         {year}
                                    </option>
                               ))}
                          </select>
-                         <select onChange={handleMonthChange}>
+                         <select onChange={handleMonthChange} className="calendar-select-item">
                               {monthsArray.current.map((month, index) => (
                                    <option value={index} key={month}>
                                         {month}
