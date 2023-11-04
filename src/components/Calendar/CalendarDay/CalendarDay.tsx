@@ -10,29 +10,58 @@ type CalendarDayProps = {
      calendarElementRef: HTMLDivElement;
 };
 
-function subscriptionActiveOnDate(currentDate: Date, subscriptionRenewal: Date, subscriptionAdded: Date) {
-     if (currentDate.getDate() === subscriptionRenewal.getDate()) {
-          if (currentDate.getFullYear() >= subscriptionAdded.getFullYear()) {
-               if (currentDate.getFullYear() === subscriptionAdded.getFullYear()) {
-                    if (currentDate.getMonth() >= subscriptionAdded.getMonth()) {
-                         return true;
+function subscriptionActiveOnDate(
+     currentDate: Date,
+     subscriptionRenewal: Date,
+     subscriptionAdded: Date,
+     subscriptionStopped?: Date,
+) {
+     if (subscriptionStopped) {
+          if (currentDate.getDate() === subscriptionRenewal.getDate()) {
+               if (
+                    currentDate.getFullYear() >= subscriptionAdded.getFullYear() &&
+                    currentDate.getFullYear() <= subscriptionStopped.getFullYear()
+               ) {
+                    if (currentDate.getFullYear() === subscriptionAdded.getFullYear()) {
+                         if (
+                              currentDate.getMonth() >= subscriptionAdded.getMonth() &&
+                              currentDate.getMonth() < subscriptionStopped.getMonth()
+                         ) {
+                              if (currentDate.getMonth() === subscriptionStopped.getMonth()) {
+                                   //BUG WHEN MONTH === MONTH
+                                   if (currentDate.getDate() <= subscriptionStopped.getDate()) {
+                                        return true;
+                                   } else {
+                                        return false;
+                                   }
+                              } else {
+                                   return true;
+                              }
+                         } else {
+                              return false;
+                         }
                     } else {
-                         return false;
+                         return true;
                     }
                } else {
-                    return true;
+                    return false;
                }
           } else {
                return false;
           }
-     } else {
-          return false;
      }
 }
 
 function getSubscriptionsRenewalOnDate(subscriptionsArray: Subscription[], date: Date) {
      const subscriptionsOnDate = subscriptionsArray.filter((subscription) => {
-          if (subscriptionActiveOnDate(date, subscription.renewalDate, subscription.dateAdded)) {
+          if (
+               subscriptionActiveOnDate(
+                    date,
+                    subscription.renewalDate,
+                    subscription.dateAdded,
+                    subscription.subscriptionStopped,
+               )
+          ) {
                return subscription;
           }
      });
