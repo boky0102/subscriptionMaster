@@ -93,8 +93,6 @@ export function getChartDataYear(subscriptionData: Subscription[], year: number)
                     totalCostForMonth: totalMonthCost,
                };
 
-               console.log('MONTH ', month, 'TOTAL COST', totalMonthCost);
-
                if (currentYear === year) {
                     if (currentMonth >= index) {
                          chartYearDataArray.push(monthChartData);
@@ -153,15 +151,13 @@ export function getChartCategoryDataYear(subscriptionData: Subscription[], year:
                                    ) {
                                         if (
                                              subscription.dateAdded.getMonth() <= index &&
-                                             index < subscription.subscriptionStopped.getMonth()
+                                             index <= subscription.subscriptionStopped.getMonth()
                                         ) {
                                              if (subscription.subscriptionStopped.getMonth() === index) {
-                                                  if (
-                                                       subscription.subscriptionStopped.getFullYear() === currentYear &&
-                                                       subscription.subscriptionStopped.getMonth() === currentMonth
-                                                  ) {
+                                                  if (subscription.subscriptionStopped.getFullYear() === currentYear) {
                                                        if (currentDay >= subscription.subscriptionStopped.getDate()) {
                                                             totalMonthCost += subscription.chargeAmount;
+                                                            console.log('TU SMO');
                                                        }
                                                   } else {
                                                        totalMonthCost += subscription.chargeAmount;
