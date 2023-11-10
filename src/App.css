@@ -37,3 +37,27 @@ body {
           'sidebar sidebar main main main main main main main main'
           'sidebar sidebar main main main main main main main main';
 }
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 576px) {
+     .main-grid-container {
+          grid-template-areas:
+               'sidebar sidebar sidebar sidebar sidebar sidebar sidebar sidebar sidebar sidebar'
+               'sidebar sidebar sidebar sidebar sidebar sidebar sidebar sidebar sidebar sidebar'
+               'main main main main main main main main main main'
+               'main main main main main main main main main main'
+               'main main main main main main main main main main'
+               'main main main main main main main main main main'
+               'main main main main main main main main main main'
+               'main main main main main main main main main main'
+               'main main main main main main main main main main'
+               'main main main main main main main main main main';
+     }
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 768px) {
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 992px) {
+}
+/* Large devices (laptops/desktops, 992px and up) */

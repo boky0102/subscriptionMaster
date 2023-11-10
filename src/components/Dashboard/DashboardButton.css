@@ -4,7 +4,7 @@
      font-size: 18px;
      font-weight: bold;
      text-decoration: none;
-     margin-top: 3vh;
+     margin-left: 10px;
 }
 
 .dashboard-link:hover {
@@ -12,5 +12,29 @@
      text-decoration: underline 3px;
 }
 
-@keyframes underscore {
+.dashboard-button-container {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     margin-top: 3vh;
 }
+
+.settings-icon {
+     width: 25px;
+     height: 25px;
+     color: var(--main-action);
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 576px) {
+     .dashboard-link {
+          font-size: 10px;
+     }
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 768px) {
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 992px) {
+}
+/* Large devices (laptops/desktops, 992px and up) */

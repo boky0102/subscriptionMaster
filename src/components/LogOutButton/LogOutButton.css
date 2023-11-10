@@ -3,6 +3,13 @@
      font-size: 18px;
      font-weight: bold;
      margin-top: 3vh;
+     display: flex;
+     justify-content: center;
+     justify-items: center;
+}
+
+.log-out-text {
+     margin-left: 10px;
 }
 
 .logout-element:hover {

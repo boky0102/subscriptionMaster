@@ -27,3 +27,30 @@
 
      margin-bottom: 4vh;
 }
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 576px) {
+     .dashboard-logo {
+          width: 50px;
+     }
+     .dashboard-container {
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+     }
+
+     .actions-container {
+          display: none;
+     }
+
+     .logout-container {
+          display: none;
+     }
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 768px) {
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 992px) {
+}
+/* Large devices (laptops/desktops, 992px and up) */

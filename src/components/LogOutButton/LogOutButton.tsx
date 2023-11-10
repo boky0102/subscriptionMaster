@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './LogOutButton.css';
+import LogOutIcon from '../Icons/LogOutIconSvg';
 
 function LogOutButton() {
      const navigate = useNavigate();
@@ -25,7 +26,10 @@ function LogOutButton() {
 
      return (
           <div onClick={handleLogOutButton} className="logout-element">
-               Log out
+               <div>
+                    <LogOutIcon className="settings-icon"></LogOutIcon>
+               </div>
+               <div className="log-out-text">Log out</div>
           </div>
      );
 }
