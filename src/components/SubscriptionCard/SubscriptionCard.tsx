@@ -116,7 +116,13 @@ export default function SubscriptionCard(props: SubscriptionCardProps) {
                     {props.unsubscribed && (
                          <>
                               <div>Date unsubscribed</div>
-                              <div>{props.subscription.subscriptionStopped?.toLocaleDateString()}</div>
+                              <div>
+                                   {props.subscription.subscriptionStopped?.toLocaleDateString('en-GB', {
+                                        month: 'long',
+                                        day: 'numeric',
+                                        year: 'numeric',
+                                   })}
+                              </div>
                          </>
                     )}
                </div>
