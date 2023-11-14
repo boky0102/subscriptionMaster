@@ -20,16 +20,17 @@ interface props {
 
 function DashboardButton(props: props) {
      return (
-          <div className="dashboard-button-container">
+          <Link to={`/home/${props.route}`} className="dashboard-link dashboard-button-container">
                {props.route === 'settings' && <SettingsIcon className="settings-icon"></SettingsIcon>}
                {props.route === 'callendar' && <CalendarIcon className="settings-icon"></CalendarIcon>}
                {props.route === 'addsubscription' && <AddIcon className="settings-icon"></AddIcon>}
                {props.route === 'mysubscriptions' && <HistoryIcon className="settings-icon"></HistoryIcon>}
                {props.route === '' && <HomeIconSvg className="settings-icon"></HomeIconSvg>}
-               <Link to={`/home/${props.route}`} className="dashboard-link">
-                    <div>{props.label}</div>
-               </Link>
-          </div>
+               <div className="link-container">
+                    <div className="link-label">{props.label}</div>
+                    <div className="link-underscore"></div>
+               </div>
+          </Link>
      );
 }
 

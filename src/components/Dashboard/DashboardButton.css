@@ -4,12 +4,20 @@
      font-size: 18px;
      font-weight: bold;
      text-decoration: none;
-     margin-left: 10px;
+     transition: all 0.1s ease-in-out;
 }
-
+/* 
 .dashboard-link:hover {
      animation-name: 'underscore';
-     text-decoration: underline 3px;
+     text-decoration: underline 3px var(--main-action);
+} */
+
+.dashboard-link:hover .settings-icon {
+     color: var(--main-action);
+}
+
+.dashboard-link:hover .link-underscore {
+     width: 100%;
 }
 
 .dashboard-button-container {
@@ -22,7 +30,22 @@
 .settings-icon {
      width: 25px;
      height: 25px;
-     color: var(--main-action);
+     color: var(--main-dark);
+     margin-right: 13px;
+     transition: all 0.1s ease-in-out;
+}
+
+.link-container {
+}
+
+.link-label {
+}
+
+.link-underscore {
+     width: 0%;
+     height: 3px;
+     background-color: var(--main-action);
+     transition: all 0.2s ease-in-out;
 }
 
 /* Extra small devices (phones, 600px and down) */
