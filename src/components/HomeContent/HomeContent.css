@@ -105,3 +105,12 @@
      justify-content: center;
      align-items: center;
 }
+
+@media only screen and (max-width: 576px) {
+     .widget-container {
+          width: 100%;
+     }
+     .subscriptions-container {
+          width: 100%;
+     }
+}

@@ -12,6 +12,7 @@
      width: 100%;
      display: flex;
      justify-content: space-between;
+     align-items: center;
 }
 
 .subscription-name {
@@ -73,4 +74,34 @@
 #trash-bin-icon:hover {
      color: var(--error-text);
      cursor: pointer;
+}
+
+@media only screen and (max-width: 576px) {
+     .subscription-card-container {
+          width: 80%;
+     }
+
+     .subscription-name {
+          font-size: 13px;
+     }
+
+     .subscription-card-element {
+          font-size: 10px;
+     }
+
+     .subscription-card-button {
+          font-size: 10px;
+          padding: 4px;
+     }
+
+     .subscription-amount {
+          font-size: 13px;
+     }
+     #trash-bin-icon {
+          width: 15px;
+     }
+
+     .header-container {
+          align-items: center;
+     }
 }

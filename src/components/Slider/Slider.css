@@ -29,3 +29,18 @@
      transform: translateX(40px);
      background-color: var(--main-action);
 }
+
+@media only screen and (max-width: 576px) {
+     .slider-container {
+          width: 30px;
+          height: 10px;
+     }
+     .slider-control {
+          height: 10px;
+          width: 10px;
+          transform: translateX(0);
+     }
+     .slider-control-on {
+          transform: translateX(20px);
+     }
+}

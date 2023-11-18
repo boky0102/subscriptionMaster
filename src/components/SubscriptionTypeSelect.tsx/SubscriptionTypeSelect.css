@@ -40,3 +40,14 @@
 .marked-text {
      font-weight: bold;
 }
+
+@media only screen and (max-width: 576px) {
+     .select-nav-container {
+          width: 90%;
+          margin-bottom: 2vh;
+     }
+     .select-nav-item {
+          font-size: 10px;
+          height: 20px;
+     }
+}

@@ -3,3 +3,9 @@
      background-color: var(--card);
      display: flex;
 }
+
+@media only screen and (max-width: 576px) {
+     .outlet-container {
+          flex-direction: column;
+     }
+}

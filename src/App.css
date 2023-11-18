@@ -43,7 +43,7 @@ body {
      .main-grid-container {
           grid-template-areas:
                'sidebar sidebar sidebar sidebar sidebar sidebar sidebar sidebar sidebar sidebar'
-               'sidebar sidebar sidebar sidebar sidebar sidebar sidebar sidebar sidebar sidebar'
+               'main main main main main main main main main main'
                'main main main main main main main main main main'
                'main main main main main main main main main main'
                'main main main main main main main main main main'
