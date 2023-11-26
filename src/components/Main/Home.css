@@ -7,5 +7,7 @@
 @media only screen and (max-width: 576px) {
      .outlet-container {
           flex-direction: column;
+          overflow-y: scroll;
+          height: auto;
      }
 }

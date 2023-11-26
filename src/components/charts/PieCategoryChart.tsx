@@ -1,5 +1,7 @@
 import { Cell, LabelList, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import CustomTooltip from './PieTooltip';
+import { useWindowDimensions } from '../../utility/window.utility';
+import { useEffect, useState } from 'react';
 
 type subscriptionCategories =
      | 'Streaming service'
@@ -28,10 +30,28 @@ type PieChartProps = {
 };
 
 export default function PieCategoryChart(props: PieChartProps) {
+     const { width } = useWindowDimensions();
+     const [chartLayout, setChartLayout] = useState({
+          outerRadius: 135,
+     });
+     useEffect(() => {
+          if (width < 576) {
+               setChartLayout((prevLayout) => ({
+                    ...prevLayout,
+                    outerRadius: 145,
+               }));
+          } else {
+               setChartLayout((prevLayout) => ({
+                    ...prevLayout,
+                    outerRadius: 135,
+               }));
+          }
+     }, [width]);
+
      return (
           <ResponsiveContainer width={'100%'} height={300}>
                <PieChart width={400} height={400}>
-                    <Pie data={props.chartData} dataKey={'totalCost'} outerRadius={135}>
+                    <Pie data={props.chartData} dataKey={'totalCost'} outerRadius={chartLayout.outerRadius}>
                          {props.chartData.map((entry) => {
                               let fillColor = '';
                               if (props.userColors) {
