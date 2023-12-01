@@ -5,7 +5,6 @@ import CalendarIcon from '../Icons/CalendarIconSvg';
 import AddIcon from '../Icons/AddIconSvg';
 import HistoryIcon from '../Icons/HistoryIconSvg';
 import HomeIconSvg from '../Icons/HomeIconSvg';
-import { useState } from 'react';
 
 interface props {
      label: string;

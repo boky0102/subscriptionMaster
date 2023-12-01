@@ -186,7 +186,10 @@ export function getChartCategoryDataYear(subscriptionData: Subscription[], year:
                                                   totalMonthCost += subscription.chargeAmount;
                                              }
                                         }
-                                   } else {
+                                   } else if (
+                                        subscription.subscriptionStopped.getFullYear() < year &&
+                                        subscription.dateAdded.getFullYear() > year
+                                   ) {
                                         totalMonthCost += subscription.chargeAmount;
                                    }
                               }

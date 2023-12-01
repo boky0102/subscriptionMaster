@@ -114,7 +114,7 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                          </select>
                     </div>
 
-                    <div className="sub-form-section">
+                    <div className="sub-form-section  sub-form-slider">
                          <label>Email notification</label>
                          <Slider
                               sliderActive={props.emailSliderActive}
@@ -122,7 +122,7 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                          ></Slider>
                     </div>
 
-                    <div className="sub-form-section">
+                    <div className="sub-form-section sub-form-slider">
                          <label>Free trial</label>
                          <Slider
                               sliderActive={props.freeTrial}

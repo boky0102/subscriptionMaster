@@ -109,3 +109,13 @@
      display: flex;
      width: 40%;
 }
+
+@media only screen and (max-width: 576px) {
+     .sub-form-section {
+          width: 80%;
+     }
+
+     .sub-form-slider {
+          flex-direction: row;
+     }
+}
