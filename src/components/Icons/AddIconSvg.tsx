@@ -16,8 +16,8 @@ export default function AddIcon(props: AddIconProps) {
           >
                <defs id="defs1" />
                <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M 10,20 C 15.523,20 20,15.523 20,10 20,4.477 15.523,0 10,0 4.477,0 0,4.477 0,10 0,15.523 4.477,20 10,20 Z M 4.5,11 a 1,1 0 1 1 0,-2 H 9 V 4.5 a 1,1 0 1 1 2,0 V 9 h 4.5 a 1,1 0 1 1 0,2 H 11 v 4.5 a 1,1 0 1 1 -2,0 V 11 Z"
                     fill="currentColor"
                     id="path1"

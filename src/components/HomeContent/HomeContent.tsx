@@ -12,6 +12,7 @@ import SubscriptionTypeSelect from '../SubscriptionTypeSelect.tsx/SubscriptionTy
 import PieCategoryChart from '../charts/PieCategoryChart';
 import { CategoryColor } from '../CategoryColor.tsx/CategoryColor';
 import { getChartCategoryDataYear, getChartDataAllYears, getChartDataYear } from '../../utility/subscription.utility';
+import currencies from '../../utility/Common-Currency.json';
 
 interface Subscription {
      id: string;
@@ -21,6 +22,7 @@ interface Subscription {
      dateAdded: Date;
      freeTrial: boolean;
      category: subscriptionCategories;
+     currency: string;
      subscriptionStopped?: Date;
 }
 
@@ -68,6 +70,17 @@ export default function HomeContent(props: HomeContentProps) {
      const [chartType, setChartType] = useState('year');
      const [filterState, setFilterState] = useState('all' as FilterStates);
      const [filteredSubscriptionData, setFilteredSubscriptionData] = useState(props.subscriptionData as Subscription[]);
+
+     console.log(currencies);
+
+     useEffect(() => {
+          let currency: keyof typeof currencies;
+
+          for (currency in currencies) {
+               const currentCurrency = currencies[currency];
+               console.log(currentCurrency.name);
+          }
+     }, []);
 
      function handleRightArrowClick() {
           setSelectedYear((year) => year + 1);

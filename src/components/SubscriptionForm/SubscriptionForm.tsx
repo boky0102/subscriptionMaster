@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import './SubscriptionForm.css';
 import Slider from '../Slider/Slider';
-import { triggerNotification } from '../../types';
+import { CurrenciesObj, triggerNotification } from '../../types';
 
 type SubscriptionFormProps = {
      handleSubscriptionFormChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -14,6 +14,7 @@ type SubscriptionFormProps = {
      formFilled: boolean;
      clearFormValues: () => void;
      triggerNotification: triggerNotification;
+     currencies: CurrenciesObj;
 };
 
 function SubscriptionForm(props: SubscriptionFormProps) {
@@ -82,17 +83,37 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                          <div className="error-message"></div>
                     </div>
 
-                    <div className="sub-form-section">
-                         <label htmlFor="chargeAmount">Subscription cost per month</label>
-                         <input
-                              type="number"
-                              step={0.01}
-                              name="chargeAmount"
-                              className="sub-form-input"
-                              onChange={props.handleSubscriptionFormChange}
-                              required
-                         ></input>
-                         <div className="error-message"></div>
+                    <div className="sub-form-section two-part">
+                         <div className="select-form-left">
+                              <label htmlFor="chargeAmount">Monthly cost</label>
+                              <input
+                                   type="number"
+                                   step={0.01}
+                                   name="chargeAmount"
+                                   className="sub-form-input"
+                                   onChange={props.handleSubscriptionFormChange}
+                                   required
+                              ></input>
+                              <div className="error-message"></div>
+                         </div>
+
+                         <div className="select-form-right">
+                              <label htmlFor="currency">Currency</label>
+                              <select
+                                   name="currency"
+                                   className="sub-form-select"
+                                   onChange={props.handleSubscriptionFormSelectChange}
+                                   defaultValue={'USD'}
+                              >
+                                   {(Object.keys(props.currencies) as Array<keyof typeof props.currencies>).map(
+                                        (currency) => (
+                                             <option value={currency} key={currency}>
+                                                  {currency} - {props.currencies[currency].name}
+                                             </option>
+                                        ),
+                                   )}
+                              </select>
+                         </div>
                     </div>
 
                     <div className="sub-form-section">

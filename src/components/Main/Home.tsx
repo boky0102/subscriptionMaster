@@ -9,6 +9,7 @@ import Mysubscriptions from '../MySubscriptions/Mysubscriptions';
 import './Home.css';
 import HomeContent from '../HomeContent/HomeContent';
 import MainNotification from '../MainNotification/MainNotification';
+import currencies from '../../utility/Common-Currency.json';
 
 interface Subscription {
      id: string;
@@ -18,6 +19,7 @@ interface Subscription {
      dateAdded: Date;
      freeTrial: boolean;
      category: subscriptionCategories;
+     currency: string;
      subscriptionStopped?: Date;
 }
 
@@ -50,6 +52,7 @@ interface SubscriptionFormValue {
      emailNotification: boolean | undefined;
      freeTrial: boolean | undefined;
      category: subscriptionCategories | undefined;
+     currency: string;
 }
 
 export interface Notification {
@@ -155,6 +158,7 @@ function Home() {
                emailNotification: false,
                category: undefined,
                freeTrial: false,
+               currency: 'USD',
           });
      }, []);
 
@@ -209,7 +213,13 @@ function Home() {
                     ...prevData,
                     [name]: value,
                }));
+          } else if (name === 'currency') {
+               setSubscriptionFormData((prevData) => ({
+                    ...prevData,
+                    [name]: value,
+               }));
           }
+          console.log(subscriptionData);
      }
 
      function handleEmailSliderChange() {
@@ -276,6 +286,7 @@ function Home() {
                emailNotification: undefined,
                category: undefined,
                freeTrial: undefined,
+               currency: 'USD',
           });
      }
 
@@ -299,6 +310,7 @@ function Home() {
                                         handleSubscriptionFormSelectChange={handleSubscriptionFormSelectChange}
                                         handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}
                                         triggerNotification={triggerNotification}
+                                        currencies={currencies}
                                    ></SubscriptionForm>
                               }
                          ></Route>
