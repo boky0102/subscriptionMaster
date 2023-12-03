@@ -5,18 +5,22 @@ type AddIconProps = {
 export default function AddIcon(props: AddIconProps) {
      return (
           <svg
-               width="800px"
-               height="800px"
-               viewBox="0 0 24 24"
+               width="666.66669"
+               height="666.66669"
+               viewBox="0 0 20.000001 20.000001"
                fill="none"
-               xmlns="http://www.w3.org/2000/svg"
+               version="1.1"
+               id="svg1"
                className={props.className}
+               xmlns="http://www.w3.org/2000/svg"
           >
+               <defs id="defs1" />
                <path
                     fill-rule="evenodd"
                     clip-rule="evenodd"
-                    d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-5.5-9a1 1 0 1 1 0-2H11V6.5a1 1 0 1 1 2 0V11h4.5a1 1 0 1 1 0 2H13v4.5a1 1 0 1 1-2 0V13H6.5z"
+                    d="M 10,20 C 15.523,20 20,15.523 20,10 20,4.477 15.523,0 10,0 4.477,0 0,4.477 0,10 0,15.523 4.477,20 10,20 Z M 4.5,11 a 1,1 0 1 1 0,-2 H 9 V 4.5 a 1,1 0 1 1 2,0 V 9 h 4.5 a 1,1 0 1 1 0,2 H 11 v 4.5 a 1,1 0 1 1 -2,0 V 11 Z"
                     fill="currentColor"
+                    id="path1"
                />
           </svg>
      );

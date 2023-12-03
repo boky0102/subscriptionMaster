@@ -197,8 +197,8 @@ export default function HomeContent(props: HomeContentProps) {
                                         name="chartType"
                                         className="data-select-item"
                                    >
-                                        <option value="all-time">ALL TIME GRAPH</option>
                                         <option value="year">YEAR CHART</option>
+                                        <option value="all-time">ALL TIME GRAPH</option>
                                    </select>
                               </div>
                          </div>

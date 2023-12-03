@@ -8,8 +8,8 @@ export default function HistoryIcon(props: HistoryIconProps) {
                xmlns="http://www.w3.org/2000/svg"
                id="Bold"
                viewBox="0 0 24 24"
-               width="512"
-               height="512"
+               width="800"
+               height="800"
                className={props.className}
           >
                <path

@@ -2,6 +2,7 @@ import DashboardButton from './DashboardButton';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Dashboard.css';
 import logo from '../../assets/logo.svg';
+import UserIcon from '../CurrentUser/CurrentUser';
 
 function Dashboard() {
      return (
@@ -15,6 +16,7 @@ function Dashboard() {
                     <DashboardButton label="Add subscription" route="addsubscription"></DashboardButton>
                </div>
                <div className="logout-container">
+                    <UserIcon username="boky0102"></UserIcon>
                     <LogOutButton></LogOutButton>
                </div>
           </div>

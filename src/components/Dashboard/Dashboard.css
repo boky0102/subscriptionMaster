@@ -23,9 +23,26 @@
      flex-grow: 1;
      width: 70%;
      display: flex;
-     align-items: flex-end;
-
+     flex-direction: column;
+     align-items: flex-start;
+     justify-content: flex-end;
      margin-bottom: 4vh;
+}
+
+.bottom-navigation {
+     display: flex;
+}
+
+.account-info-container {
+     display: flex;
+}
+
+.account-info-container span {
+     margin-left: 10px;
+     font-family: poppins;
+     font-weight: bold;
+     color: var(--main-dark);
+     font-size: 18px;
 }
 
 /* Extra small devices (phones, 600px and down) */

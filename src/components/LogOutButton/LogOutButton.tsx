@@ -27,7 +27,7 @@ function LogOutButton() {
      return (
           <div onClick={handleLogOutButton} className="logout-element">
                <div>
-                    <LogOutIcon className="settings-icon"></LogOutIcon>
+                    <LogOutIcon className="settings-icon logout-icon"></LogOutIcon>
                </div>
                <div className="log-out-text">Log out</div>
           </div>

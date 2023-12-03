@@ -54,14 +54,16 @@
      padding: 8px;
      font-family: poppins;
      border-radius: 5px;
-     border: 1px solid var(--main-action);
-     color: var(--main-dark);
+     border: 1px solid var(--error-text);
+     color: var(--error-text);
      transition: all 0.11s ease-in;
      font-weight: 400;
 }
 
 .subscription-card-button:hover {
-     background-color: var(--main-action);
+     background-color: var(--error);
+     color: var(--main-dark);
+
      cursor: pointer;
 }
 

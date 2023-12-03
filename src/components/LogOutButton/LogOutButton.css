@@ -4,8 +4,13 @@
      font-weight: bold;
      margin-top: 3vh;
      display: flex;
+     align-items: center;
      justify-content: center;
-     justify-items: center;
+}
+.logout-icon {
+     display: flex;
+     align-items: center;
+     justify-content: center;
 }
 
 .log-out-text {
