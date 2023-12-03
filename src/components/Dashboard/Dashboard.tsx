@@ -4,7 +4,11 @@ import './Dashboard.css';
 import logo from '../../assets/logo.svg';
 import UserIcon from '../CurrentUser/CurrentUser';
 
-function Dashboard() {
+type DashboardProps = {
+     username: string;
+};
+
+function Dashboard(props: DashboardProps) {
      return (
           <div className="dashboard-container">
                <img className="dashboard-logo" src={logo} />
@@ -16,7 +20,7 @@ function Dashboard() {
                     <DashboardButton label="Add subscription" route="addsubscription"></DashboardButton>
                </div>
                <div className="logout-container">
-                    <UserIcon username="boky0102"></UserIcon>
+                    <UserIcon username={props.username}></UserIcon>
                     <LogOutButton></LogOutButton>
                </div>
           </div>

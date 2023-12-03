@@ -281,7 +281,7 @@ function Home() {
 
      return (
           <div className="main-grid-container">
-               <Dashboard></Dashboard>
+               <Dashboard username={userData.username}></Dashboard>
                <div className="outlet-container">
                     <Routes>
                          <Route path="/settings" element={<MySettings email={userData.email}></MySettings>}></Route>
