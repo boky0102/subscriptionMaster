@@ -1,10 +1,11 @@
 .select-nav-container {
-     width: 55%;
+     width: 100%;
      border-radius: 15px;
      background-color: var(--main-light);
      display: flex;
+     justify-content: center;
+     align-items: center;
      position: relative;
-     margin-bottom: 4vh;
 }
 
 .select-nav-item {

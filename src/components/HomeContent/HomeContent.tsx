@@ -12,7 +12,7 @@ import SubscriptionTypeSelect from '../SubscriptionTypeSelect.tsx/SubscriptionTy
 import PieCategoryChart from '../charts/PieCategoryChart';
 import { CategoryColor } from '../CategoryColor.tsx/CategoryColor';
 import { getChartCategoryDataYear, getChartDataAllYears, getChartDataYear } from '../../utility/subscription.utility';
-import currencies from '../../utility/Common-Currency.json';
+import CurrencySelect from '../CurrencySelect/CurrencySelect';
 
 interface Subscription {
      id: string;
@@ -31,6 +31,7 @@ type HomeContentProps = {
      userData: UserData;
      notificationTrigger: (message: Notification['message'], type: Notification['notificationType']) => void;
      handleDeleteClick: (subscriptionId: string) => void;
+     handleCurrencyChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 type ChartData = {
@@ -70,17 +71,6 @@ export default function HomeContent(props: HomeContentProps) {
      const [chartType, setChartType] = useState('year');
      const [filterState, setFilterState] = useState('all' as FilterStates);
      const [filteredSubscriptionData, setFilteredSubscriptionData] = useState(props.subscriptionData as Subscription[]);
-
-     console.log(currencies);
-
-     useEffect(() => {
-          let currency: keyof typeof currencies;
-
-          for (currency in currencies) {
-               const currentCurrency = currencies[currency];
-               console.log(currentCurrency.name);
-          }
-     }, []);
 
      function handleRightArrowClick() {
           setSelectedYear((year) => year + 1);
@@ -123,7 +113,6 @@ export default function HomeContent(props: HomeContentProps) {
           if (filterState === 'free-trial') {
                setFilteredSubscriptionData(() => {
                     const returnArray = props.subscriptionData.filter((subscription) => {
-                         console.log(subscription.freeTrial);
                          if (subscription.freeTrial === true && !subscription.subscriptionStopped) {
                               return subscription;
                          }
@@ -149,18 +138,26 @@ export default function HomeContent(props: HomeContentProps) {
                     return returnArray;
                });
           }
-          console.log(props.subscriptionData);
      }, [filterState, props.subscriptionData]);
 
      return (
           <>
                <div className="subscriptions-container">
-                    <SubscriptionTypeSelect
-                         handleAllChange={handleAllFilter}
-                         handleFreeTrialChange={handleFreeTrialFilter}
-                         handleSubscriptionsChange={handleSubscriptionFilter}
-                         filterState={filterState}
-                    ></SubscriptionTypeSelect>
+                    <div className="top-tooltip-container">
+                         <div className="subscriptions-type-select">
+                              <SubscriptionTypeSelect
+                                   handleAllChange={handleAllFilter}
+                                   handleFreeTrialChange={handleFreeTrialFilter}
+                                   handleSubscriptionsChange={handleSubscriptionFilter}
+                                   filterState={filterState}
+                              ></SubscriptionTypeSelect>
+                         </div>
+
+                         <div>
+                              <CurrencySelect handleCurrencySelectChange={props.handleCurrencyChange}></CurrencySelect>
+                         </div>
+                    </div>
+
                     <div className="subscriptions-cards-container">
                          {filteredSubscriptionData.map((subscription) => (
                               <SubscriptionCard

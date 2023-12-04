@@ -157,7 +157,6 @@ export function getChartCategoryDataYear(subscriptionData: Subscription[], year:
                                                   if (subscription.subscriptionStopped.getFullYear() === currentYear) {
                                                        if (currentDay >= subscription.subscriptionStopped.getDate()) {
                                                             totalMonthCost += subscription.chargeAmount;
-                                                            console.log('TU SMO');
                                                        }
                                                   } else {
                                                        totalMonthCost += subscription.chargeAmount;

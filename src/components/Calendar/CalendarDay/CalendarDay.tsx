@@ -101,7 +101,6 @@ export default function CalendarDay(props: CalendarDayProps) {
      }
 
      function handleModalClose(event: React.MouseEvent<HTMLDivElement>) {
-          console.log('CLICKED');
           event.stopPropagation();
           setModalOpen(false);
      }

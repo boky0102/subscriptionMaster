@@ -71,6 +71,7 @@ function Home() {
      const [formFilled, setFormFilled] = useState(false);
      const [userData, setUserData] = useState({} as UserData);
      const [notification, setNotification] = useState({} as Notification);
+     const [currency, setCurrency] = useState('USD');
 
      function triggerNotification(
           message: Notification['message'],
@@ -170,12 +171,10 @@ function Home() {
                subscriptionFormData.subscriptionName &&
                subscriptionFormData.category
           ) {
-               console.log('filled');
                setFormFilled(true);
           } else {
                setFormFilled(false);
           }
-          console.log(subscriptionFormData);
      }, [subscriptionFormData]);
 
      function handleSubscriptionFormChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -261,7 +260,6 @@ function Home() {
           })
                .then((response) => {
                     if (response.status === 200) {
-                         console.log('POSTED');
                          newDataPosted((number) => number + 1);
                          triggerNotification('Subscription added successfully', 'success');
                     }
@@ -275,6 +273,11 @@ function Home() {
                          navigate('/home');
                     }, 2000);
                });
+     }
+
+     function handleCurrencyChange(event: React.ChangeEvent<HTMLSelectElement>) {
+          const { value } = event.target;
+          setCurrency(value);
      }
 
      function clearFormValues(): void {
@@ -336,6 +339,7 @@ function Home() {
                                         notificationTrigger={triggerNotification}
                                         userData={userData}
                                         subscriptionData={subscriptionData}
+                                        handleCurrencyChange={handleCurrencyChange}
                                    ></HomeContent>
                               }
                          ></Route>
