@@ -118,6 +118,44 @@ function Home() {
      }
 
      useEffect(() => {
+          axios.get(serverPath + '/currencies', {
+               withCredentials: true,
+          })
+               .then((response) => {
+                    const currencyRates = response.data;
+                    console.log(currencyRates);
+                    setSubscriptionData((prevData) => {
+                         const adjustedSubscriptionArray = prevData.map((subscription) => {
+                              if (subscription.currency !== currency) {
+                                   if (currency === 'USD') {
+                                        subscription.chargeAmount = subscription.chargeAmount / currencyRates[currency];
+                                        subscription.currency = 'USD';
+                                   } else {
+                                        if (subscription.currency === 'USD') {
+                                             subscription.chargeAmount =
+                                                  subscription.chargeAmount * currencyRates[currency];
+                                             subscription.currency = currency;
+                                        } else {
+                                             const chargeAmountUSD =
+                                                  subscription.chargeAmount / currencyRates[subscription.currency];
+                                             const convertedAmountCurrency = chargeAmountUSD * currencyRates[currency];
+                                             subscription.chargeAmount = convertedAmountCurrency;
+                                             subscription.currency = currency;
+                                        }
+                                   }
+                              }
+                              console.log(subscription.chargeAmount, ' ', subscription.currency);
+                              return subscription;
+                         });
+                         return adjustedSubscriptionArray;
+                    });
+               })
+               .catch((error) => {
+                    console.log(error);
+               });
+     }, [currency]);
+
+     useEffect(() => {
           axios.get(serverPath + '/subscriptions', {
                withCredentials: true,
           })

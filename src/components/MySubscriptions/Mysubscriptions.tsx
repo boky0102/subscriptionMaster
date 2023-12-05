@@ -23,6 +23,7 @@ export interface Subscription {
      category?: subscriptionCategories;
      id: string;
      subscriptionStopped?: Date;
+     currency: string;
 }
 
 type MySubscriptionProps = {
