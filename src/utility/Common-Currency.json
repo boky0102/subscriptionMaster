@@ -1,31 +1,4 @@
 {
-     "USD": {
-          "symbol": "$",
-          "name": "US Dollar",
-          "symbol_native": "$",
-          "decimal_digits": 2,
-          "rounding": 0,
-          "code": "USD",
-          "name_plural": "US dollars"
-     },
-     "CAD": {
-          "symbol": "CA$",
-          "name": "Canadian Dollar",
-          "symbol_native": "$",
-          "decimal_digits": 2,
-          "rounding": 0,
-          "code": "CAD",
-          "name_plural": "Canadian dollars"
-     },
-     "EUR": {
-          "symbol": "€",
-          "name": "Euro",
-          "symbol_native": "€",
-          "decimal_digits": 2,
-          "rounding": 0,
-          "code": "EUR",
-          "name_plural": "euros"
-     },
      "AED": {
           "symbol": "AED",
           "name": "United Arab Emirates Dirham",
@@ -186,6 +159,15 @@
           "code": "BZD",
           "name_plural": "Belize dollars"
      },
+     "CAD": {
+          "symbol": "CA$",
+          "name": "Canadian Dollar",
+          "symbol_native": "$",
+          "decimal_digits": 2,
+          "rounding": 0,
+          "code": "CAD",
+          "name_plural": "Canadian dollars"
+     },
      "CDF": {
           "symbol": "CDF",
           "name": "Congolese Franc",
@@ -293,15 +275,6 @@
           "code": "DZD",
           "name_plural": "Algerian dinars"
      },
-     "EEK": {
-          "symbol": "Ekr",
-          "name": "Estonian Kroon",
-          "symbol_native": "kr",
-          "decimal_digits": 2,
-          "rounding": 0,
-          "code": "EEK",
-          "name_plural": "Estonian kroons"
-     },
      "EGP": {
           "symbol": "EGP",
           "name": "Egyptian Pound",
@@ -327,6 +300,15 @@
           "rounding": 0,
           "code": "ETB",
           "name_plural": "Ethiopian birrs"
+     },
+     "EUR": {
+          "symbol": "€",
+          "name": "Euro",
+          "symbol_native": "€",
+          "decimal_digits": 2,
+          "rounding": 0,
+          "code": "EUR",
+          "name_plural": "euros"
      },
      "GBP": {
           "symbol": "£",
@@ -964,6 +946,15 @@
           "rounding": 0,
           "code": "UGX",
           "name_plural": "Ugandan shillings"
+     },
+     "USD": {
+          "symbol": "$",
+          "name": "US Dollar",
+          "symbol_native": "$",
+          "decimal_digits": 2,
+          "rounding": 0,
+          "code": "USD",
+          "name_plural": "US dollars"
      },
      "UYU": {
           "symbol": "$U",
