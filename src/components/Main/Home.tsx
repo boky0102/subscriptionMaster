@@ -128,18 +128,20 @@ function Home() {
                          const adjustedSubscriptionArray = prevData.map((subscription) => {
                               if (subscription.currency !== currency) {
                                    if (currency === 'USD') {
-                                        subscription.chargeAmount = subscription.chargeAmount / currencyRates[currency];
+                                        const chargeAmount = subscription.chargeAmount / currencyRates[currency];
+                                        subscription.chargeAmount = Math.round(chargeAmount * 100) / 100;
                                         subscription.currency = 'USD';
                                    } else {
                                         if (subscription.currency === 'USD') {
-                                             subscription.chargeAmount =
-                                                  subscription.chargeAmount * currencyRates[currency];
+                                             const chargeAmount = subscription.chargeAmount * currencyRates[currency];
+                                             subscription.chargeAmount = Math.round(chargeAmount * 100) / 100;
                                              subscription.currency = currency;
                                         } else {
                                              const chargeAmountUSD =
                                                   subscription.chargeAmount / currencyRates[subscription.currency];
                                              const convertedAmountCurrency = chargeAmountUSD * currencyRates[currency];
-                                             subscription.chargeAmount = convertedAmountCurrency;
+                                             subscription.chargeAmount =
+                                                  Math.round(convertedAmountCurrency * 100) / 100;
                                              subscription.currency = currency;
                                         }
                                    }

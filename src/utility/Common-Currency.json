@@ -1,4 +1,49 @@
 {
+     "USD": {
+          "symbol": "$",
+          "name": "US Dollar",
+          "symbol_native": "$",
+          "decimal_digits": 2,
+          "rounding": 0,
+          "code": "USD",
+          "name_plural": "US dollars"
+     },
+     "EUR": {
+          "symbol": "€",
+          "name": "Euro",
+          "symbol_native": "€",
+          "decimal_digits": 2,
+          "rounding": 0,
+          "code": "EUR",
+          "name_plural": "euros"
+     },
+     "GBP": {
+          "symbol": "£",
+          "name": "British Pound Sterling",
+          "symbol_native": "£",
+          "decimal_digits": 2,
+          "rounding": 0,
+          "code": "GBP",
+          "name_plural": "British pounds sterling"
+     },
+     "CHF": {
+          "symbol": "CHF",
+          "name": "Swiss Franc",
+          "symbol_native": "CHF",
+          "decimal_digits": 2,
+          "rounding": 0.05,
+          "code": "CHF",
+          "name_plural": "Swiss francs"
+     },
+     "JPY": {
+          "symbol": "¥",
+          "name": "Japanese Yen",
+          "symbol_native": "￥",
+          "decimal_digits": 0,
+          "rounding": 0,
+          "code": "JPY",
+          "name_plural": "Japanese yen"
+     },
      "AED": {
           "symbol": "AED",
           "name": "United Arab Emirates Dirham",
@@ -177,15 +222,6 @@
           "code": "CDF",
           "name_plural": "Congolese francs"
      },
-     "CHF": {
-          "symbol": "CHF",
-          "name": "Swiss Franc",
-          "symbol_native": "CHF",
-          "decimal_digits": 2,
-          "rounding": 0.05,
-          "code": "CHF",
-          "name_plural": "Swiss francs"
-     },
      "CLP": {
           "symbol": "CL$",
           "name": "Chilean Peso",
@@ -300,24 +336,6 @@
           "rounding": 0,
           "code": "ETB",
           "name_plural": "Ethiopian birrs"
-     },
-     "EUR": {
-          "symbol": "€",
-          "name": "Euro",
-          "symbol_native": "€",
-          "decimal_digits": 2,
-          "rounding": 0,
-          "code": "EUR",
-          "name_plural": "euros"
-     },
-     "GBP": {
-          "symbol": "£",
-          "name": "British Pound Sterling",
-          "symbol_native": "£",
-          "decimal_digits": 2,
-          "rounding": 0,
-          "code": "GBP",
-          "name_plural": "British pounds sterling"
      },
      "GEL": {
           "symbol": "GEL",
@@ -460,15 +478,6 @@
           "rounding": 0,
           "code": "JOD",
           "name_plural": "Jordanian dinars"
-     },
-     "JPY": {
-          "symbol": "¥",
-          "name": "Japanese Yen",
-          "symbol_native": "￥",
-          "decimal_digits": 0,
-          "rounding": 0,
-          "code": "JPY",
-          "name_plural": "Japanese yen"
      },
      "KES": {
           "symbol": "Ksh",
@@ -947,15 +956,7 @@
           "code": "UGX",
           "name_plural": "Ugandan shillings"
      },
-     "USD": {
-          "symbol": "$",
-          "name": "US Dollar",
-          "symbol_native": "$",
-          "decimal_digits": 2,
-          "rounding": 0,
-          "code": "USD",
-          "name_plural": "US dollars"
-     },
+
      "UYU": {
           "symbol": "$U",
           "name": "Uruguayan Peso",
