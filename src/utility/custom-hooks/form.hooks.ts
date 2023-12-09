@@ -1,4 +1,6 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { triggerNotification } from '../../types';
 
 type subscriptionCategories =
      | 'Streaming service'
@@ -23,9 +25,22 @@ interface SubscriptionFormValue {
 
 export function useSubscriptionForm() {
      const [subscriptionFormData, setSubscriptionFormData] = useState({} as SubscriptionFormValue);
+     const [formValid, setFormValid] = useState(false);
+
      useEffect(() => {
-          console.log(subscriptionFormData);
-     }, [subscriptionFormData]);
+          if (
+               subscriptionFormData.chargeAmount &&
+               subscriptionFormData.dateAdded &&
+               subscriptionFormData.renewalDate &&
+               subscriptionFormData.subscriptionName &&
+               subscriptionFormData.category &&
+               subscriptionFormData.currency
+          ) {
+               setFormValid(true);
+          } else {
+               setFormValid(false);
+          }
+     }, [subscriptionFormData, setFormValid]);
 
      function formChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
           const { name, value } = event.target;
@@ -104,6 +119,7 @@ export function useSubscriptionForm() {
 
      return [
           subscriptionFormData,
+          formValid,
           {
                formChangeHandler,
                selectChangeFunctionHandler,
@@ -111,4 +127,35 @@ export function useSubscriptionForm() {
                freeTrialSliderHandler,
           },
      ] as const;
+}
+
+export function usePostSubscriptionData(
+     subscriptionData: SubscriptionFormValue,
+     formValidation: boolean,
+     triggerNotification: triggerNotification,
+) {
+     const [posted, dataPosted] = useState(0);
+     function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
+          if (formValidation) {
+               const serverLink = import.meta.env.VITE_SERVER_LINK + '/newsubscription';
+               event.preventDefault();
+               axios.post(serverLink, subscriptionData, {
+                    withCredentials: true,
+               })
+                    .then((response) => {
+                         if (response.status === 200) {
+                              dataPosted((counter) => counter + 1);
+                              triggerNotification('Subscription data uploaded succesfully', 'success');
+                         }
+                    })
+                    .catch((error) => {
+                         console.log(error);
+                         triggerNotification(error.message, 'error');
+                    });
+          } else {
+               triggerNotification("Form isn't complete", 'warning');
+          }
+     }
+
+     return [posted, handleFormSubmit] as const;
 }

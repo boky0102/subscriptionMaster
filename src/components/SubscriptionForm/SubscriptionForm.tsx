@@ -12,7 +12,6 @@ type SubscriptionFormProps = {
      handleFreeTrialChange: () => void;
      freeTrial: boolean | undefined;
      formFilled: boolean;
-     clearFormValues: () => void;
      triggerNotification: triggerNotification;
      currencies: CurrenciesObj;
 };
@@ -23,7 +22,6 @@ function SubscriptionForm(props: SubscriptionFormProps) {
 
      useEffect(() => {
           const currentDate = new Date();
-          props.clearFormValues();
           if (formStartInputElement.current) {
                formStartInputElement.current.focus();
           }

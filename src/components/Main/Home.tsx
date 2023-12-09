@@ -13,7 +13,7 @@ import currencies from '../../utility/Common-Currency.json';
 import { CurrenciesObj } from '../../types';
 import { isCurrencyCode } from '../../utility/types.utility';
 import { useNotification } from '../../utility/custom-hooks/notification.hooks';
-import { useSubscriptionForm } from '../../utility/custom-hooks/form.hooks';
+import { usePostSubscriptionData, useSubscriptionForm } from '../../utility/custom-hooks/form.hooks';
 
 interface Subscription {
      id: string;
@@ -52,16 +52,29 @@ type UserColorData = {
 function Home() {
      const serverPath = import.meta.env.VITE_SERVER_LINK;
      const navigate = useNavigate();
-
-     const [subscriptionData, setSubscriptionData] = useState<Subscription[]>([]);
      const [
           subscriptionFormData,
+          formDataisValid,
           { formChangeHandler, freeTrialSliderHandler, emailSliderHandler, selectChangeFunctionHandler },
      ] = useSubscriptionForm();
-     const [dataPosted, newDataPosted] = useState(0);
+     const [notification, triggerNotification] = useNotification();
+     const [dataPosted, subscriptionFormSubmitHandler] = usePostSubscriptionData(
+          subscriptionFormData,
+          formDataisValid,
+          triggerNotification,
+     );
+
+     useEffect(() => {
+          if (dataPosted !== 0) {
+               setTimeout(() => {
+                    navigate('/');
+               }, 4000);
+          }
+     }, [dataPosted]);
+
+     const [subscriptionData, setSubscriptionData] = useState<Subscription[]>([]);
      const [formFilled, setFormFilled] = useState(false);
      const [userData, setUserData] = useState({} as UserData);
-     const [notification, triggerNotification] = useNotification();
      const [currency, setCurrency] = useState(userData.preferredCurrency);
 
      function handleDeleteClick(subscriptionId: string) {
@@ -123,19 +136,6 @@ function Home() {
                     navigate('/login');
                });
      }, [dataPosted]);
-
-     /* useEffect(() => {
-          setSubscriptionFormData({
-               subscriptionName: undefined,
-               renewalDate: undefined,
-               dateAdded: undefined,
-               chargeAmount: undefined,
-               emailNotification: false,
-               category: undefined,
-               freeTrial: false,
-               currency: 'USD',
-          });
-     }, []); */
 
      useEffect(() => {
           if (
@@ -208,82 +208,7 @@ function Home() {
                });
      }, [currency, serverPath]);
 
-     /* function handleSubscriptionFormChange(event: React.ChangeEvent<HTMLInputElement>) {
-          const { name, value } = event.currentTarget;
-          if (name === 'subscriptionName') {
-               setSubscriptionFormData((prevData) => ({
-                    ...prevData,
-                    [name]: value,
-               }));
-          } else if (name === 'chargeAmount') {
-               setSubscriptionFormData((prevData) => ({
-                    ...prevData,
-                    [name]: parseFloat(value),
-               }));
-          } else if (name === 'dateAdded') {
-               const valueToDate = new Date(value);
-               setSubscriptionFormData((prevData) => ({
-                    ...prevData,
-                    [name]: valueToDate,
-               }));
-          } else if (name === 'renewalDate') {
-               const valueToDate = new Date(value);
-               setSubscriptionFormData((prevData) => ({
-                    ...prevData,
-                    [name]: valueToDate,
-               }));
-          }
-     } */
-
-     /* function handleSubscriptionFormSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
-          const name = event.currentTarget.name;
-          const value = event.currentTarget.value as subscriptionCategories;
-          if (name === 'category') {
-               setSubscriptionFormData((prevData) => ({
-                    ...prevData,
-                    [name]: value,
-               }));
-          } else if (name === 'currency') {
-               setSubscriptionFormData((prevData) => ({
-                    ...prevData,
-                    [name]: value,
-               }));
-          }
-          console.log(subscriptionData);
-     } */
-
-     /* function handleEmailSliderChange() {
-          let emailNotificationFlag: boolean;
-          if (
-               subscriptionFormData.emailNotification === undefined ||
-               subscriptionFormData.emailNotification === false
-          ) {
-               emailNotificationFlag = true;
-          } else {
-               emailNotificationFlag = false;
-          }
-
-          setSubscriptionFormData((prevData) => ({
-               ...prevData,
-               emailNotification: emailNotificationFlag,
-          }));
-     } */
-
-     /* function handleFreeTrialChange() {
-          if (subscriptionFormData.freeTrial === undefined || subscriptionFormData.freeTrial === false) {
-               setSubscriptionFormData((prevData) => ({
-                    ...prevData,
-                    freeTrial: true,
-               }));
-          } else {
-               setSubscriptionFormData((prevData) => ({
-                    ...prevData,
-                    freeTrial: false,
-               }));
-          }
-     } */
-
-     function handleSubscriptionFormSubmit(event: React.ChangeEvent<HTMLFormElement>) {
+     /* function handleSubscriptionFormSubmit(event: React.ChangeEvent<HTMLFormElement>) {
           event.preventDefault();
           const postLink = import.meta.env.VITE_SERVER_LINK + '/newsubscription';
           axios.post(postLink, subscriptionFormData, {
@@ -304,17 +229,13 @@ function Home() {
                          navigate('/home');
                     }, 2000);
                });
-     }
+     } */
 
      function handleCurrencyChange(event: React.ChangeEvent<HTMLSelectElement>) {
           const { value } = event.target;
           if (isCurrencyCode(value)) {
                setCurrency(value);
           }
-     }
-
-     function clearFormValues(): void {
-          console.log('ciscenje');
      }
 
      return (
@@ -331,11 +252,10 @@ function Home() {
                                         handleEmailSliderChange={emailSliderHandler}
                                         handleFreeTrialChange={freeTrialSliderHandler}
                                         freeTrial={subscriptionFormData.freeTrial}
-                                        clearFormValues={clearFormValues}
                                         formFilled={formFilled}
                                         handleSubscriptionFormChange={formChangeHandler}
                                         handleSubscriptionFormSelectChange={selectChangeFunctionHandler}
-                                        handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}
+                                        handleSubscriptionFormSubmit={subscriptionFormSubmitHandler}
                                         triggerNotification={triggerNotification}
                                         currencies={currencies}
                                    ></SubscriptionForm>

@@ -7,7 +7,6 @@ type CurrencySelectProps = {
 };
 
 export default function CurrencySelect(props: CurrencySelectProps) {
-     console.log(props.currentCurrency, 'SELECT CURRENCY');
      return (
           <select
                className="sub-form-select currency-select"
