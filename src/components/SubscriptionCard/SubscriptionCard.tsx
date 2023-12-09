@@ -105,7 +105,7 @@ export default function SubscriptionCard(props: SubscriptionCardProps) {
                          )}
                     </div>
 
-                    <div className="subscription-amount">{props.subscription.chargeAmount}</div>
+                    <div className="subscription-amount">{props.subscription.chargeAmount.toString()}</div>
                </div>
                <div className="division-line"></div>
                <div className="subscription-card-element">

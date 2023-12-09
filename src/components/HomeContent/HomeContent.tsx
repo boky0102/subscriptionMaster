@@ -13,6 +13,7 @@ import PieCategoryChart from '../charts/PieCategoryChart';
 import { CategoryColor } from '../CategoryColor.tsx/CategoryColor';
 import { getChartCategoryDataYear, getChartDataAllYears, getChartDataYear } from '../../utility/subscription.utility';
 import CurrencySelect from '../CurrencySelect/CurrencySelect';
+import { CurrenciesObj } from '../../types';
 
 interface Subscription {
      id: string;
@@ -32,6 +33,7 @@ type HomeContentProps = {
      notificationTrigger: (message: Notification['message'], type: Notification['notificationType']) => void;
      handleDeleteClick: (subscriptionId: string) => void;
      handleCurrencyChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+     currentCurrency: keyof CurrenciesObj;
 };
 
 type ChartData = {
@@ -154,7 +156,10 @@ export default function HomeContent(props: HomeContentProps) {
                          </div>
 
                          <div>
-                              <CurrencySelect handleCurrencySelectChange={props.handleCurrencyChange}></CurrencySelect>
+                              <CurrencySelect
+                                   handleCurrencySelectChange={props.handleCurrencyChange}
+                                   currentCurrency={props.currentCurrency}
+                              ></CurrencySelect>
                          </div>
                     </div>
 

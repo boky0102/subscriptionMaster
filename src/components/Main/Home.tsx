@@ -10,6 +10,8 @@ import './Home.css';
 import HomeContent from '../HomeContent/HomeContent';
 import MainNotification from '../MainNotification/MainNotification';
 import currencies from '../../utility/Common-Currency.json';
+import { CurrenciesObj } from '../../types';
+import { isCurrencyCode } from '../../utility/types.utility';
 
 interface Subscription {
      id: string;
@@ -27,6 +29,7 @@ export interface UserData {
      username: string;
      email?: string;
      userColorData?: UserColorData[];
+     preferredCurrency: keyof CurrenciesObj;
 }
 
 type subscriptionCategories =
@@ -71,7 +74,7 @@ function Home() {
      const [formFilled, setFormFilled] = useState(false);
      const [userData, setUserData] = useState({} as UserData);
      const [notification, setNotification] = useState({} as Notification);
-     const [currency, setCurrency] = useState('USD');
+     const [currency, setCurrency] = useState(userData.preferredCurrency);
 
      function triggerNotification(
           message: Notification['message'],
@@ -118,46 +121,6 @@ function Home() {
      }
 
      useEffect(() => {
-          axios.get(serverPath + '/currencies', {
-               withCredentials: true,
-          })
-               .then((response) => {
-                    const currencyRates = response.data;
-                    console.log(currencyRates);
-                    setSubscriptionData((prevData) => {
-                         const adjustedSubscriptionArray = prevData.map((subscription) => {
-                              if (subscription.currency !== currency) {
-                                   if (currency === 'USD') {
-                                        const chargeAmount = subscription.chargeAmount / currencyRates[currency];
-                                        subscription.chargeAmount = Math.round(chargeAmount * 100) / 100;
-                                        subscription.currency = 'USD';
-                                   } else {
-                                        if (subscription.currency === 'USD') {
-                                             const chargeAmount = subscription.chargeAmount * currencyRates[currency];
-                                             subscription.chargeAmount = Math.round(chargeAmount * 100) / 100;
-                                             subscription.currency = currency;
-                                        } else {
-                                             const chargeAmountUSD =
-                                                  subscription.chargeAmount / currencyRates[subscription.currency];
-                                             const convertedAmountCurrency = chargeAmountUSD * currencyRates[currency];
-                                             subscription.chargeAmount =
-                                                  Math.round(convertedAmountCurrency * 100) / 100;
-                                             subscription.currency = currency;
-                                        }
-                                   }
-                              }
-                              console.log(subscription.chargeAmount, ' ', subscription.currency);
-                              return subscription;
-                         });
-                         return adjustedSubscriptionArray;
-                    });
-               })
-               .catch((error) => {
-                    console.log(error);
-               });
-     }, [currency]);
-
-     useEffect(() => {
           axios.get(serverPath + '/subscriptions', {
                withCredentials: true,
           })
@@ -181,7 +144,11 @@ function Home() {
                               username: response.data.username,
                               email: response.data.email,
                               userColorData: response.data.userCategoryColor,
+                              preferredCurrency: response.data.preferredCurrency,
                          });
+                         if (response.data.preferredCurrency) {
+                              setCurrency(response.data.preferredCurrency);
+                         }
                     }
                })
                .catch((error) => {
@@ -216,6 +183,68 @@ function Home() {
                setFormFilled(false);
           }
      }, [subscriptionFormData]);
+
+     useEffect(() => {
+          axios.get(serverPath + '/currencies', {
+               withCredentials: true,
+          })
+               .then((response) => {
+                    const currencyRates = response.data;
+                    setSubscriptionData((prevData) => {
+                         const adjustedSubscriptionArray = prevData.map((subscription) => {
+                              if (subscription.currency !== currency) {
+                                   if (currency == 'USD') {
+                                        console.log(currency, 'KURENCIJA USD');
+                                        const chargeAmount =
+                                             subscription.chargeAmount / currencyRates[subscription.currency];
+                                        subscription.chargeAmount = Math.round(chargeAmount * 100) / 100;
+                                        subscription.currency = 'USD';
+                                   } else {
+                                        if (subscription.currency === 'USD') {
+                                             const chargeAmount = subscription.chargeAmount * currencyRates[currency];
+                                             subscription.chargeAmount = Math.round(chargeAmount * 100) / 100;
+                                             subscription.currency = currency;
+                                        } else {
+                                             const chargeAmountUSD =
+                                                  subscription.chargeAmount / currencyRates[subscription.currency];
+                                             const convertedAmountCurrency = chargeAmountUSD * currencyRates[currency];
+                                             subscription.chargeAmount =
+                                                  Math.round(convertedAmountCurrency * 100) / 100;
+                                             subscription.currency = currency;
+                                        }
+                                   }
+                              }
+                              return subscription;
+                         });
+                         return adjustedSubscriptionArray;
+                    });
+               })
+               .catch((error) => {
+                    console.log(error);
+               });
+          axios.post(
+               serverPath + '/preferredCurrency',
+               { preferredCurrency: currency },
+               {
+                    withCredentials: true,
+               },
+          )
+               .then((response) => {
+                    console.log(response);
+               })
+               .catch((error) => {
+                    console.log(error);
+               });
+          setUserData((prevData) => ({
+               ...prevData,
+               preferredCurrency: currency,
+          }));
+     }, [currency, serverPath]);
+
+     useEffect(() => {
+          console.log('CLIENT ', currency);
+          console.log('SERVER', userData.preferredCurrency);
+     }, [currency, userData]);
 
      function handleSubscriptionFormChange(event: React.ChangeEvent<HTMLInputElement>) {
           const { name, value } = event.currentTarget;
@@ -317,7 +346,10 @@ function Home() {
 
      function handleCurrencyChange(event: React.ChangeEvent<HTMLSelectElement>) {
           const { value } = event.target;
-          setCurrency(value);
+          if (isCurrencyCode(value)) {
+               setCurrency(value);
+               console.log(value);
+          }
      }
 
      function clearFormValues(): void {
@@ -380,6 +412,7 @@ function Home() {
                                         userData={userData}
                                         subscriptionData={subscriptionData}
                                         handleCurrencyChange={handleCurrencyChange}
+                                        currentCurrency={currency}
                                    ></HomeContent>
                               }
                          ></Route>
