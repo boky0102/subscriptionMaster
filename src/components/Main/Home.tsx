@@ -12,6 +12,7 @@ import MainNotification from '../MainNotification/MainNotification';
 import currencies from '../../utility/Common-Currency.json';
 import { CurrenciesObj } from '../../types';
 import { isCurrencyCode } from '../../utility/types.utility';
+import { useNotification } from '../../utility/custom-hooks/notification.hooks';
 
 interface Subscription {
      id: string;
@@ -73,29 +74,8 @@ function Home() {
      const [dataPosted, newDataPosted] = useState(0);
      const [formFilled, setFormFilled] = useState(false);
      const [userData, setUserData] = useState({} as UserData);
-     const [notification, setNotification] = useState({} as Notification);
+     const [notification, triggerNotification] = useNotification();
      const [currency, setCurrency] = useState(userData.preferredCurrency);
-
-     function triggerNotification(
-          message: Notification['message'],
-          type: Notification['notificationType'],
-          dataChanged?: boolean,
-     ) {
-          if (dataChanged) {
-               newDataPosted((number) => number + 1);
-          }
-          setNotification({
-               message: message,
-               notificationType: type,
-               active: true,
-          });
-          setTimeout(() => {
-               setNotification((prevNotification) => ({
-                    ...prevNotification,
-                    active: false,
-               }));
-          }, 3000);
-     }
 
      function handleDeleteClick(subscriptionId: string) {
           const serverLink = import.meta.env.VITE_SERVER_LINK + '/subscription/' + subscriptionId;
@@ -230,15 +210,16 @@ function Home() {
                },
           )
                .then((response) => {
-                    console.log(response);
+                    if (response.status === 200) {
+                         setUserData((prevData) => ({
+                              ...prevData,
+                              preferredCurrency: currency,
+                         }));
+                    }
                })
                .catch((error) => {
                     console.log(error);
                });
-          setUserData((prevData) => ({
-               ...prevData,
-               preferredCurrency: currency,
-          }));
      }, [currency, serverPath]);
 
      useEffect(() => {
