@@ -13,6 +13,7 @@ import currencies from '../../utility/Common-Currency.json';
 import { CurrenciesObj } from '../../types';
 import { isCurrencyCode } from '../../utility/types.utility';
 import { useNotification } from '../../utility/custom-hooks/notification.hooks';
+import { useSubscriptionForm } from '../../utility/custom-hooks/form.hooks';
 
 interface Subscription {
      id: string;
@@ -48,29 +49,15 @@ type UserColorData = {
      color: string;
 };
 
-interface SubscriptionFormValue {
-     subscriptionName: string | undefined;
-     chargeAmount: number | undefined;
-     renewalDate: Date | undefined;
-     dateAdded: Date | undefined;
-     emailNotification: boolean | undefined;
-     freeTrial: boolean | undefined;
-     category: subscriptionCategories | undefined;
-     currency: string;
-}
-
-export interface Notification {
-     message: string;
-     notificationType: 'success' | 'error' | 'warning';
-     active: boolean;
-}
-
 function Home() {
      const serverPath = import.meta.env.VITE_SERVER_LINK;
      const navigate = useNavigate();
 
      const [subscriptionData, setSubscriptionData] = useState<Subscription[]>([]);
-     const [subscriptionFormData, setSubscriptionFormData] = useState({} as SubscriptionFormValue);
+     const [
+          subscriptionFormData,
+          { formChangeHandler, freeTrialSliderHandler, emailSliderHandler, selectChangeFunctionHandler },
+     ] = useSubscriptionForm();
      const [dataPosted, newDataPosted] = useState(0);
      const [formFilled, setFormFilled] = useState(false);
      const [userData, setUserData] = useState({} as UserData);
@@ -137,7 +124,7 @@ function Home() {
                });
      }, [dataPosted]);
 
-     useEffect(() => {
+     /* useEffect(() => {
           setSubscriptionFormData({
                subscriptionName: undefined,
                renewalDate: undefined,
@@ -148,7 +135,7 @@ function Home() {
                freeTrial: false,
                currency: 'USD',
           });
-     }, []);
+     }, []); */
 
      useEffect(() => {
           if (
@@ -174,7 +161,6 @@ function Home() {
                          const adjustedSubscriptionArray = prevData.map((subscription) => {
                               if (subscription.currency !== currency) {
                                    if (currency == 'USD') {
-                                        console.log(currency, 'KURENCIJA USD');
                                         const chargeAmount =
                                              subscription.chargeAmount / currencyRates[subscription.currency];
                                         subscription.chargeAmount = Math.round(chargeAmount * 100) / 100;
@@ -222,12 +208,7 @@ function Home() {
                });
      }, [currency, serverPath]);
 
-     useEffect(() => {
-          console.log('CLIENT ', currency);
-          console.log('SERVER', userData.preferredCurrency);
-     }, [currency, userData]);
-
-     function handleSubscriptionFormChange(event: React.ChangeEvent<HTMLInputElement>) {
+     /* function handleSubscriptionFormChange(event: React.ChangeEvent<HTMLInputElement>) {
           const { name, value } = event.currentTarget;
           if (name === 'subscriptionName') {
                setSubscriptionFormData((prevData) => ({
@@ -252,9 +233,9 @@ function Home() {
                     [name]: valueToDate,
                }));
           }
-     }
+     } */
 
-     function handleSubscriptionFormSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+     /* function handleSubscriptionFormSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
           const name = event.currentTarget.name;
           const value = event.currentTarget.value as subscriptionCategories;
           if (name === 'category') {
@@ -269,9 +250,9 @@ function Home() {
                }));
           }
           console.log(subscriptionData);
-     }
+     } */
 
-     function handleEmailSliderChange() {
+     /* function handleEmailSliderChange() {
           let emailNotificationFlag: boolean;
           if (
                subscriptionFormData.emailNotification === undefined ||
@@ -286,9 +267,9 @@ function Home() {
                ...prevData,
                emailNotification: emailNotificationFlag,
           }));
-     }
+     } */
 
-     function handleFreeTrialChange() {
+     /* function handleFreeTrialChange() {
           if (subscriptionFormData.freeTrial === undefined || subscriptionFormData.freeTrial === false) {
                setSubscriptionFormData((prevData) => ({
                     ...prevData,
@@ -300,7 +281,7 @@ function Home() {
                     freeTrial: false,
                }));
           }
-     }
+     } */
 
      function handleSubscriptionFormSubmit(event: React.ChangeEvent<HTMLFormElement>) {
           event.preventDefault();
@@ -329,21 +310,11 @@ function Home() {
           const { value } = event.target;
           if (isCurrencyCode(value)) {
                setCurrency(value);
-               console.log(value);
           }
      }
 
      function clearFormValues(): void {
-          setSubscriptionFormData({
-               subscriptionName: undefined,
-               renewalDate: undefined,
-               dateAdded: undefined,
-               chargeAmount: undefined,
-               emailNotification: undefined,
-               category: undefined,
-               freeTrial: undefined,
-               currency: 'USD',
-          });
+          console.log('ciscenje');
      }
 
      return (
@@ -357,13 +328,13 @@ function Home() {
                               element={
                                    <SubscriptionForm
                                         emailSliderActive={subscriptionFormData.emailNotification}
-                                        handleEmailSliderChange={handleEmailSliderChange}
-                                        handleFreeTrialChange={handleFreeTrialChange}
+                                        handleEmailSliderChange={emailSliderHandler}
+                                        handleFreeTrialChange={freeTrialSliderHandler}
                                         freeTrial={subscriptionFormData.freeTrial}
                                         clearFormValues={clearFormValues}
                                         formFilled={formFilled}
-                                        handleSubscriptionFormChange={handleSubscriptionFormChange}
-                                        handleSubscriptionFormSelectChange={handleSubscriptionFormSelectChange}
+                                        handleSubscriptionFormChange={formChangeHandler}
+                                        handleSubscriptionFormSelectChange={selectChangeFunctionHandler}
                                         handleSubscriptionFormSubmit={handleSubscriptionFormSubmit}
                                         triggerNotification={triggerNotification}
                                         currencies={currencies}

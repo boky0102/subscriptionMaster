@@ -1,0 +1,114 @@
+import { useEffect, useState } from 'react';
+
+type subscriptionCategories =
+     | 'Streaming service'
+     | 'Gaming'
+     | 'Clothing'
+     | 'Food'
+     | 'Utility'
+     | 'Education'
+     | 'Software'
+     | 'Other';
+
+interface SubscriptionFormValue {
+     subscriptionName: string | undefined;
+     chargeAmount: number | undefined;
+     renewalDate: Date | undefined;
+     dateAdded: Date | undefined;
+     emailNotification: boolean | undefined;
+     freeTrial: boolean | undefined;
+     category: subscriptionCategories | undefined;
+     currency: string;
+}
+
+export function useSubscriptionForm() {
+     const [subscriptionFormData, setSubscriptionFormData] = useState({} as SubscriptionFormValue);
+     useEffect(() => {
+          console.log(subscriptionFormData);
+     }, [subscriptionFormData]);
+
+     function formChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
+          const { name, value } = event.target;
+          if (name === 'chargeAmount') {
+               setSubscriptionFormData((prevData) => ({
+                    ...prevData,
+                    chargeAmount: parseFloat(value),
+               }));
+          } else if (name === 'dateAdded') {
+               const valueToDate = new Date(value);
+               setSubscriptionFormData((prevData) => ({
+                    ...prevData,
+                    [name]: valueToDate,
+               }));
+          } else if (name === 'renewalDate') {
+               const valueToDate = new Date(value);
+               setSubscriptionFormData((prevData) => ({
+                    ...prevData,
+                    [name]: valueToDate,
+               }));
+          } else if (name === 'subscriptionName') {
+               setSubscriptionFormData((prevData) => ({
+                    ...prevData,
+                    [name]: value,
+               }));
+          }
+     }
+
+     function selectChangeFunctionHandler(event: React.ChangeEvent<HTMLSelectElement>) {
+          const name = event.target.name;
+          if (name === 'category') {
+               const value = event.target.value as subscriptionCategories;
+               setSubscriptionFormData((prevData) => ({
+                    ...prevData,
+                    [name]: value,
+               }));
+          } else if (name === 'currency') {
+               const value = event.target.value;
+               setSubscriptionFormData((prevData) => ({
+                    ...prevData,
+                    currency: value,
+               }));
+          }
+     }
+
+     function emailSliderHandler() {
+          if (
+               subscriptionFormData.emailNotification === undefined ||
+               subscriptionFormData.emailNotification === false
+          ) {
+               setSubscriptionFormData((prevData) => ({
+                    ...prevData,
+                    emailNotification: true,
+               }));
+          } else {
+               setSubscriptionFormData((prevData) => ({
+                    ...prevData,
+                    emailNotification: false,
+               }));
+          }
+     }
+
+     function freeTrialSliderHandler() {
+          if (subscriptionFormData.freeTrial === undefined || subscriptionFormData.freeTrial === false) {
+               setSubscriptionFormData((prevData) => ({
+                    ...prevData,
+                    freeTrial: true,
+               }));
+          } else {
+               setSubscriptionFormData((prevData) => ({
+                    ...prevData,
+                    freeTrial: false,
+               }));
+          }
+     }
+
+     return [
+          subscriptionFormData,
+          {
+               formChangeHandler,
+               selectChangeFunctionHandler,
+               emailSliderHandler,
+               freeTrialSliderHandler,
+          },
+     ] as const;
+}
