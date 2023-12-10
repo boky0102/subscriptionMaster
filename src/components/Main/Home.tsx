@@ -52,7 +52,10 @@ function Home() {
           triggerNotification,
      );
 
-     const [subscriptionData, userData] = useFetchSubscriptions(dataPosted);
+     const [subscriptionData, userData, { deleteSubscription }] = useFetchSubscriptions(
+          dataPosted,
+          triggerNotification,
+     );
 
      useEffect(() => {
           if (dataPosted !== 0) {
@@ -62,71 +65,7 @@ function Home() {
           }
      }, [dataPosted]);
 
-     /* const [subscriptionData, setSubscriptionData] = useState<Subscription[]>([]); */
-     /* const [formFilled, setFormFilled] = useState(false); */
-     /* const [userData, setUserData] = useState({} as UserData); */
      const [currency, setCurrency] = useState(userData.preferredCurrency);
-
-     function handleDeleteClick(subscriptionId: string) {
-          console.log('DELETE', subscriptionId);
-          /* const serverLink = import.meta.env.VITE_SERVER_LINK + '/subscription/' + subscriptionId;
-          axios.delete(serverLink, {
-               withCredentials: true,
-          })
-               .then((response) => {
-                    if (response.status === 200) {
-                         triggerNotification('Subscription removed successfully', 'success');
-                         setSubscriptionData((prevData) =>
-                              prevData.filter((subscription) => {
-                                   if (subscription.id !== subscriptionId) {
-                                        return subscription;
-                                   }
-                              }),
-                         );
-                    }
-               })
-               .catch((error) => {
-                    const errorMessage: string = error.response.statusText;
-                    triggerNotification(errorMessage, 'error');
-               }); */
-     }
-
-     /* useEffect(() => {
-          axios.get(serverPath + '/subscriptions', {
-               withCredentials: true,
-          })
-               .then((response) => {
-                    if (response.status === 200) {
-                         if (response.data.subscriptions) {
-                              const responseSubscriptionData = response.data.subscriptions as Subscription[];
-                              const dateObjectArray = responseSubscriptionData.map((subscription) => {
-                                   subscription.renewalDate = new Date(subscription.renewalDate);
-                                   subscription.dateAdded = new Date(subscription.dateAdded);
-                                   if (subscription.subscriptionStopped) {
-                                        subscription.subscriptionStopped = new Date(subscription.subscriptionStopped);
-                                   }
-
-                                   return subscription;
-                              });
-                              setSubscriptionData(dateObjectArray);
-                         }
-
-                         setUserData({
-                              username: response.data.username,
-                              email: response.data.email,
-                              userColorData: response.data.userCategoryColor,
-                              preferredCurrency: response.data.preferredCurrency,
-                         });
-                         if (response.data.preferredCurrency) {
-                              setCurrency(response.data.preferredCurrency);
-                         }
-                    }
-               })
-               .catch((error) => {
-                    console.log('auth error', error);
-                    navigate('/login');
-               });
-     }, [dataPosted]); */
 
      /* useEffect(() => {
           if (
@@ -239,7 +178,7 @@ function Home() {
                                    <Mysubscriptions
                                         subscriptionData={subscriptionData}
                                         notificationTrigger={triggerNotification}
-                                        handleDeleteClick={handleDeleteClick}
+                                        handleDeleteClick={deleteSubscription}
                                    ></Mysubscriptions>
                               }
                          ></Route>
@@ -247,7 +186,7 @@ function Home() {
                               path=""
                               element={
                                    <HomeContent
-                                        handleDeleteClick={handleDeleteClick}
+                                        handleDeleteClick={deleteSubscription}
                                         notificationTrigger={triggerNotification}
                                         userData={userData}
                                         subscriptionData={subscriptionData}

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { CurrenciesObj } from '../../types';
+import { CurrenciesObj, triggerNotification } from '../../types';
 
 type subscriptionCategories =
      | 'Streaming service'
@@ -36,12 +36,12 @@ export interface UserData {
      preferredCurrency: keyof CurrenciesObj;
 }
 
-export function useFetchSubscriptions(dataPosted: number) {
+export function useFetchSubscriptions(dataPosted: number, triggerNotification: triggerNotification) {
      const [subscriptionData, setSubscriptionData] = useState([] as Subscription[]);
      const [userData, setUserData] = useState({} as UserData);
-     const serverLink = import.meta.env.VITE_SERVER_LINK + '/subscriptions';
+     const serverLink = import.meta.env.VITE_SERVER_LINK;
      useEffect(() => {
-          axios.get(serverLink, {
+          axios.get(serverLink + '/subscriptions', {
                withCredentials: true,
           })
                .then((response) => {
@@ -56,7 +56,6 @@ export function useFetchSubscriptions(dataPosted: number) {
                               return subscription;
                          });
                          setSubscriptionData(adjustedSubscriptionsArrray);
-                         console.log(userData, 'UDATA');
                          if (Object.keys(userData).length === 0) {
                               setUserData({
                                    username: response.data.username,
@@ -65,13 +64,35 @@ export function useFetchSubscriptions(dataPosted: number) {
                                    preferredCurrency: response.data.preferredCurrency,
                               });
                          }
-                         console.log(userData, 'UDATA AFTER');
                     }
                })
                .catch((error) => {
                     console.log(error.message);
                });
-     }, [dataPosted]);
+     }, [dataPosted, userData, serverLink]);
 
-     return [subscriptionData, userData] as const;
+     function deleteSubscription(subscriptionId: string) {
+          axios.delete(serverLink + '/subscription/' + subscriptionId, {
+               withCredentials: true,
+          })
+               .then((response) => {
+                    if (response.status === 200) {
+                         triggerNotification('Subscription removed successfuly', 'success');
+                         setSubscriptionData((prevData) => {
+                              const filteredArray = prevData.filter((subscription) => {
+                                   if (subscription.id !== subscriptionId) {
+                                        return subscription;
+                                   }
+                              });
+                              return filteredArray;
+                         });
+                    }
+               })
+               .catch((error) => {
+                    triggerNotification(error.message, 'error');
+                    console.log(error.message);
+               });
+     }
+
+     return [subscriptionData, userData, { deleteSubscription }] as const;
 }
