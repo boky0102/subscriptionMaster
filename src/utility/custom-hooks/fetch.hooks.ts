@@ -71,6 +71,10 @@ export function useFetchSubscriptions(dataPosted: number, triggerNotification: t
                });
      }, [dataPosted, userData, serverLink]);
 
+     useEffect(() => {
+          console.log('CurrentUserCurrency', userData.preferredCurrency);
+     }, [userData]);
+
      function deleteSubscription(subscriptionId: string) {
           axios.delete(serverLink + '/subscription/' + subscriptionId, {
                withCredentials: true,
@@ -94,5 +98,29 @@ export function useFetchSubscriptions(dataPosted: number, triggerNotification: t
                });
      }
 
-     return [subscriptionData, userData, { deleteSubscription }] as const;
+     function postPrefferedUserCurrency(currency: keyof CurrenciesObj) {
+          const serverLink = import.meta.env.VITE_SERVER_LINK + '/preferredCurrency';
+          axios.post(
+               serverLink,
+               {
+                    preferredCurrency: currency,
+               },
+               {
+                    withCredentials: true,
+               },
+          )
+               .then((response) => {
+                    if (response.status === 200) {
+                         setUserData((prevData) => ({
+                              ...prevData,
+                              preferredCurrency: currency,
+                         }));
+                    }
+               })
+               .catch((error) => {
+                    console.log(error);
+               });
+     }
+
+     return [subscriptionData, userData, { deleteSubscription, postPrefferedUserCurrency }] as const;
 }

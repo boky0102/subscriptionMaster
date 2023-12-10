@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Dashboard from '../Dashboard/Dashboard';
 import MySettings from '../Settings/MySettings';
@@ -14,6 +14,7 @@ import { isCurrencyCode } from '../../utility/types.utility';
 import { useNotification } from '../../utility/custom-hooks/notification.hooks';
 import { usePostSubscriptionData, useSubscriptionForm } from '../../utility/custom-hooks/form.hooks';
 import { useFetchSubscriptions } from '../../utility/custom-hooks/fetch.hooks';
+import { useCurrency } from '../../utility/custom-hooks/currency.hook';
 
 export interface UserData {
      username: string;
@@ -52,10 +53,12 @@ function Home() {
           triggerNotification,
      );
 
-     const [subscriptionData, userData, { deleteSubscription }] = useFetchSubscriptions(
+     const [subscriptionData, userData, { deleteSubscription, postPrefferedUserCurrency }] = useFetchSubscriptions(
           dataPosted,
           triggerNotification,
      );
+
+     const [currencyAdjustedSubData] = useCurrency(subscriptionData, userData.preferredCurrency);
 
      useEffect(() => {
           if (dataPosted !== 0) {
@@ -64,8 +67,6 @@ function Home() {
                }, 4000);
           }
      }, [dataPosted]);
-
-     const [currency, setCurrency] = useState(userData.preferredCurrency);
 
      /* useEffect(() => {
           if (
@@ -141,7 +142,7 @@ function Home() {
      function handleCurrencyChange(event: React.ChangeEvent<HTMLSelectElement>) {
           const { value } = event.target;
           if (isCurrencyCode(value)) {
-               setCurrency(value);
+               postPrefferedUserCurrency(value);
           }
      }
 
@@ -170,13 +171,13 @@ function Home() {
                          ></Route>
                          <Route
                               path="/callendar"
-                              element={<Callendar subscriptionData={subscriptionData}></Callendar>}
+                              element={<Callendar subscriptionData={currencyAdjustedSubData}></Callendar>}
                          ></Route>
                          <Route
                               path="/mysubscriptions"
                               element={
                                    <Mysubscriptions
-                                        subscriptionData={subscriptionData}
+                                        subscriptionData={currencyAdjustedSubData}
                                         notificationTrigger={triggerNotification}
                                         handleDeleteClick={deleteSubscription}
                                    ></Mysubscriptions>
@@ -189,9 +190,9 @@ function Home() {
                                         handleDeleteClick={deleteSubscription}
                                         notificationTrigger={triggerNotification}
                                         userData={userData}
-                                        subscriptionData={subscriptionData}
+                                        subscriptionData={currencyAdjustedSubData}
                                         handleCurrencyChange={handleCurrencyChange}
-                                        currentCurrency={currency}
+                                        currentCurrency={userData.preferredCurrency}
                                    ></HomeContent>
                               }
                          ></Route>
