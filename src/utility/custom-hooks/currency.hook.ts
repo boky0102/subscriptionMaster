@@ -77,6 +77,6 @@ export function useCurrency(subscriptionData: Subscription[], currency: keyof Cu
                .catch((error) => {
                     console.log(error);
                });
-     }, [currency]);
+     }, [currency, subscriptionData]);
      return [currencyTransformedSubscriptions] as const;
 }

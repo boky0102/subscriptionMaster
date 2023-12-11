@@ -86,6 +86,8 @@ export function useFetchSubscriptions(dataPosted: number, triggerNotification: t
                               const filteredArray = prevData.filter((subscription) => {
                                    if (subscription.id !== subscriptionId) {
                                         return subscription;
+                                   } else {
+                                        console.log('subscription ', subscription.subscriptionName, ' deleted');
                                    }
                               });
                               return filteredArray;

@@ -2,7 +2,7 @@ import './HomeContent.css';
 import SubscriptionCard from '../SubscriptionCard/SubscriptionCard';
 import { UserData } from '../Main/Home';
 import { Link } from 'react-router-dom';
-import { Notification } from '../Main/Home';
+import { Notification } from '../../utility/custom-hooks/notification.hooks';
 import { useEffect, useState } from 'react';
 import '../../assets/arrow-left.svg';
 import ArrowIcon from '../ArrowIcon/ArrowIcon';

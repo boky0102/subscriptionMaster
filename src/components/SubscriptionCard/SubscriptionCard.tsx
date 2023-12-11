@@ -3,7 +3,7 @@ import './SubscriptionCard.css';
 import Slider from '../Slider/Slider';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Notification } from '../Main/Home';
+import { Notification } from '../../utility/custom-hooks/notification.hooks';
 import { TrashBin } from '../Icons/TrashBinSvg';
 import Button from '../Button/Button';
 
