@@ -75,7 +75,9 @@ export default function HomeContent(props: HomeContentProps) {
      const [filteredSubscriptionData, setFilteredSubscriptionData] = useState(props.subscriptionData as Subscription[]);
 
      function handleRightArrowClick() {
-          setSelectedYear((year) => year + 1);
+          if (selectedYear < currentYear) {
+               setSelectedYear((year) => year + 1);
+          }
      }
 
      function handleLeftArrowClick() {

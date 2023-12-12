@@ -70,7 +70,6 @@ export function useCurrency(subscriptionData: Subscription[], currency: keyof Cu
                               }
                               return subscription;
                          });
-                         console.log(exchangedSubscriptionsArray);
                          setTransformedSubscriptions(exchangedSubscriptionsArray);
                     }
                })

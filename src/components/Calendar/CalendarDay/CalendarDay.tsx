@@ -23,11 +23,13 @@ function subscriptionActiveOnDate(
                     currentDate.getFullYear() <= subscriptionStopped.getFullYear()
                ) {
                     if (currentDate.getFullYear() === subscriptionAdded.getFullYear()) {
+                         console.log('TU pocinje');
                          if (
                               currentDate.getMonth() >= subscriptionAdded.getMonth() &&
-                              currentDate.getMonth() < subscriptionStopped.getMonth()
+                              currentDate.getMonth() <= subscriptionStopped.getMonth()
                          ) {
                               if (currentDate.getMonth() === subscriptionStopped.getMonth()) {
+                                   console.log('TU SMO ZAPELI');
                                    //BUG WHEN MONTH === MONTH
                                    if (currentDate.getDate() <= subscriptionStopped.getDate()) {
                                         return true;
@@ -38,6 +40,7 @@ function subscriptionActiveOnDate(
                                    return true;
                               }
                          } else {
+                              console.log('TU izlazi');
                               return false;
                          }
                     } else {
@@ -46,6 +49,14 @@ function subscriptionActiveOnDate(
                } else {
                     return false;
                }
+          } else {
+               return false;
+          }
+     } else {
+          if (currentDate.getDate() === subscriptionRenewal.getDate()) {
+               if (currentDate > subscriptionAdded) {
+                    return true;
+               } else return false;
           } else {
                return false;
           }
