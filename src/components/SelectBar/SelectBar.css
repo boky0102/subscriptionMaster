@@ -1,0 +1,54 @@
+.select-nav-container {
+     width: 100%;
+     border-radius: 15px;
+     background-color: var(--main-light);
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     position: relative;
+}
+
+.select-nav-item {
+     width: calc(100% / 3);
+     display: flex;
+     height: 30px;
+     justify-content: center;
+     align-items: center;
+     font-size: 13px;
+     z-index: 2;
+     cursor: pointer;
+}
+
+.select-nav-marker {
+     position: absolute;
+     width: calc(100% / 3);
+     height: 100%;
+     border-radius: 15px;
+     background-color: rgba(23, 190, 187, 0.7);
+     left: calc(100% / 3);
+     z-index: 1;
+     transition: transform 0.3s ease-in-out;
+}
+
+.select-nav-move-left {
+     transform: translateX(-100%);
+}
+
+.select-nav-move-right {
+     transform: translateX(100%);
+}
+
+.marked-text {
+     font-weight: bold;
+}
+
+@media only screen and (max-width: 576px) {
+     .select-nav-container {
+          width: 90%;
+          margin-bottom: 2vh;
+     }
+     .select-nav-item {
+          font-size: 10px;
+          height: 20px;
+     }
+}

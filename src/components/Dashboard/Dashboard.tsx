@@ -14,10 +14,11 @@ function Dashboard(props: DashboardProps) {
                <img className="dashboard-logo" src={logo} />
                <div className="actions-container">
                     <DashboardButton label="Home" route=""></DashboardButton>
-                    <DashboardButton label="Settings" route="settings"></DashboardButton>
-                    <DashboardButton label="Calendar" route="callendar"></DashboardButton>
-                    <DashboardButton label="Subscription History" route="mysubscriptions"></DashboardButton>
                     <DashboardButton label="Add subscription" route="addsubscription"></DashboardButton>
+                    <DashboardButton label="Subscription History" route="mysubscriptions"></DashboardButton>
+                    <DashboardButton label="Calendar" route="callendar"></DashboardButton>
+                    <DashboardButton label="Insights" route="insights"></DashboardButton>
+                    <DashboardButton label="Settings" route="settings"></DashboardButton>
                </div>
                <div className="logout-container">
                     <UserIcon username={props.username}></UserIcon>

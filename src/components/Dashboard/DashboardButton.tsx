@@ -5,6 +5,7 @@ import CalendarIcon from '../Icons/CalendarIconSvg';
 import AddIcon from '../Icons/AddIconSvg';
 import HistoryIcon from '../Icons/HistoryIconSvg';
 import HomeIconSvg from '../Icons/HomeIconSvg';
+import ChartIconSvg from '../Icons/ChartIconSvg';
 
 interface props {
      label: string;
@@ -15,7 +16,8 @@ interface props {
           | 'addsubscription'
           | ''
           | 'mysubscriptions'
-          | 'addfreetrial';
+          | 'addfreetrial'
+          | 'insights';
 }
 
 function DashboardButton(props: props) {
@@ -59,6 +61,13 @@ function DashboardButton(props: props) {
                     <HomeIconSvg
                          className={currentLocation === '' ? 'settings-icon settings-icon-active' : 'settings-icon'}
                     ></HomeIconSvg>
+               )}
+               {props.route === 'insights' && (
+                    <ChartIconSvg
+                         className={
+                              currentLocation === 'insights' ? 'settings-icon settings-icon-active' : 'settings-icon'
+                         }
+                    ></ChartIconSvg>
                )}
                <div className="link-container">
                     <div className="link-label">{props.label}</div>

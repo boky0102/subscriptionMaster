@@ -15,6 +15,7 @@ import { useNotification } from '../../utility/custom-hooks/notification.hooks';
 import { usePostSubscriptionData, useSubscriptionForm } from '../../utility/custom-hooks/form.hooks';
 import { useFetchSubscriptions } from '../../utility/custom-hooks/fetch.hooks';
 import { useCurrency } from '../../utility/custom-hooks/currency.hook';
+import Insights from '../Insights/Insights';
 
 export interface UserData {
      username: string;
@@ -111,6 +112,10 @@ function Home() {
                                         handleDeleteClick={deleteSubscription}
                                    ></Mysubscriptions>
                               }
+                         ></Route>
+                         <Route
+                              path="/insights"
+                              element={<Insights subscriptionsData={currencyAdjustedSubData}></Insights>}
                          ></Route>
                          <Route
                               path=""

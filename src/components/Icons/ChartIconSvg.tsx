@@ -1,4 +1,8 @@
-export default function ChartIconSvg() {
+type ChartIconProps = {
+     className: string;
+};
+
+export default function ChartIconSvg(props: ChartIconProps) {
      return (
           <svg
                width="716.66669"
@@ -8,6 +12,7 @@ export default function ChartIconSvg() {
                version="1.1"
                id="svg1"
                xmlns="http://www.w3.org/2000/svg"
+               className={props.className}
           >
                <defs id="defs1" />
                <path
