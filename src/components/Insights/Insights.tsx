@@ -1,5 +1,7 @@
 import { Subscription } from '../MySubscriptions/Mysubscriptions';
 import SelectBar from '../SelectBar/SelectBar';
+import ChartsView from './Charts/chartsView';
+import Table from './Table/Table';
 import './insights.css';
 import { useState } from 'react';
 
@@ -19,7 +21,8 @@ export default function Insights(props: InsightsProps) {
                     handleElementClick={handleElementClick}
                     filterState={currentSelect}
                ></SelectBar>
-               {currentSelect}
+               {currentSelect === 'Charts' && <ChartsView></ChartsView>}
+               {currentSelect === 'Table' && <Table subscriptionData={props.subscriptionsData}></Table>}
           </div>
      );
 }
