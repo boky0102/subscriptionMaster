@@ -15,12 +15,13 @@ export default function Insights(props: InsightsProps) {
           setCurrentSelect(event.currentTarget.id);
      }
      return (
-          <div className="insights-main-container">
+          <div className="select-insight-container">
                <SelectBar
                     filterElements={['Charts', 'Table', 'Fun facts']}
                     handleElementClick={handleElementClick}
                     filterState={currentSelect}
                ></SelectBar>
+
                {currentSelect === 'Charts' && <ChartsView></ChartsView>}
                {currentSelect === 'Table' && <Table subscriptionData={props.subscriptionsData}></Table>}
           </div>

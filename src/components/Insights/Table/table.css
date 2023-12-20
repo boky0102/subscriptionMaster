@@ -1,0 +1,25 @@
+.data-table {
+     border: 1px solid var(--main-dark);
+     border-collapse: collapse;
+     margin-top: 20px;
+     width: 100%;
+     background-color: var(--main-light);
+}
+
+.data-table th,
+td {
+     border: 1px solid var(--main-dark);
+     color: var(--main-dark);
+}
+
+.data-table th {
+     height: 70px;
+     font-family: poppins;
+     font-size: 12px;
+     border-bottom: 2px solid var(--main-dark);
+}
+
+.data-table td {
+     height: 40px;
+     text-align: center;
+}
