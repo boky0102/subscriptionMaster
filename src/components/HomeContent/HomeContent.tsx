@@ -33,6 +33,7 @@ type HomeContentProps = {
      notificationTrigger: (message: Notification['message'], type: Notification['notificationType']) => void;
      handleDeleteClick: (subscriptionId: string) => void;
      handleCurrencyChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+     handleUnsubscribe: (subscriptionId: string) => void;
      currentCurrency: keyof CurrenciesObj;
 };
 
@@ -170,6 +171,7 @@ export default function HomeContent(props: HomeContentProps) {
                               <SubscriptionCard
                                    handleDeleteClick={props.handleDeleteClick}
                                    notificationTrigger={props.notificationTrigger}
+                                   handleStopSubscription={props.handleUnsubscribe}
                                    subscription={subscription}
                                    key={subscription.id}
                                    id={subscription.id}

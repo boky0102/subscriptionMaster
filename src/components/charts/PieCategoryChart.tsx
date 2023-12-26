@@ -1,4 +1,4 @@
-import { Cell, LabelList, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
+import { Cell, LabelList, Pie, PieChart, Tooltip } from 'recharts';
 import CustomTooltip from './PieTooltip';
 import { useWindowDimensions } from '../../utility/window.utility';
 import { useEffect, useState } from 'react';
@@ -49,26 +49,24 @@ export default function PieCategoryChart(props: PieChartProps) {
      }, [width]);
 
      return (
-          <ResponsiveContainer width={300} height={300}>
-               <PieChart>
-                    <Pie data={props.chartData} dataKey={'totalCost'} outerRadius={chartLayout.outerRadius}>
-                         {props.chartData.map((entry) => {
-                              let fillColor = '';
-                              if (props.userColors) {
-                                   props.userColors.forEach((colorCategory) => {
-                                        if (colorCategory.category === entry.name) {
-                                             fillColor = colorCategory.color;
-                                             return;
-                                        }
-                                   });
-                              }
-                              return <Cell key={entry.name} fill={fillColor}></Cell>;
-                         })}
-                         <LabelList dataKey={'category'} position={'outside'} fill={'#cccccc'}></LabelList>
-                    </Pie>
-                    <LabelList values={'category'}></LabelList>
-                    <Tooltip content={<CustomTooltip></CustomTooltip>}></Tooltip>
-               </PieChart>
-          </ResponsiveContainer>
+          <PieChart width={300} height={300}>
+               <Pie data={props.chartData} dataKey={'totalCost'} outerRadius={chartLayout.outerRadius}>
+                    {props.chartData.map((entry) => {
+                         let fillColor = '';
+                         if (props.userColors) {
+                              props.userColors.forEach((colorCategory) => {
+                                   if (colorCategory.category === entry.name) {
+                                        fillColor = colorCategory.color;
+                                        return;
+                                   }
+                              });
+                         }
+                         return <Cell key={entry.name} fill={fillColor}></Cell>;
+                    })}
+                    <LabelList dataKey={'category'} position={'outside'} fill={'#cccccc'}></LabelList>
+               </Pie>
+               <LabelList values={'category'}></LabelList>
+               <Tooltip content={<CustomTooltip></CustomTooltip>}></Tooltip>
+          </PieChart>
      );
 }

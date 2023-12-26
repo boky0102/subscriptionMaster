@@ -124,5 +124,21 @@ export function useFetchSubscriptions(dataPosted: number, triggerNotification: t
                });
      }
 
-     return [subscriptionData, userData, { deleteSubscription, postPrefferedUserCurrency }] as const;
+     function stopSubscription(id: string) {
+          console.log('Tu');
+          setSubscriptionData((prevData) => {
+               const unsubscribeSubscription = prevData.map((subscription) => {
+                    if (subscription.id === id) {
+                         subscription.subscriptionStopped = new Date();
+                         console.log('CHANGED SUBSCRIPTION');
+                         return subscription;
+                    } else {
+                         return subscription;
+                    }
+               });
+               return unsubscribeSubscription;
+          });
+     }
+
+     return [subscriptionData, userData, { deleteSubscription, postPrefferedUserCurrency, stopSubscription }] as const;
 }
