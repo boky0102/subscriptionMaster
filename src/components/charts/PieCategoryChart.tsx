@@ -32,7 +32,7 @@ type PieChartProps = {
 export default function PieCategoryChart(props: PieChartProps) {
      const { width } = useWindowDimensions();
      const [chartLayout, setChartLayout] = useState({
-          outerRadius: 135,
+          outerRadius: 125,
      });
      useEffect(() => {
           if (width < 576) {
@@ -43,14 +43,14 @@ export default function PieCategoryChart(props: PieChartProps) {
           } else {
                setChartLayout((prevLayout) => ({
                     ...prevLayout,
-                    outerRadius: 135,
+                    outerRadius: 140,
                }));
           }
      }, [width]);
 
      return (
-          <ResponsiveContainer width={'100%'} height={300}>
-               <PieChart width={400} height={400}>
+          <ResponsiveContainer width={300} height={300}>
+               <PieChart>
                     <Pie data={props.chartData} dataKey={'totalCost'} outerRadius={chartLayout.outerRadius}>
                          {props.chartData.map((entry) => {
                               let fillColor = '';
