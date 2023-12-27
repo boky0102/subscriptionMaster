@@ -1,3 +1,5 @@
+import { b } from 'vitest/dist/suite-dF4WyktM.js';
+
 interface Subscription {
      id: string;
      subscriptionName: string;
@@ -37,6 +39,89 @@ type subscriptionCategories =
      | 'Software'
      | 'Other';
 
+export function checkIfSubscriptionCharged(
+     monthIndex: number,
+     dateSubscribed: Date,
+     dateUnsubscribed: Date,
+     year: number,
+     renewalDay: number,
+) {
+     const yearSubscribed = dateSubscribed.getFullYear();
+     const monthSubscribed = dateSubscribed.getMonth();
+     const daySubscribed = dateSubscribed.getDate();
+     const yearUnsubscribed = dateUnsubscribed.getFullYear();
+     const monthUnsubscribed = dateUnsubscribed.getMonth();
+     const dayUnsubscribed = dateUnsubscribed.getDate();
+
+     console.log(dayUnsubscribed);
+
+     const currentDay = new Date().getDate();
+     const currentMonth = new Date().getMonth();
+     /* const currentYear = new Date().getFullYear(); */
+
+     if (year > yearSubscribed && year < yearUnsubscribed) {
+          return true;
+     } else {
+          if (year === yearSubscribed && year === yearUnsubscribed) {
+               if (currentMonth === monthIndex && monthUnsubscribed === monthIndex) {
+                    if (dayUnsubscribed >= currentDay) {
+                         return true;
+                    }
+               } else {
+                    if (monthIndex > monthSubscribed && monthIndex < monthUnsubscribed) {
+                         return true;
+                    } else {
+                         if (monthIndex === monthSubscribed) {
+                              if (renewalDay >= daySubscribed) {
+                                   return true;
+                              } else {
+                                   return false;
+                              }
+                         }
+                         if (monthIndex === monthUnsubscribed) {
+                              if (renewalDay <= dayUnsubscribed) {
+                                   return true;
+                              } else {
+                                   return false;
+                              }
+                         }
+                    }
+               }
+          } else if (year === yearSubscribed) {
+               if (monthIndex > monthSubscribed && monthIndex < monthUnsubscribed) {
+                    return true;
+               } else {
+                    if (monthIndex === monthUnsubscribed) {
+                         if (renewalDay <= dayUnsubscribed) {
+                              return true;
+                         } else {
+                              return false;
+                         }
+                    }
+                    if (monthIndex === monthSubscribed) {
+                         return true;
+                    }
+               }
+          } else if (year === yearUnsubscribed) {
+               if (monthIndex > monthSubscribed && monthIndex < monthUnsubscribed) {
+                    return true;
+               } else {
+                    if (monthIndex === monthUnsubscribed) {
+                         if (renewalDay <= dayUnsubscribed) {
+                              return true;
+                         } else {
+                              return false;
+                         }
+                    }
+                    if (monthIndex === monthSubscribed) {
+                         return true;
+                    }
+               }
+          }
+     }
+     return false;
+}
+
 export function getChartDataYear(subscriptionData: Subscription[], year: number) {
      const currentYear = new Date().getFullYear();
      const currentMonth = new Date().getMonth();
@@ -54,7 +139,10 @@ export function getChartDataYear(subscriptionData: Subscription[], year: number)
                                    year < subscription.subscriptionStopped.getFullYear()
                               ) {
                                    totalMonthCost += subscription.chargeAmount;
-                              } else if (subscription.dateAdded.getFullYear() === year) {
+                              } else if (
+                                   subscription.dateAdded.getFullYear() === year &&
+                                   subscription.subscriptionStopped.getFullYear() === year
+                              ) {
                                    if (
                                         subscription.dateAdded.getMonth() < index &&
                                         index < subscription.subscriptionStopped.getMonth()
@@ -67,6 +155,33 @@ export function getChartDataYear(subscriptionData: Subscription[], year: number)
                                              subscription.dateAdded.getDay() < subscription.subscriptionStopped.getDay()
                                         ) {
                                              totalMonthCost += subscription.chargeAmount;
+                                        }
+                                   } else if (index === subscription.subscriptionStopped.getMonth()) {
+                                        if (subscription.subscriptionStopped.getDate()) {
+                                             console.log('REST');
+                                        }
+                                   }
+                              } else if (subscription.dateAdded.getFullYear() === year) {
+                                   if (subscription.dateAdded.getMonth() <= index) {
+                                        if (subscription.dateAdded.getMonth() < index) {
+                                             totalMonthCost += subscription.chargeAmount;
+                                        } else if (subscription.dateAdded.getMonth() === index) {
+                                             if (subscription.dateAdded.getDate() <= currentDay) {
+                                                  totalMonthCost += subscription.chargeAmount;
+                                             }
+                                        }
+                                   }
+                              } else if (subscription.subscriptionStopped.getFullYear() === year) {
+                                   if (index <= subscription.subscriptionStopped.getMonth()) {
+                                        if (index < subscription.subscriptionStopped.getMonth()) {
+                                             totalMonthCost += subscription.chargeAmount;
+                                        } else if (index === subscription.subscriptionStopped.getMonth()) {
+                                             if (
+                                                  subscription.subscriptionStopped.getDate() >=
+                                                  subscription.renewalDate.getDate()
+                                             ) {
+                                                  totalMonthCost += subscription.chargeAmount;
+                                             }
                                         }
                                    }
                               }
