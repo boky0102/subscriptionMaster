@@ -55,7 +55,7 @@ function Home() {
      );
 
      const [subscriptionData, userData, { deleteSubscription, postPrefferedUserCurrency, stopSubscription }] =
-          useFetchSubscriptions(dataPosted, triggerNotification);
+          useFetchSubscriptions(dataPosted, triggerNotification, navigate);
 
      const [currencyAdjustedSubData] = useCurrency(subscriptionData, userData.preferredCurrency);
 
@@ -94,6 +94,7 @@ function Home() {
                                         handleSubscriptionFormSubmit={subscriptionFormSubmitHandler}
                                         triggerNotification={triggerNotification}
                                         currencies={currencies}
+                                        preferredCurrency={userData.preferredCurrency}
                                    ></SubscriptionForm>
                               }
                          ></Route>

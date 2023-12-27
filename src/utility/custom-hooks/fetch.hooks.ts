@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { CurrenciesObj, triggerNotification } from '../../types';
+import { NavigateFunction } from 'react-router-dom';
 
 type subscriptionCategories =
      | 'Streaming service'
@@ -36,7 +37,11 @@ export interface UserData {
      preferredCurrency: keyof CurrenciesObj;
 }
 
-export function useFetchSubscriptions(dataPosted: number, triggerNotification: triggerNotification) {
+export function useFetchSubscriptions(
+     dataPosted: number,
+     triggerNotification: triggerNotification,
+     navigate: NavigateFunction,
+) {
      const [subscriptionData, setSubscriptionData] = useState([] as Subscription[]);
      const [userData, setUserData] = useState({} as UserData);
      const serverLink = import.meta.env.VITE_SERVER_LINK;
@@ -67,6 +72,7 @@ export function useFetchSubscriptions(dataPosted: number, triggerNotification: t
                     }
                })
                .catch((error) => {
+                    navigate('/login');
                     console.log(error.message);
                });
      }, [dataPosted, userData, serverLink]);
