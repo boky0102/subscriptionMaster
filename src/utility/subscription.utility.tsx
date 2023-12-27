@@ -71,6 +71,7 @@ export function checkIfSubscriptionCharged(
                     if (monthIndex > monthSubscribed && monthIndex < monthUnsubscribed) {
                          return true;
                     } else {
+                         console.log('tu2');
                          if (monthIndex === monthSubscribed) {
                               if (renewalDay >= daySubscribed) {
                                    return true;
@@ -135,55 +136,15 @@ export function getChartDataYear(subscriptionData: Subscription[], year: number)
                     if (subscription.subscriptionStopped) {
                          if (!subscription.freeTrial) {
                               if (
-                                   subscription.dateAdded.getFullYear() < year &&
-                                   year < subscription.subscriptionStopped.getFullYear()
+                                   checkIfSubscriptionCharged(
+                                        index,
+                                        subscription.dateAdded,
+                                        subscription.subscriptionStopped,
+                                        year,
+                                        subscription.dateAdded.getDate(),
+                                   )
                               ) {
                                    totalMonthCost += subscription.chargeAmount;
-                              } else if (
-                                   subscription.dateAdded.getFullYear() === year &&
-                                   subscription.subscriptionStopped.getFullYear() === year
-                              ) {
-                                   if (
-                                        subscription.dateAdded.getMonth() < index &&
-                                        index < subscription.subscriptionStopped.getMonth()
-                                   ) {
-                                        totalMonthCost += subscription.chargeAmount;
-                                   } else if (subscription.dateAdded.getMonth() === index) {
-                                        //BUG ON JANUARY CURRENT YEAR
-                                        if (
-                                             subscription.dateAdded.getDay() <= currentDay &&
-                                             subscription.dateAdded.getDay() < subscription.subscriptionStopped.getDay()
-                                        ) {
-                                             totalMonthCost += subscription.chargeAmount;
-                                        }
-                                   } else if (index === subscription.subscriptionStopped.getMonth()) {
-                                        if (subscription.subscriptionStopped.getDate()) {
-                                             console.log('REST');
-                                        }
-                                   }
-                              } else if (subscription.dateAdded.getFullYear() === year) {
-                                   if (subscription.dateAdded.getMonth() <= index) {
-                                        if (subscription.dateAdded.getMonth() < index) {
-                                             totalMonthCost += subscription.chargeAmount;
-                                        } else if (subscription.dateAdded.getMonth() === index) {
-                                             if (subscription.dateAdded.getDate() <= currentDay) {
-                                                  totalMonthCost += subscription.chargeAmount;
-                                             }
-                                        }
-                                   }
-                              } else if (subscription.subscriptionStopped.getFullYear() === year) {
-                                   if (index <= subscription.subscriptionStopped.getMonth()) {
-                                        if (index < subscription.subscriptionStopped.getMonth()) {
-                                             totalMonthCost += subscription.chargeAmount;
-                                        } else if (index === subscription.subscriptionStopped.getMonth()) {
-                                             if (
-                                                  subscription.subscriptionStopped.getDate() >=
-                                                  subscription.renewalDate.getDate()
-                                             ) {
-                                                  totalMonthCost += subscription.chargeAmount;
-                                             }
-                                        }
-                                   }
                               }
                          }
                     } else {
