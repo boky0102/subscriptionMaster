@@ -1,5 +1,6 @@
 import { useSelectedYear } from '../../../utility/custom-hooks/date.hooks';
 import { transformToNormalCase } from '../../../utility/string.utility';
+import { getSingleSubscriptionData } from '../../../utility/subscription.utility';
 import ArrowIcon from '../../ArrowIcon/ArrowIcon';
 import { Subscription } from '../../MySubscriptions/Mysubscriptions';
 import './table.css';
@@ -16,9 +17,9 @@ export default function Table(props: TableProps) {
                stoppedDate: subscription.subscriptionStopped,
                chargeAmount: subscription.chargeAmount,
                currency: subscription.currency,
+               totalPaid: getSingleSubscriptionData(subscription),
           };
           return newSubscriptionObject;
-          return subscription;
      });
 
      const [currentYear, { next, previous }] = useSelectedYear();

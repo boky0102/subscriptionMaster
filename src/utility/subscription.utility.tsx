@@ -1,5 +1,3 @@
-import { b } from 'vitest/dist/suite-dF4WyktM.js';
-
 interface Subscription {
      id: string;
      subscriptionName: string;
@@ -344,7 +342,7 @@ export function getSingleSubscriptionData(subscription: Subscription) {
                ) {
                     months.forEach((month, index) => {
                          if (
-                              index < subscription.subscriptionStopped!.getMonth() &&
+                              index <= subscription.subscriptionStopped!.getMonth() &&
                               index >= subscription.dateAdded.getMonth()
                          ) {
                               if (index === subscription.subscriptionStopped?.getMonth()) {
@@ -354,13 +352,17 @@ export function getSingleSubscriptionData(subscription: Subscription) {
                               } else {
                                    totalCostYear += subscription.chargeAmount;
                               }
+
+                              if (index === subscription.dateAdded.getMonth()) {
+                                   totalCostYear += subscription.chargeAmount;
+                              }
                          }
                     });
                } else if (iterationYear === subscription.subscriptionStopped.getFullYear()) {
                     months.forEach((month, index) => {
-                         if (index < subscription.subscriptionStopped!.getMonth()) {
+                         if (index <= subscription.subscriptionStopped!.getMonth()) {
                               if (index === subscription.subscriptionStopped?.getMonth()) {
-                                   if (subscription.dateAdded.getDate() >= subscription.subscriptionStopped.getDate()) {
+                                   if (subscription.dateAdded.getDate() <= subscription.subscriptionStopped.getDate()) {
                                         totalCostYear += subscription.chargeAmount;
                                    }
                               } else {
