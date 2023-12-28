@@ -7,6 +7,7 @@ import './table.css';
 
 type TableProps = {
      subscriptionData: Subscription[];
+     type: 'annual' | 'all';
 };
 
 export default function Table(props: TableProps) {

@@ -121,6 +121,54 @@ export function checkIfSubscriptionCharged(
      return false;
 }
 
+export function checkIfSubscriptionChargedOngoing(
+     monthIndex: number,
+     year: number,
+     dateSubscribed: Date,
+     renewalDay: number,
+) {
+     const yearSubscribed = dateSubscribed.getFullYear();
+     const monthSubscribed = dateSubscribed.getMonth();
+     const currentYear = new Date().getFullYear();
+     const currentMonth = new Date().getMonth();
+     const currentDay = new Date().getDate();
+
+     if (yearSubscribed < year) {
+          return true;
+     } else {
+          if (yearSubscribed === year) {
+               if (monthIndex >= monthSubscribed) {
+                    if (monthIndex > monthSubscribed) {
+                         if (monthIndex === currentMonth && year === currentYear) {
+                              if (currentDay >= renewalDay) {
+                                   return true;
+                              } else {
+                                   return false;
+                              }
+                         }
+                         return true;
+                    } else {
+                         if (monthIndex === currentMonth && year === currentYear) {
+                              if (currentDay >= renewalDay) {
+                                   return true;
+                              } else {
+                                   return false;
+                              }
+                         }
+                         if (monthIndex === monthSubscribed) {
+                              return true;
+                         }
+                    }
+               } else {
+                    return false;
+               }
+          } else {
+               return false;
+          }
+     }
+     return false;
+}
+
 export function getChartDataYear(subscriptionData: Subscription[], year: number) {
      const currentYear = new Date().getFullYear();
      const currentMonth = new Date().getMonth();
@@ -381,6 +429,24 @@ export function getSingleSubscriptionData(subscription: Subscription) {
                          totalCostYear += subscription.chargeAmount;
                     });
                }
+               totalCostAllYears += totalCostYear;
+               iterationYear++;
+          }
+     } else {
+          while (iterationYear <= new Date().getFullYear()) {
+               let totalCostYear = 0;
+               months.forEach((month, index) => {
+                    if (
+                         checkIfSubscriptionChargedOngoing(
+                              index,
+                              iterationYear,
+                              subscription.dateAdded,
+                              subscription.renewalDate.getDate(),
+                         )
+                    ) {
+                         totalCostYear += subscription.chargeAmount;
+                    }
+               });
                totalCostAllYears += totalCostYear;
                iterationYear++;
           }
