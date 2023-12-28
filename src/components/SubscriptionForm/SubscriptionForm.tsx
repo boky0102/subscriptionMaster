@@ -102,6 +102,9 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                                    name="currency"
                                    className="sub-form-select"
                                    onChange={props.handleSubscriptionFormSelectChange}
+                                   defaultValue={
+                                        props.preferredCurrency && props.currencies[props.preferredCurrency].code
+                                   }
                               >
                                    {props.preferredCurrency && (
                                         <option
