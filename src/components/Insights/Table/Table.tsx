@@ -1,13 +1,11 @@
-import { useSelectedYear } from '../../../utility/custom-hooks/date.hooks';
+import { useState } from 'react';
 import { transformToNormalCase } from '../../../utility/string.utility';
 import { getSingleSubscriptionData } from '../../../utility/subscription.utility';
-import ArrowIcon from '../../ArrowIcon/ArrowIcon';
 import { Subscription } from '../../MySubscriptions/Mysubscriptions';
 import './table.css';
 
 type TableProps = {
      subscriptionData: Subscription[];
-     type: 'annual' | 'all';
 };
 
 export default function Table(props: TableProps) {
@@ -23,24 +21,26 @@ export default function Table(props: TableProps) {
           return newSubscriptionObject;
      });
 
-     const [currentYear, { next, previous }] = useSelectedYear();
+     const [selectedSort, setSelectedSort] = useState('Name');
+
+     function handleSortSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+          const { name, value } = event.target;
+          switch (name) {
+               case 'Amount paid':
+                    tableSubscriptionData.sort((subscription) => {});
+          }
+     }
 
      return (
           <>
                <div>
-                    <ArrowIcon
-                         direction="left"
-                         color="#ffffff"
-                         className="insight-icon"
-                         handleClick={previous}
-                    ></ArrowIcon>
-                    <div>{currentYear}</div>
-                    <ArrowIcon
-                         direction="right"
-                         color="#ffffff"
-                         className="insight-icon"
-                         handleClick={next}
-                    ></ArrowIcon>
+                    <label htmlFor="sortSelect">Sort by</label>
+                    <select name="sortSelect" id="sortSelect" className="sort-select" defaultValue={'Name'} onChange={}>
+                         <option value="Amount paid">Amount paid</option>
+                         <option value="Date subscribed">Date subscribed</option>
+                         <option value="Charge amount">Charged amount</option>
+                         <option value="Name">Name</option>
+                    </select>
                </div>
                <table className="data-table">
                     <thead>

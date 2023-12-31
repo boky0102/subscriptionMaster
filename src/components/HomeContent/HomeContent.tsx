@@ -115,6 +115,7 @@ export default function HomeContent(props: HomeContentProps) {
      }
 
      useEffect(() => {
+          console.log('EFFECT RUNS');
           if (filterState === 'free-trial') {
                setFilteredSubscriptionData(() => {
                     const returnArray = props.subscriptionData.filter((subscription) => {

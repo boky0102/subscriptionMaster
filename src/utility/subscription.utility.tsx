@@ -51,8 +51,6 @@ export function checkIfSubscriptionCharged(
      const monthUnsubscribed = dateUnsubscribed.getMonth();
      const dayUnsubscribed = dateUnsubscribed.getDate();
 
-     console.log(dayUnsubscribed);
-
      const currentDay = new Date().getDate();
      const currentMonth = new Date().getMonth();
      /* const currentYear = new Date().getFullYear(); */
@@ -69,7 +67,6 @@ export function checkIfSubscriptionCharged(
                     if (monthIndex > monthSubscribed && monthIndex < monthUnsubscribed) {
                          return true;
                     } else {
-                         console.log('tu2');
                          if (monthIndex === monthSubscribed) {
                               if (renewalDay >= daySubscribed) {
                                    return true;
