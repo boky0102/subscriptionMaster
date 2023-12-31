@@ -10,6 +10,6 @@ export type SubscriptionsTable = {
      startedDate: Date;
      stoppedDate?: Date;
      chargeAmount: number;
-     currency: currencieKey;
+     currency: string;
      totalPaid: number;
 };
