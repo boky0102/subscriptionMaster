@@ -1,9 +1,15 @@
 import { SubscriptionsTable } from '../types.utility';
 import { useReducer } from 'react';
 
-type ActionTypes = { type: 'Name' } | { type: 'Amount paid' } | { type: 'Date subscribed' } | { type: 'Charge amount' };
+type ActionTypes =
+     | { type: 'Name' }
+     | { type: 'Amount paid' }
+     | { type: 'Date subscribed' }
+     | { type: 'Charge amount' }
+     | { type: 'ascending' }
+     | { type: 'descending' };
 
-type actions = 'Name' | 'Amount paid' | 'Date subscribed' | 'Charge amount';
+type actions = 'Name' | 'Amount paid' | 'Date subscribed' | 'Charge amount' | 'descending' | 'ascending';
 
 const reducer = (state: SubscriptionsTable[], action: ActionTypes) => {
      switch (action.type) {
@@ -11,7 +17,7 @@ const reducer = (state: SubscriptionsTable[], action: ActionTypes) => {
                const sortedArray = [...state];
 
                sortedArray.sort((a, b) => {
-                    if (a.subscriptionName[0] > b.subscriptionName[0]) return -1;
+                    if (a.subscriptionName[0] < b.subscriptionName[0]) return -1;
                     else return 1;
                });
                return sortedArray;
@@ -20,7 +26,7 @@ const reducer = (state: SubscriptionsTable[], action: ActionTypes) => {
                const sortedArray = [...state];
 
                sortedArray.sort((a, b) => {
-                    if (a.totalPaid > b.totalPaid) {
+                    if (a.totalPaid < b.totalPaid) {
                          return 1;
                     } else return -1;
                });
@@ -30,7 +36,7 @@ const reducer = (state: SubscriptionsTable[], action: ActionTypes) => {
                const sortedArray = [...state];
 
                sortedArray.sort((a, b) => {
-                    if (a.chargeAmount > b.chargeAmount) {
+                    if (a.chargeAmount < b.chargeAmount) {
                          return 1;
                     } else return -1;
                });
@@ -40,11 +46,21 @@ const reducer = (state: SubscriptionsTable[], action: ActionTypes) => {
                const sortedArray = [...state];
 
                sortedArray.sort((a, b) => {
-                    if (a.startedDate > b.startedDate) {
+                    if (a.startedDate < b.startedDate) {
                          return 1;
                     } else return -1;
                });
                return sortedArray;
+          }
+          case 'ascending': {
+               const reversedArray = [...state];
+               reversedArray.reverse();
+               return reversedArray;
+          }
+          case 'descending': {
+               const reversedArray = [...state];
+               reversedArray.reverse();
+               return reversedArray;
           }
           default:
                return state;
@@ -70,6 +86,12 @@ export function useSortSubscriptions(subscriptions: SubscriptionsTable[]) {
                     break;
                case 'Name':
                     dispatch({ type: 'Name' });
+                    break;
+               case 'ascending':
+                    dispatch({ type: 'ascending' });
+                    break;
+               case 'descending':
+                    dispatch({ type: 'descending' });
                     break;
           }
      }

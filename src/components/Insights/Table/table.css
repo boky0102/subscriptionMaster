@@ -23,3 +23,25 @@ td {
      height: 40px;
      text-align: center;
 }
+
+.sort-select-container {
+     display: flex;
+     margin-right: 20px;
+     justify-content: center;
+     align-items: center;
+}
+
+.insight-select-container {
+     display: flex;
+     margin-top: 20px;
+}
+
+.sort-select {
+     margin-left: 10px;
+     border-style: none;
+     border-radius: 3px;
+     outline-style: none;
+     padding: 5px;
+     color: var(--main-dark);
+     font-family: poppins;
+}

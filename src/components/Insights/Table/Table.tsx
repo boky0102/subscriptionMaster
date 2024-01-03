@@ -30,20 +30,29 @@ export default function Table(props: TableProps) {
 
      return (
           <>
-               <div>
-                    <label htmlFor="sortSelect">Sort by</label>
-                    <select
-                         name="sortSelect"
-                         id="sortSelect"
-                         className="sort-select"
-                         defaultValue={'Name'}
-                         onChange={handleSortSelect}
-                    >
-                         <option value="Amount paid">Amount paid</option>
-                         <option value="Date subscribed">Date subscribed</option>
-                         <option value="Charge amount">Charged amount</option>
-                         <option value="Name">Name</option>
-                    </select>
+               <div className="insight-select-container">
+                    <div className="sort-select-container">
+                         <label htmlFor="sortSelect">Sort by: </label>
+                         <select
+                              name="sortSelect"
+                              id="sortSelect"
+                              className="sort-select"
+                              defaultValue={'Name'}
+                              onChange={handleSortSelect}
+                         >
+                              <option value="Amount paid">Amount paid</option>
+                              <option value="Date subscribed">Date subscribed</option>
+                              <option value="Charge amount">Charged amount</option>
+                              <option value="Name">Name</option>
+                         </select>
+                    </div>
+                    <div className="sort-select-container">
+                         <label htmlFor="sortType">Sort direction: </label>
+                         <select name="sortType" onChange={handleSortSelect} className="sort-select">
+                              <option value="ascending">Ascending</option>
+                              <option value="descending">Descending</option>
+                         </select>
+                    </div>
                </div>
                <table className="data-table">
                     <thead>
@@ -85,7 +94,7 @@ export default function Table(props: TableProps) {
                                                        } else if (typeof fieldData === 'number') {
                                                             return (
                                                                  <td key={subscription.subscriptionName}>
-                                                                      {fieldData.toString()}
+                                                                      {Math.floor(fieldData * 100) / 100}
                                                                  </td>
                                                             );
                                                        }
