@@ -22,7 +22,7 @@ export default function Insights(props: InsightsProps) {
                     filterState={currentSelect}
                ></SelectBar>
 
-               {currentSelect === 'Charts' && <ChartsView></ChartsView>}
+               {currentSelect === 'Charts' && <ChartsView subscriptionData={props.subscriptionsData}></ChartsView>}
                {currentSelect === 'Table' && <Table subscriptionData={props.subscriptionsData}></Table>}
           </div>
      );
