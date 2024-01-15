@@ -15,7 +15,7 @@ function Dashboard(props: DashboardProps) {
                <div className="actions-container">
                     <DashboardButton label="Home" route=""></DashboardButton>
                     <DashboardButton label="Add subscription" route="addsubscription"></DashboardButton>
-                    <DashboardButton label="Subscription History" route="mysubscriptions"></DashboardButton>
+                    <DashboardButton label="History" route="mysubscriptions"></DashboardButton>
                     <DashboardButton label="Calendar" route="callendar"></DashboardButton>
                     <DashboardButton label="Insights" route="insights"></DashboardButton>
                     <DashboardButton label="Settings" route="settings"></DashboardButton>

@@ -5,8 +5,14 @@ type ChartData = {
      totalCostForMonth: number;
 };
 
+type ChartDataAllYears = {
+     year: number;
+     totalCostYear: number;
+};
+
 type AreaYearChartProps = {
      chartData: ChartData[];
+     chartDataAllYears?: ChartDataAllYears[];
 };
 
 export default function AreaYearChart(props: AreaYearChartProps) {
