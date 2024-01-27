@@ -1,8 +1,9 @@
-import { useSelectedYear } from '../../../utility/custom-hooks/date.hooks';
 import { transformToNormalCase } from '../../../utility/string.utility';
-import ArrowIcon from '../../ArrowIcon/ArrowIcon';
+import { getSingleSubscriptionData } from '../../../utility/subscription.utility';
 import { Subscription } from '../../MySubscriptions/Mysubscriptions';
 import './table.css';
+import { useSortSubscriptions } from '../../../utility/custom-hooks/sort.hook';
+import { useEffect } from 'react';
 
 type TableProps = {
      subscriptionData: Subscription[];
@@ -16,46 +17,57 @@ export default function Table(props: TableProps) {
                stoppedDate: subscription.subscriptionStopped,
                chargeAmount: subscription.chargeAmount,
                currency: subscription.currency,
+               totalPaid: getSingleSubscriptionData(subscription),
           };
           return newSubscriptionObject;
-          return subscription;
      });
 
-     const [currentYear, { next, previous }] = useSelectedYear();
+     const [sortedArray, { handleSortSelect }] = useSortSubscriptions(tableSubscriptionData);
+
+     useEffect(() => {
+          console.log(sortedArray);
+     }, [sortedArray]);
 
      return (
           <>
-               <div>
-                    <ArrowIcon
-                         direction="left"
-                         color="#ffffff"
-                         className="insight-icon"
-                         handleClick={previous}
-                    ></ArrowIcon>
-                    <div>{currentYear}</div>
-                    <ArrowIcon
-                         direction="right"
-                         color="#ffffff"
-                         className="insight-icon"
-                         handleClick={next}
-                    ></ArrowIcon>
+               <div className="insight-select-container">
+                    <div className="sort-select-container">
+                         <label htmlFor="sortSelect">Sort by: </label>
+                         <select
+                              name="sortSelect"
+                              id="sortSelect"
+                              className="sort-select"
+                              defaultValue={'Name'}
+                              onChange={handleSortSelect}
+                         >
+                              <option value="Amount paid">Amount paid</option>
+                              <option value="Date subscribed">Date subscribed</option>
+                              <option value="Charge amount">Charged amount</option>
+                              <option value="Name">Name</option>
+                         </select>
+                    </div>
+                    <div className="sort-select-container">
+                         <label htmlFor="sortType">Sort direction: </label>
+                         <select name="sortType" onChange={handleSortSelect} className="sort-select">
+                              <option value="ascending">Ascending</option>
+                              <option value="descending">Descending</option>
+                         </select>
+                    </div>
                </div>
                <table className="data-table">
                     <thead>
                          <tr>
-                              {tableSubscriptionData.length !== 0 &&
-                                   (
-                                        Object.keys(tableSubscriptionData[0]) as Array<
-                                             keyof (typeof tableSubscriptionData)[0]
-                                        >
-                                   ).map((tableHeader) => {
-                                        return <th key={tableHeader}>{transformToNormalCase(tableHeader)}</th>;
-                                   })}
+                              {sortedArray.length !== 0 &&
+                                   (Object.keys(sortedArray[0]) as Array<keyof (typeof sortedArray)[0]>).map(
+                                        (tableHeader) => {
+                                             return <th key={tableHeader}>{transformToNormalCase(tableHeader)}</th>;
+                                        },
+                                   )}
                          </tr>
                     </thead>
                     <tbody>
-                         {tableSubscriptionData.length !== 0 &&
-                              tableSubscriptionData.map((subscription) => {
+                         {sortedArray.length !== 0 &&
+                              sortedArray.map((subscription) => {
                                    return (
                                         <tr key={subscription.chargeAmount}>
                                              {(Object.keys(subscription) as Array<keyof typeof subscription>).map(
@@ -82,7 +94,7 @@ export default function Table(props: TableProps) {
                                                        } else if (typeof fieldData === 'number') {
                                                             return (
                                                                  <td key={subscription.subscriptionName}>
-                                                                      {fieldData.toString()}
+                                                                      {Math.floor(fieldData * 100) / 100}
                                                                  </td>
                                                             );
                                                        }

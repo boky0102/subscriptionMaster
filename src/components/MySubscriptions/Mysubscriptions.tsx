@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import SubscriptionCard from '../SubscriptionCard/SubscriptionCard';
-import { Notification } from '../Main/Home';
+import { triggerNotification } from '../../types';
 import { getSingleSubscriptionData } from '../../utility/subscription.utility';
 
 type subscriptionCategories =
@@ -28,17 +28,19 @@ export interface Subscription {
 
 type MySubscriptionProps = {
      subscriptionData: Subscription[];
-     notificationTrigger: (
-          message: Notification['message'],
-          type: Notification['notificationType'],
-          active?: Notification['active'],
-     ) => void;
+     notificationTrigger: triggerNotification;
      handleDeleteClick: (id: string) => void;
 };
 
 export default function Mysubscriptions(props: MySubscriptionProps) {
      const [stoppedSubscriptions, setStoppedSubscriptions] = useState([] as Subscription[]);
-     useEffect(() => {
+
+     const filteredSubscriptions = props.subscriptionData.filter((subscription) => {
+          if (subscription.subscriptionStopped) {
+               return subscription;
+          }
+     });
+     /* useEffect(() => {
           setStoppedSubscriptions(() => {
                const filteredArray = props.subscriptionData.filter((subscription) => {
                     if (subscription.subscriptionStopped) {
@@ -47,11 +49,11 @@ export default function Mysubscriptions(props: MySubscriptionProps) {
                });
                return filteredArray;
           });
-     }, [props.subscriptionData]);
+     }, [props.subscriptionData]); */
 
      return (
           <div className="subscriptions-cards-container subscription-history-container">
-               {stoppedSubscriptions.map((subscription) => {
+               {filteredSubscriptions.map((subscription) => {
                     return (
                          <SubscriptionCard
                               subscription={subscription}

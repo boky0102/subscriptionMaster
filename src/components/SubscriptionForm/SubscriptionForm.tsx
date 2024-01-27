@@ -14,6 +14,7 @@ type SubscriptionFormProps = {
      formFilled: boolean;
      triggerNotification: triggerNotification;
      currencies: CurrenciesObj;
+     preferredCurrency: keyof CurrenciesObj;
 };
 
 function SubscriptionForm(props: SubscriptionFormProps) {
@@ -101,14 +102,29 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                                    name="currency"
                                    className="sub-form-select"
                                    onChange={props.handleSubscriptionFormSelectChange}
-                                   defaultValue={'USD'}
+                                   defaultValue={
+                                        props.preferredCurrency && props.currencies[props.preferredCurrency].code
+                                   }
                               >
+                                   {props.preferredCurrency && (
+                                        <option
+                                             key={props.currencies[props.preferredCurrency].code}
+                                             value={props.currencies[props.preferredCurrency].code}
+                                        >
+                                             {props.currencies[props.preferredCurrency].code}
+                                        </option>
+                                   )}
+
                                    {(Object.keys(props.currencies) as Array<keyof typeof props.currencies>).map(
-                                        (currency) => (
-                                             <option value={currency} key={currency}>
-                                                  {currency} - {props.currencies[currency].name}
-                                             </option>
-                                        ),
+                                        (currency) => {
+                                             if (currency !== props.preferredCurrency) {
+                                                  return (
+                                                       <option value={currency} key={currency}>
+                                                            {currency}
+                                                       </option>
+                                                  );
+                                             }
+                                        },
                                    )}
                               </select>
                          </div>

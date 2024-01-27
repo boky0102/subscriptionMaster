@@ -18,6 +18,7 @@ type SubscriptionCardProps = {
      handleDeleteClick: (susbscriptionId: string) => void;
      unsubscribed?: boolean;
      totalCost?: number;
+     handleStopSubscription?: (SubscriptionId: string) => void;
 };
 
 export default function SubscriptionCard(props: SubscriptionCardProps) {
@@ -32,8 +33,15 @@ export default function SubscriptionCard(props: SubscriptionCardProps) {
                const newRenewalDate = new Date(nextRenewal);
                newRenewalDate.setMonth(currentDate.getMonth() + 1);
                setNextRenewal(newRenewalDate);
+               console.log('added one month', nextRenewal.getMonth());
           }
      }, [props.subscription]);
+
+     /* const nextRenewal = props.subscription.renewalDate;
+
+     if (props.subscription.renewalDate.getDate() <= currentDate.getDate()) {
+          nextRenewal.setMonth(currentDate.getMonth() + 1);
+     } */
 
      function handleSliderChange() {
           if (sliderActive) {
@@ -81,6 +89,9 @@ export default function SubscriptionCard(props: SubscriptionCardProps) {
                               'success',
                               true,
                          );
+                         if (props.handleStopSubscription) {
+                              props.handleStopSubscription(id);
+                         }
                     }
                })
                .catch((error) => {

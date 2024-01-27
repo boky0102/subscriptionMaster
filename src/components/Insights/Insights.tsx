@@ -17,12 +17,12 @@ export default function Insights(props: InsightsProps) {
      return (
           <div className="select-insight-container">
                <SelectBar
-                    filterElements={['Charts', 'Table', 'Fun facts']}
+                    filterElements={['Charts', 'Table', 'Annual report']}
                     handleElementClick={handleElementClick}
                     filterState={currentSelect}
                ></SelectBar>
 
-               {currentSelect === 'Charts' && <ChartsView></ChartsView>}
+               {currentSelect === 'Charts' && <ChartsView subscriptionData={props.subscriptionsData}></ChartsView>}
                {currentSelect === 'Table' && <Table subscriptionData={props.subscriptionsData}></Table>}
           </div>
      );

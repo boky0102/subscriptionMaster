@@ -37,6 +37,135 @@ type subscriptionCategories =
      | 'Software'
      | 'Other';
 
+export function checkIfSubscriptionCharged(
+     monthIndex: number,
+     dateSubscribed: Date,
+     dateUnsubscribed: Date,
+     year: number,
+     renewalDay: number,
+) {
+     const yearSubscribed = dateSubscribed.getFullYear();
+     const monthSubscribed = dateSubscribed.getMonth();
+     const daySubscribed = dateSubscribed.getDate();
+     const yearUnsubscribed = dateUnsubscribed.getFullYear();
+     const monthUnsubscribed = dateUnsubscribed.getMonth();
+     const dayUnsubscribed = dateUnsubscribed.getDate();
+
+     const currentDay = new Date().getDate();
+     const currentMonth = new Date().getMonth();
+     /* const currentYear = new Date().getFullYear(); */
+
+     if (year > yearSubscribed && year < yearUnsubscribed) {
+          return true;
+     } else {
+          if (year === yearSubscribed && year === yearUnsubscribed) {
+               if (currentMonth === monthIndex && monthUnsubscribed === monthIndex) {
+                    if (dayUnsubscribed >= currentDay) {
+                         return true;
+                    }
+               } else {
+                    if (monthIndex > monthSubscribed && monthIndex < monthUnsubscribed) {
+                         return true;
+                    } else {
+                         if (monthIndex === monthSubscribed) {
+                              if (renewalDay >= daySubscribed) {
+                                   return true;
+                              } else {
+                                   return false;
+                              }
+                         }
+                         if (monthIndex === monthUnsubscribed) {
+                              if (renewalDay <= dayUnsubscribed) {
+                                   return true;
+                              } else {
+                                   return false;
+                              }
+                         }
+                    }
+               }
+          } else if (year === yearSubscribed) {
+               if (monthIndex > monthSubscribed && monthIndex < monthUnsubscribed) {
+                    return true;
+               } else {
+                    if (monthIndex === monthUnsubscribed) {
+                         if (renewalDay <= dayUnsubscribed) {
+                              return true;
+                         } else {
+                              return false;
+                         }
+                    }
+                    if (monthIndex === monthSubscribed) {
+                         return true;
+                    }
+               }
+          } else if (year === yearUnsubscribed) {
+               if (monthIndex > monthSubscribed && monthIndex < monthUnsubscribed) {
+                    return true;
+               } else {
+                    if (monthIndex === monthUnsubscribed) {
+                         if (renewalDay <= dayUnsubscribed) {
+                              return true;
+                         } else {
+                              return false;
+                         }
+                    }
+                    if (monthIndex === monthSubscribed) {
+                         return true;
+                    }
+               }
+          }
+     }
+     return false;
+}
+
+export function checkIfSubscriptionChargedOngoing(
+     monthIndex: number,
+     year: number,
+     dateSubscribed: Date,
+     renewalDay: number,
+) {
+     const yearSubscribed = dateSubscribed.getFullYear();
+     const monthSubscribed = dateSubscribed.getMonth();
+     const currentYear = new Date().getFullYear();
+     const currentMonth = new Date().getMonth();
+     const currentDay = new Date().getDate();
+
+     if (yearSubscribed < year) {
+          return true;
+     } else {
+          if (yearSubscribed === year) {
+               if (monthIndex >= monthSubscribed) {
+                    if (monthIndex > monthSubscribed) {
+                         if (monthIndex === currentMonth && year === currentYear) {
+                              if (currentDay >= renewalDay) {
+                                   return true;
+                              } else {
+                                   return false;
+                              }
+                         }
+                         return true;
+                    } else {
+                         if (monthIndex === currentMonth && year === currentYear) {
+                              if (currentDay >= renewalDay) {
+                                   return true;
+                              } else {
+                                   return false;
+                              }
+                         }
+                         if (monthIndex === monthSubscribed) {
+                              return true;
+                         }
+                    }
+               } else {
+                    return false;
+               }
+          } else {
+               return false;
+          }
+     }
+     return false;
+}
+
 export function getChartDataYear(subscriptionData: Subscription[], year: number) {
      const currentYear = new Date().getFullYear();
      const currentMonth = new Date().getMonth();
@@ -50,25 +179,15 @@ export function getChartDataYear(subscriptionData: Subscription[], year: number)
                     if (subscription.subscriptionStopped) {
                          if (!subscription.freeTrial) {
                               if (
-                                   subscription.dateAdded.getFullYear() < year &&
-                                   year < subscription.subscriptionStopped.getFullYear()
+                                   checkIfSubscriptionCharged(
+                                        index,
+                                        subscription.dateAdded,
+                                        subscription.subscriptionStopped,
+                                        year,
+                                        subscription.dateAdded.getDate(),
+                                   )
                               ) {
                                    totalMonthCost += subscription.chargeAmount;
-                              } else if (subscription.dateAdded.getFullYear() === year) {
-                                   if (
-                                        subscription.dateAdded.getMonth() < index &&
-                                        index < subscription.subscriptionStopped.getMonth()
-                                   ) {
-                                        totalMonthCost += subscription.chargeAmount;
-                                   } else if (subscription.dateAdded.getMonth() === index) {
-                                        //BUG ON JANUARY CURRENT YEAR
-                                        if (
-                                             subscription.dateAdded.getDay() <= currentDay &&
-                                             subscription.dateAdded.getDay() < subscription.subscriptionStopped.getDay()
-                                        ) {
-                                             totalMonthCost += subscription.chargeAmount;
-                                        }
-                                   }
                               }
                          }
                     } else {
@@ -268,7 +387,7 @@ export function getSingleSubscriptionData(subscription: Subscription) {
                ) {
                     months.forEach((month, index) => {
                          if (
-                              index < subscription.subscriptionStopped!.getMonth() &&
+                              index <= subscription.subscriptionStopped!.getMonth() &&
                               index >= subscription.dateAdded.getMonth()
                          ) {
                               if (index === subscription.subscriptionStopped?.getMonth()) {
@@ -278,13 +397,17 @@ export function getSingleSubscriptionData(subscription: Subscription) {
                               } else {
                                    totalCostYear += subscription.chargeAmount;
                               }
+
+                              if (index === subscription.dateAdded.getMonth()) {
+                                   totalCostYear += subscription.chargeAmount;
+                              }
                          }
                     });
                } else if (iterationYear === subscription.subscriptionStopped.getFullYear()) {
                     months.forEach((month, index) => {
-                         if (index < subscription.subscriptionStopped!.getMonth()) {
+                         if (index <= subscription.subscriptionStopped!.getMonth()) {
                               if (index === subscription.subscriptionStopped?.getMonth()) {
-                                   if (subscription.dateAdded.getDate() >= subscription.subscriptionStopped.getDate()) {
+                                   if (subscription.dateAdded.getDate() <= subscription.subscriptionStopped.getDate()) {
                                         totalCostYear += subscription.chargeAmount;
                                    }
                               } else {
@@ -303,6 +426,24 @@ export function getSingleSubscriptionData(subscription: Subscription) {
                          totalCostYear += subscription.chargeAmount;
                     });
                }
+               totalCostAllYears += totalCostYear;
+               iterationYear++;
+          }
+     } else {
+          while (iterationYear <= new Date().getFullYear()) {
+               let totalCostYear = 0;
+               months.forEach((month, index) => {
+                    if (
+                         checkIfSubscriptionChargedOngoing(
+                              index,
+                              iterationYear,
+                              subscription.dateAdded,
+                              subscription.renewalDate.getDate(),
+                         )
+                    ) {
+                         totalCostYear += subscription.chargeAmount;
+                    }
+               });
                totalCostAllYears += totalCostYear;
                iterationYear++;
           }
