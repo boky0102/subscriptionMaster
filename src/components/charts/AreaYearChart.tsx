@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { ResponsiveContainer, AreaChart, Area, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 type ChartData = {
@@ -5,17 +6,20 @@ type ChartData = {
      totalCostForMonth: number;
 };
 
-type ChartDataAllYears = {
+type ChartYearData = {
      year: number;
-     totalCostYear: number;
+     totalCostForYear: number;
 };
 
 type AreaYearChartProps = {
-     chartData: ChartData[];
-     chartDataAllYears?: ChartDataAllYears[];
+     chartData: ChartData[] | ChartYearData[];
+     timeFrame: 'all' | number;
 };
 
 export default function AreaYearChart(props: AreaYearChartProps) {
+     useEffect(() => {
+          console.log(props.chartData);
+     }, [props.chartData]);
      return (
           <ResponsiveContainer width={'100%'} height={200}>
                <AreaChart data={props.chartData} margin={{ top: 20, left: 0, right: 50, bottom: 0 }}>
@@ -27,13 +31,17 @@ export default function AreaYearChart(props: AreaYearChartProps) {
                     </defs>
                     <Area
                          type="monotone"
-                         dataKey="totalCostForMonth"
+                         dataKey={props.timeFrame === 'all' ? 'totalCostForYear' : 'totalCostForMonth'}
                          stroke="#17BEBB"
                          fillOpacity={1}
                          fill="url(#colorUv)"
                     />
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" fontWeight={'bold'} stroke="#0E1C36"></XAxis>
+                    <XAxis
+                         dataKey={props.timeFrame === 'all' ? 'year' : 'month'}
+                         fontWeight={'bold'}
+                         stroke="#0E1C36"
+                    ></XAxis>
                     <YAxis stroke="#0E1C36"></YAxis>
                </AreaChart>
           </ResponsiveContainer>

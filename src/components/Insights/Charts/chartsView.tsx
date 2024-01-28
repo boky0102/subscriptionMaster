@@ -1,7 +1,7 @@
 import './chartsView.css';
 import { Subscription } from '../../MySubscriptions/Mysubscriptions';
-import { useState } from 'react';
-import { getChartDataYear } from '../../../utility/subscription.utility';
+import { useEffect, useState } from 'react';
+import { getChartDataAllYears, getChartDataYear } from '../../../utility/subscription.utility';
 import AreaYearChart from '../../charts/AreaYearChart';
 
 type ChartsViewProps = {
@@ -11,6 +11,11 @@ type ChartsViewProps = {
 type ChartAreaYearData = {
      month: 'Jan' | 'Feb' | 'Mar' | 'Apr' | 'May' | 'Jun' | 'Jul' | 'Aug' | 'Sep' | 'Oct' | 'Nov' | 'Dec';
      totalCostForMonth: number;
+};
+
+type ChartYearData = {
+     year: number;
+     totalCostForYear: number;
 };
 
 function getAllYears() {
@@ -24,19 +29,26 @@ function getAllYears() {
 }
 
 export default function ChartsView(props: ChartsViewProps) {
-     const [selectedYear, setSelectedYear] = useState(1);
+     const [selectedYear, setSelectedYear] = useState('all' as number | 'all');
      const [selectedSubscription, setSelectedSubscription] = useState('all');
 
-     let chartAreaData: ChartAreaYearData[] = [];
+     let chartAreaData = [];
 
-     if (selectedYear !== 1) {
+     if (selectedYear !== 1 && selectedYear !== 'all') {
           chartAreaData = getChartDataYear(props.subscriptionData, selectedYear);
+     } else {
+          chartAreaData = getChartDataAllYears(props.subscriptionData);
      }
+
+     useEffect(() => {
+          console.log(selectedYear);
+     }, [selectedYear]);
 
      function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
           const { name, value } = event.target;
           if (name === 'timeFrame') {
-               setSelectedYear(parseInt(value));
+               if (value === 'all') setSelectedYear('all');
+               else setSelectedYear(parseInt(value));
           } else if (name === 'subscription') {
                setSelectedSubscription(value);
           }
@@ -47,7 +59,7 @@ export default function ChartsView(props: ChartsViewProps) {
                <div>
                     <label htmlFor="time-frame-select">Time frame</label>
                     <select id="time-frame-select" name="timeFrame" onChange={handleSelectChange}>
-                         <option value={1}>All time</option>
+                         <option value={'all'}>All time</option>
                          {getAllYears().map((year) => {
                               return (
                                    <option key={year} value={year}>
@@ -68,7 +80,7 @@ export default function ChartsView(props: ChartsViewProps) {
                </div>
                <div className="insights-charts-container">
                     <div className="insights-chart insights-chart-big">
-                         <AreaYearChart chartData={chartAreaData}></AreaYearChart>
+                         <AreaYearChart chartData={chartAreaData} timeFrame={selectedYear}></AreaYearChart>
                     </div>
                     <div className="insights-chart"></div>
                     <div className="insights-chart"></div>
