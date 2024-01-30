@@ -12,4 +12,5 @@ export type SubscriptionsTable = {
      chargeAmount: number;
      currency: string;
      totalPaid: number;
+     id: string;
 };
