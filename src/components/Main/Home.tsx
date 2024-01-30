@@ -41,13 +41,14 @@ type UserColorData = {
 
 function Home() {
      const navigate = useNavigate();
+     const [notification, triggerNotification] = useNotification();
 
      const [
           subscriptionFormData,
           formDataisValid,
           { formChangeHandler, freeTrialSliderHandler, emailSliderHandler, selectChangeFunctionHandler },
      ] = useSubscriptionForm();
-     const [notification, triggerNotification] = useNotification();
+
      const [dataPosted, subscriptionFormSubmitHandler] = usePostSubscriptionData(
           subscriptionFormData,
           formDataisValid,

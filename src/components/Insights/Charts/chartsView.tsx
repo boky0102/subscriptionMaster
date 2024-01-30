@@ -34,15 +34,30 @@ export default function ChartsView(props: ChartsViewProps) {
 
      let chartAreaData = [];
 
-     if (selectedYear !== 1 && selectedYear !== 'all') {
-          chartAreaData = getChartDataYear(props.subscriptionData, selectedYear);
+     let filteredDataBySubscription = [] as Subscription[];
+     if (selectedSubscription !== 'all') {
+          filteredDataBySubscription = props.subscriptionData.filter((subscription) => {
+               if (subscription.id === selectedSubscription) {
+                    return subscription;
+               }
+          });
      } else {
-          chartAreaData = getChartDataAllYears(props.subscriptionData);
+          filteredDataBySubscription = [...props.subscriptionData];
      }
 
-     useEffect(() => {
-          console.log(selectedYear);
-     }, [selectedYear]);
+     if (selectedYear !== 1 && selectedYear !== 'all') {
+          if (filteredDataBySubscription.length > 0) {
+               chartAreaData = getChartDataYear(filteredDataBySubscription, selectedYear);
+          } else {
+               chartAreaData = getChartDataYear(props.subscriptionData, selectedYear);
+          }
+     } else {
+          if (filteredDataBySubscription.length > 0) {
+               chartAreaData = getChartDataAllYears(filteredDataBySubscription);
+          } else {
+               chartAreaData = getChartDataAllYears(props.subscriptionData);
+          }
+     }
 
      function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
           const { name, value } = event.target;

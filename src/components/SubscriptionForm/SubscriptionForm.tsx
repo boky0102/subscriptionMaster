@@ -20,6 +20,7 @@ type SubscriptionFormProps = {
 function SubscriptionForm(props: SubscriptionFormProps) {
      const formStartInputElement = useRef(null as HTMLInputElement | null);
      const dateInputElement = useRef(null as HTMLInputElement | null);
+     const currencySelectElement = useRef(null as HTMLSelectElement | null);
 
      useEffect(() => {
           const currentDate = new Date();
@@ -40,6 +41,12 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                dateInputElement.current.max = `${year}-${month}-${day}`;
           }
      }, []);
+
+     useEffect(() => {
+          if (currencySelectElement.current) {
+               currencySelectElement.current.value = props.preferredCurrency;
+          }
+     }, [props.preferredCurrency]);
 
      return (
           <>
@@ -102,9 +109,8 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                                    name="currency"
                                    className="sub-form-select"
                                    onChange={props.handleSubscriptionFormSelectChange}
-                                   defaultValue={
-                                        props.preferredCurrency && props.currencies[props.preferredCurrency].code
-                                   }
+                                   value={props.preferredCurrency && props.currencies[props.preferredCurrency].code}
+                                   ref={currencySelectElement}
                               >
                                    {props.preferredCurrency && (
                                         <option
