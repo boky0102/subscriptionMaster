@@ -115,7 +115,12 @@ function Home() {
                          ></Route>
                          <Route
                               path="/insights"
-                              element={<Insights subscriptionsData={currencyAdjustedSubData}></Insights>}
+                              element={
+                                   <Insights
+                                        userColorData={userData.userColorData}
+                                        subscriptionsData={currencyAdjustedSubData}
+                                   ></Insights>
+                              }
                          ></Route>
                          <Route
                               path=""

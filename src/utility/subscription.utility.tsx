@@ -344,6 +344,67 @@ export function getChartCategoryDataYear(subscriptionData: Subscription[], year:
      }
 }
 
+export function getCategoryDataAllYears(subscriptionData: Subscription[]) {
+     const categories: subscriptionCategories[] = [
+          'Streaming service',
+          'Gaming',
+          'Clothing',
+          'Food',
+          'Utility',
+          'Education',
+          'Software',
+          'Other',
+     ];
+
+     const currentYear = new Date().getFullYear();
+     let startingYear = new Date().getFullYear();
+     subscriptionData.forEach((subscription) => {
+          if (subscription.dateAdded.getFullYear() < startingYear) {
+               startingYear = subscription.dateAdded.getFullYear();
+          }
+     });
+
+     const chartCategoryDataArray = [] as ChartYearCategoryData[];
+
+     for (let i = startingYear; i <= currentYear; i++) {
+          const dataForCurrentYear = getChartCategoryDataYear(subscriptionData, i);
+          dataForCurrentYear?.forEach((category) => {
+               chartCategoryDataArray.push(category);
+          });
+     }
+
+     const categoryChartData = [] as ChartYearCategoryData[];
+
+     let totalCostAllCategories = 0;
+
+     if (chartCategoryDataArray.length > 0) {
+          categories.forEach((category) => {
+               let totalCostCategory = 0;
+               chartCategoryDataArray.forEach((categoryData) => {
+                    if (category === categoryData.name) {
+                         totalCostCategory += categoryData.totalCost;
+                         totalCostAllCategories += categoryData.totalCost;
+                    }
+               });
+               categoryChartData.push({
+                    totalCost: totalCostCategory,
+                    name: category,
+               });
+          });
+     }
+
+     const returnArrayWithPercentages = categoryChartData.map((category) => {
+          const mapObject: ChartYearCategoryData = {
+               name: category.name,
+               totalCost: category.totalCost,
+               percentage: (category.totalCost / totalCostAllCategories) * 100,
+          };
+          return mapObject;
+     });
+
+     return returnArrayWithPercentages;
+}
+
 export function getChartDataAllYears(subscriptionData: Subscription[]) {
      const currentYear = new Date().getFullYear();
      let lowestYear = currentYear;

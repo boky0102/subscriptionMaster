@@ -5,8 +5,24 @@ import Table from './Table/Table';
 import './insights.css';
 import { useState } from 'react';
 
+type subscriptionCategories =
+     | 'Streaming service'
+     | 'Gaming'
+     | 'Clothing'
+     | 'Food'
+     | 'Utility'
+     | 'Education'
+     | 'Software'
+     | 'Other';
+
+type UserColorData = {
+     category: subscriptionCategories;
+     color: string;
+};
+
 type InsightsProps = {
      subscriptionsData: Subscription[];
+     userColorData?: UserColorData[];
 };
 
 export default function Insights(props: InsightsProps) {
@@ -22,7 +38,12 @@ export default function Insights(props: InsightsProps) {
                     filterState={currentSelect}
                ></SelectBar>
 
-               {currentSelect === 'Charts' && <ChartsView subscriptionData={props.subscriptionsData}></ChartsView>}
+               {currentSelect === 'Charts' && (
+                    <ChartsView
+                         subscriptionData={props.subscriptionsData}
+                         userColors={props.userColorData}
+                    ></ChartsView>
+               )}
                {currentSelect === 'Table' && <Table subscriptionData={props.subscriptionsData}></Table>}
           </div>
      );
