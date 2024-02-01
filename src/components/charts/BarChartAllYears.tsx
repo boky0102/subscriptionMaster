@@ -1,12 +1,29 @@
 import { BarChart, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, Bar } from 'recharts';
 
+type subscriptionCategories =
+     | 'Streaming service'
+     | 'Gaming'
+     | 'Clothing'
+     | 'Food'
+     | 'Utility'
+     | 'Education'
+     | 'Software'
+     | 'Other';
+
+type ChartYearCategoryData = {
+     name: subscriptionCategories;
+     totalCost: number;
+     percentage?: number;
+};
+
 type ChartYearData = {
      year: number;
      totalCostForYear: number;
 };
 
 type BarChartAllYearsProps = {
-     chartData: ChartYearData[];
+     chartData: ChartYearData[] | ChartYearCategoryData[];
+     categoryData?: boolean;
 };
 
 export default function BarChartAllYears(props: BarChartAllYearsProps) {
@@ -22,10 +39,19 @@ export default function BarChartAllYears(props: BarChartAllYearsProps) {
                     }}
                >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="year" fontWeight={'bold'} stroke="#0E1C36" name="Year" />
+                    <XAxis
+                         dataKey={props.categoryData ? 'name' : 'year'}
+                         fontWeight={'bold'}
+                         stroke="#0E1C36"
+                         name="Year"
+                    />
                     <YAxis stroke="#0E1C36" />
                     <Tooltip />
-                    <Bar dataKey="totalCostForYear" fill="#17BEBB" name="Total subscription cost" />
+                    <Bar
+                         dataKey={props.categoryData ? 'totalCost' : 'totalCostForYear'}
+                         fill="#17BEBB"
+                         name="Total cost"
+                    />
                </BarChart>
           </ResponsiveContainer>
      );

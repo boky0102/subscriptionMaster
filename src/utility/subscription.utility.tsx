@@ -426,7 +426,7 @@ export function getChartDataAllYears(subscriptionData: Subscription[]) {
           }
           const iterationYearData: ChartYearData = {
                year: j,
-               totalCostForYear: yearTotalCost,
+               totalCostForYear: Math.round(yearTotalCost * 100) / 100,
           };
           chartYearData.push(iterationYearData);
      }
