@@ -170,7 +170,11 @@ export default function ChartsView(props: ChartsViewProps) {
                          <PieCategoryChart chartData={chartPieData} userColors={props.userColors}></PieCategoryChart>
                     </div>
                     <div className="insights-chart insights-chart-big insights-chart-category">
-                         <BarChartAllYears chartData={chartPieData} categoryData={true}></BarChartAllYears>
+                         <BarChartAllYears
+                              chartData={chartPieData}
+                              categoryData={true}
+                              userColorData={props.userColors}
+                         ></BarChartAllYears>
                     </div>
                </div>
           </div>

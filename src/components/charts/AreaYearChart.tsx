@@ -14,7 +14,7 @@ type ChartYearData = {
 type AreaYearChartProps = {
      chartData: ChartData[] | ChartYearData[];
      timeFrame: 'all' | number;
-     height: number;
+     height?: number;
 };
 
 export default function AreaYearChart(props: AreaYearChartProps) {

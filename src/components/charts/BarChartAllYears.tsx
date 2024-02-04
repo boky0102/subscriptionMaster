@@ -1,4 +1,4 @@
-import { BarChart, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, Bar } from 'recharts';
+import { BarChart, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, Bar, Cell } from 'recharts';
 
 type subscriptionCategories =
      | 'Streaming service'
@@ -21,10 +21,20 @@ type ChartYearData = {
      totalCostForYear: number;
 };
 
+type UserColorData = {
+     category: subscriptionCategories;
+     color: string;
+};
+
 type BarChartAllYearsProps = {
      chartData: ChartYearData[] | ChartYearCategoryData[];
+     userColorData?: UserColorData[];
      categoryData?: boolean;
 };
+
+function isChartYearCategoryData(data: ChartYearData | ChartYearCategoryData): data is ChartYearCategoryData {
+     return (data as ChartYearCategoryData).name !== undefined;
+}
 
 export default function BarChartAllYears(props: BarChartAllYearsProps) {
      return (
@@ -52,7 +62,22 @@ export default function BarChartAllYears(props: BarChartAllYearsProps) {
                          maxBarSize={props.chartData.length > 2 ? undefined : 200}
                          fill="#17BEBB"
                          name="Total cost"
-                    />
+                    >
+                         {props.userColorData &&
+                              props.chartData.map((entry) => {
+                                   if (isChartYearCategoryData(entry)) {
+                                        let currentColor = '';
+                                        props.userColorData?.forEach((color) => {
+                                             if (color.category === entry.name) {
+                                                  currentColor = color.color;
+                                                  return;
+                                             }
+                                        });
+                                        console.log(currentColor, 'CurrentColor');
+                                        return <Cell key={`${entry.name}-colorKey`} fill={currentColor}></Cell>;
+                                   }
+                              })}
+                    </Bar>
                </BarChart>
           </ResponsiveContainer>
      );
