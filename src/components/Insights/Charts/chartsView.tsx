@@ -1,6 +1,6 @@
 import './chartsView.css';
 import { Subscription } from '../../MySubscriptions/Mysubscriptions';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
      getCategoryDataAllYears,
      getChartCategoryDataYear,
@@ -9,7 +9,6 @@ import {
 } from '../../../utility/subscription.utility';
 import AreaYearChart from '../../charts/AreaYearChart';
 import PieCategoryChart from '../../charts/PieCategoryChart';
-import { BarChart } from 'recharts';
 import BarChartAllYears from '../../charts/BarChartAllYears';
 
 type UserColorData = {
@@ -122,7 +121,7 @@ export default function ChartsView(props: ChartsViewProps) {
 
      return (
           <div>
-               <div>
+               <div className="insight-toolbar">
                     <label htmlFor="time-frame-select">Time frame</label>
                     <select id="time-frame-select" name="timeFrame" onChange={handleSelectChange}>
                          <option value={'all'}>All time</option>
@@ -170,7 +169,7 @@ export default function ChartsView(props: ChartsViewProps) {
                     <div className="insights-chart">
                          <PieCategoryChart chartData={chartPieData} userColors={props.userColors}></PieCategoryChart>
                     </div>
-                    <div className="insights-chart">
+                    <div className="insights-chart insights-chart-big insights-chart-category">
                          <BarChartAllYears chartData={chartPieData} categoryData={true}></BarChartAllYears>
                     </div>
                </div>

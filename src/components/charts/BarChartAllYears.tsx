@@ -49,6 +49,7 @@ export default function BarChartAllYears(props: BarChartAllYearsProps) {
                     <Tooltip />
                     <Bar
                          dataKey={props.categoryData ? 'totalCost' : 'totalCostForYear'}
+                         maxBarSize={props.chartData.length > 2 ? undefined : 200}
                          fill="#17BEBB"
                          name="Total cost"
                     />

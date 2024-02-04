@@ -191,7 +191,13 @@ export default function HomeContent(props: HomeContentProps) {
                          </div>
                     )}
                     <div className="chart-container">
-                         {chartType === 'year' && <AreaYearChart chartData={chartData}></AreaYearChart>}
+                         {chartType === 'year' && (
+                              <AreaYearChart
+                                   chartData={chartData}
+                                   height={200}
+                                   timeFrame={selectedYear}
+                              ></AreaYearChart>
+                         )}
                          {chartType === 'all-time' && <BarChartAllYears chartData={chartYearData}></BarChartAllYears>}
 
                          <div className="chart-action-container">
