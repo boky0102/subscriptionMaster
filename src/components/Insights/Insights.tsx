@@ -26,14 +26,14 @@ type InsightsProps = {
 };
 
 export default function Insights(props: InsightsProps) {
-     const [currentSelect, setCurrentSelect] = useState('Table');
+     const [currentSelect, setCurrentSelect] = useState('Charts');
      function handleElementClick(event: React.MouseEvent<HTMLDivElement>) {
           setCurrentSelect(event.currentTarget.id);
      }
      return (
           <div className="select-insight-container">
                <SelectBar
-                    filterElements={['Charts', 'Table', 'Annual report']}
+                    filterElements={['Table', 'Charts', 'Annual report']}
                     handleElementClick={handleElementClick}
                     filterState={currentSelect}
                ></SelectBar>

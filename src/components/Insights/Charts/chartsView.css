@@ -20,7 +20,6 @@
      background-color: var(--main-light);
      border-radius: 10px;
      margin-top: 10px;
-     margin-right: 10px;
      display: flex;
      justify-content: center;
      align-items: center;
@@ -30,13 +29,16 @@
      padding: 10px;
 }
 
+.insights-chart-outer {
+     margin-left: 10px;
+}
+
 .insight-toolbar {
      display: flex;
      flex-direction: column;
      width: 200px;
      background-color: var(--main-light);
      border-radius: 10px;
-     margin-top: 10px;
      padding: 10px;
 }
 
@@ -45,4 +47,24 @@
      height: 30px;
      font-family: poppins;
      margin-bottom: 5px;
+}
+
+.insights-info-bar {
+     flex-grow: 1;
+     height: auto;
+     background-color: var(--main-light);
+     margin-left: 10px;
+     border-radius: 10px;
+     display: flex;
+     flex-direction: column;
+}
+
+.insights-info-bar h3 {
+     font-family: poppins;
+     color: var(--main-dark);
+}
+
+.insight-toolbar-info-container {
+     margin-top: 10px;
+     display: flex;
 }
