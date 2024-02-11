@@ -25,6 +25,11 @@
      align-items: center;
 }
 
+.insight-toolbar-info-container {
+     margin-top: 10px;
+     display: flex;
+}
+
 .insights-chart-category {
      padding: 10px;
 }
@@ -56,15 +61,6 @@
      margin-left: 10px;
      border-radius: 10px;
      display: flex;
-     flex-direction: column;
-}
-
-.insights-info-bar h3 {
-     font-family: poppins;
-     color: var(--main-dark);
-}
-
-.insight-toolbar-info-container {
-     margin-top: 10px;
-     display: flex;
+     justify-content: space-around;
+     align-items: center;
 }

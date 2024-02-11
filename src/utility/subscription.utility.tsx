@@ -512,3 +512,30 @@ export function getSingleSubscriptionData(subscription: Subscription) {
 
      return totalCostAllYears;
 }
+
+export function getSingleSubscriptionDataYear(data: Subscription, year: number) {
+     let totalPaidSubscription = 0;
+     const months: Months[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+     months.forEach((month, index) => {
+          if (!data.freeTrial) {
+               if (data.subscriptionStopped) {
+                    if (
+                         checkIfSubscriptionCharged(
+                              index,
+                              data.dateAdded,
+                              data.subscriptionStopped,
+                              year,
+                              data.renewalDate.getDate(),
+                         )
+                    ) {
+                         totalPaidSubscription += data.chargeAmount;
+                    }
+               } else {
+                    if (checkIfSubscriptionChargedOngoing(index, year, data.dateAdded, data.renewalDate.getDate())) {
+                         totalPaidSubscription += data.chargeAmount;
+                    }
+               }
+          }
+     });
+     return totalPaidSubscription;
+}

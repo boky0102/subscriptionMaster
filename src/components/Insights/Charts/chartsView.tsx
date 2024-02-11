@@ -6,10 +6,13 @@ import {
      getChartCategoryDataYear,
      getChartDataAllYears,
      getChartDataYear,
+     getSingleSubscriptionData,
+     getSingleSubscriptionDataYear,
 } from '../../../utility/subscription.utility';
 import AreaYearChart from '../../charts/AreaYearChart';
 import PieCategoryChart from '../../charts/PieCategoryChart';
 import BarChartAllYears from '../../charts/BarChartAllYears';
+import InfoDisplay from '../../InfoDisplay/InfoDisplay';
 
 type UserColorData = {
      category: subscriptionCategories;
@@ -46,6 +49,10 @@ type subscriptionCategories =
      | 'Education'
      | 'Software'
      | 'Other';
+
+interface SubscriptionExtended extends Subscription {
+     totalPaid: number;
+}
 
 function getAllYears() {
      let currentYear = new Date().getFullYear();
@@ -109,6 +116,46 @@ function getBiggestCategoryAllYears(data: ChartYearCategoryData[]) {
      return biggest;
 }
 
+function getHighestSubscriptionYear(data?: Subscription[], year: number) {
+     let highestSubscription = {
+          totalPaid: 0,
+     } as SubscriptionExtended;
+     if (data) {
+          data.forEach((subscription) => {
+               const totalPaid = getSingleSubscriptionDataYear(subscription, year);
+               if (totalPaid > highestSubscription.totalPaid) {
+                    highestSubscription = {
+                         ...subscription,
+                         totalPaid: totalPaid,
+                    };
+               }
+          });
+          return highestSubscription;
+     }
+
+     return undefined;
+}
+
+function getHighestSubscriptionAllYears(data?: Subscription[]) {
+     let highestSubscription = {
+          totalPaid: 0,
+     } as SubscriptionExtended;
+     if (data) {
+          data.forEach((subscription) => {
+               const totalPaid = getSingleSubscriptionData(subscription);
+               if (totalPaid > highestSubscription.totalPaid) {
+                    highestSubscription = {
+                         ...subscription,
+                         totalPaid: totalPaid,
+                    };
+               }
+          });
+          return highestSubscription;
+     }
+
+     return undefined;
+}
+
 export default function ChartsView(props: ChartsViewProps) {
      const [selectedYear, setSelectedYear] = useState('all' as number | 'all');
      const [selectedSubscription, setSelectedSubscription] = useState('all');
@@ -118,6 +165,7 @@ export default function ChartsView(props: ChartsViewProps) {
      let chartPieData = [] as ChartYearCategoryData[];
      let totalAmountPaid = 0;
      let biggestCategory = {} as ChartYearCategoryData;
+     let biggestSubscription = {} as SubscriptionExtended | undefined;
 
      const categories = getCategories();
 
@@ -137,6 +185,7 @@ export default function ChartsView(props: ChartsViewProps) {
                chartAreaData = getChartDataYear(filteredDataBySubscription, selectedYear);
                const pieChartData = getChartCategoryDataYear(filteredDataBySubscription, selectedYear);
                totalAmountPaid = getTotalAmountYear(chartAreaData);
+               biggestSubscription = getHighestSubscriptionYear(filteredDataBySubscription, selectedYear);
                if (pieChartData) {
                     chartPieData = pieChartData;
                     biggestCategory = getBiggestCategoryYear(pieChartData);
@@ -145,6 +194,7 @@ export default function ChartsView(props: ChartsViewProps) {
                chartAreaData = getChartDataYear(props.subscriptionData, selectedYear);
                const pieChartData = getChartCategoryDataYear(filteredDataBySubscription, selectedYear);
                totalAmountPaid = getTotalAmountYear(chartAreaData);
+               biggestSubscription = getHighestSubscriptionYear(props.subscriptionData, selectedYear);
                if (pieChartData) {
                     chartPieData = pieChartData;
                     biggestCategory = getBiggestCategoryYear(pieChartData);
@@ -156,11 +206,13 @@ export default function ChartsView(props: ChartsViewProps) {
                chartPieData = getCategoryDataAllYears(filteredDataBySubscription);
                totalAmountPaid = getTotalAmountAllYears(chartAreaData);
                biggestCategory = getBiggestCategoryAllYears(chartPieData);
+               biggestSubscription = getHighestSubscriptionAllYears(filteredDataBySubscription);
           } else {
                chartAreaData = getChartDataAllYears(props.subscriptionData);
                chartPieData = getCategoryDataAllYears(props.subscriptionData);
                totalAmountPaid = getTotalAmountAllYears(chartAreaData);
                biggestCategory = getBiggestCategoryAllYears(chartPieData);
+               biggestSubscription = getHighestSubscriptionAllYears(props.subscriptionData);
           }
      }
 
@@ -221,18 +273,17 @@ export default function ChartsView(props: ChartsViewProps) {
                          </select>
                     </div>
                     <div className="insights-info-bar">
-                         <h3>
-                              <span>Total paid for subscriptions</span>
-                              <span>{Math.round(totalAmountPaid * 100) / 100}</span>
-                         </h3>
-                         <h3>
-                              <span>Category most payed for is {biggestCategory && biggestCategory.name}</span>
-                              <span>{biggestCategory && biggestCategory.totalCost}</span>
-                         </h3>
-                         <h3>
-                              <span>Subscription most payed for</span>
-                              <span></span>
-                         </h3>
+                         <InfoDisplay header="Total paid" amount={totalAmountPaid && totalAmountPaid}></InfoDisplay>
+                         <InfoDisplay
+                              header="Highest Category"
+                              amount={biggestCategory && biggestCategory.totalCost}
+                              amountHeader={biggestCategory && biggestCategory.name}
+                         ></InfoDisplay>
+                         <InfoDisplay
+                              header="Highest Subscription"
+                              amount={biggestSubscription && biggestSubscription.totalPaid}
+                              amountHeader={biggestSubscription && biggestSubscription.subscriptionName}
+                         ></InfoDisplay>
                     </div>
                </div>
                <div className="insights-charts-container">
