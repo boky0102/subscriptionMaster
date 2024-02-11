@@ -33,7 +33,6 @@ export default function SubscriptionCard(props: SubscriptionCardProps) {
                const newRenewalDate = new Date(nextRenewal);
                newRenewalDate.setMonth(currentDate.getMonth() + 1);
                setNextRenewal(newRenewalDate);
-               console.log('added one month', nextRenewal.getMonth());
           }
      }, [props.subscription]);
 

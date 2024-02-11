@@ -77,10 +77,6 @@ export function useFetchSubscriptions(
                });
      }, [dataPosted, userData, serverLink]);
 
-     useEffect(() => {
-          console.log('CurrentUserCurrency', userData.preferredCurrency);
-     }, [userData]);
-
      function deleteSubscription(subscriptionId: string) {
           axios.delete(serverLink + '/subscription/' + subscriptionId, {
                withCredentials: true,
@@ -92,8 +88,6 @@ export function useFetchSubscriptions(
                               const filteredArray = prevData.filter((subscription) => {
                                    if (subscription.id !== subscriptionId) {
                                         return subscription;
-                                   } else {
-                                        console.log('subscription ', subscription.subscriptionName, ' deleted');
                                    }
                               });
                               return filteredArray;
@@ -131,12 +125,10 @@ export function useFetchSubscriptions(
      }
 
      function stopSubscription(id: string) {
-          console.log('Tu');
           setSubscriptionData((prevData) => {
                const unsubscribeSubscription = prevData.map((subscription) => {
                     if (subscription.id === id) {
                          subscription.subscriptionStopped = new Date();
-                         console.log('CHANGED SUBSCRIPTION');
                          return subscription;
                     } else {
                          return subscription;

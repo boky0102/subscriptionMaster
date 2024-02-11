@@ -73,7 +73,6 @@ export default function BarChartAllYears(props: BarChartAllYearsProps) {
                                                   return;
                                              }
                                         });
-                                        console.log(currentColor, 'CurrentColor');
                                         return <Cell key={`${entry.name}-colorKey`} fill={currentColor}></Cell>;
                                    }
                               })}

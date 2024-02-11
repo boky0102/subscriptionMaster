@@ -72,10 +72,8 @@ export function useSortSubscriptions(subscriptions: SubscriptionsTable[]) {
 
      function handleSortSelect(event: React.ChangeEvent<HTMLSelectElement>) {
           const value = event.target.value as actions;
-          console.log(value);
           switch (value) {
                case 'Amount paid':
-                    console.log('paid');
                     dispatch({ type: 'Amount paid' });
                     break;
                case 'Charge amount':

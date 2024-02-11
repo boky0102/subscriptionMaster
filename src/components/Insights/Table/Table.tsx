@@ -3,7 +3,6 @@ import { getSingleSubscriptionData } from '../../../utility/subscription.utility
 import { Subscription } from '../../MySubscriptions/Mysubscriptions';
 import './table.css';
 import { useSortSubscriptions } from '../../../utility/custom-hooks/sort.hook';
-import { useEffect } from 'react';
 
 type TableProps = {
      subscriptionData: Subscription[];
@@ -24,10 +23,6 @@ export default function Table(props: TableProps) {
      });
 
      const [sortedArray, { handleSortSelect }] = useSortSubscriptions(tableSubscriptionData);
-
-     useEffect(() => {
-          console.log(sortedArray);
-     }, [sortedArray]);
 
      return (
           <>

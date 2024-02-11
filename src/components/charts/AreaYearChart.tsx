@@ -18,9 +18,6 @@ type AreaYearChartProps = {
 };
 
 export default function AreaYearChart(props: AreaYearChartProps) {
-     useEffect(() => {
-          console.log(props.chartData);
-     }, [props.chartData]);
      return (
           <ResponsiveContainer width={'100%'} height={props.height}>
                <AreaChart data={props.chartData} margin={{ top: 20, left: 0, right: 50, bottom: 0 }}>

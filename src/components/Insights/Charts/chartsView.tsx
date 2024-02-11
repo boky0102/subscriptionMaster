@@ -156,6 +156,29 @@ function getHighestSubscriptionAllYears(data?: Subscription[]) {
      return undefined;
 }
 
+function getAverageMonthlyCost(totalAmountPaid: number, timeFrame: 'all' | number, subscriptions: Subscription[]) {
+     if (timeFrame === 'all') {
+          let passedMonths = 0;
+          let startingDate = new Date();
+          const currentDate = new Date();
+          subscriptions.forEach((subscription) => {
+               if (subscription.dateAdded < startingDate) {
+                    startingDate = new Date(
+                         subscription.dateAdded.getFullYear(),
+                         subscription.dateAdded.getMonth(),
+                         subscription.dateAdded.getDate(),
+                    );
+               }
+          });
+          while (startingDate < currentDate) {
+               startingDate = new Date(startingDate.getFullYear(), startingDate.getMonth() + 1, startingDate.getDate());
+               passedMonths++;
+          }
+          console.log('passed', passedMonths);
+          return totalAmountPaid / passedMonths;
+     }
+}
+
 export default function ChartsView(props: ChartsViewProps) {
      const [selectedYear, setSelectedYear] = useState('all' as number | 'all');
      const [selectedSubscription, setSelectedSubscription] = useState('all');
@@ -166,6 +189,7 @@ export default function ChartsView(props: ChartsViewProps) {
      let totalAmountPaid = 0;
      let biggestCategory = {} as ChartYearCategoryData;
      let biggestSubscription = {} as SubscriptionExtended | undefined;
+     let averageMonthly = 0 as number | undefined;
 
      const categories = getCategories();
 
@@ -207,12 +231,14 @@ export default function ChartsView(props: ChartsViewProps) {
                totalAmountPaid = getTotalAmountAllYears(chartAreaData);
                biggestCategory = getBiggestCategoryAllYears(chartPieData);
                biggestSubscription = getHighestSubscriptionAllYears(filteredDataBySubscription);
+               averageMonthly = getAverageMonthlyCost(totalAmountPaid, 'all', filteredDataBySubscription);
           } else {
                chartAreaData = getChartDataAllYears(props.subscriptionData);
                chartPieData = getCategoryDataAllYears(props.subscriptionData);
                totalAmountPaid = getTotalAmountAllYears(chartAreaData);
                biggestCategory = getBiggestCategoryAllYears(chartPieData);
                biggestSubscription = getHighestSubscriptionAllYears(props.subscriptionData);
+               averageMonthly = getAverageMonthlyCost(totalAmountPaid, 'all', props.subscriptionData);
           }
      }
 
@@ -283,6 +309,10 @@ export default function ChartsView(props: ChartsViewProps) {
                               header="Highest Subscription"
                               amount={biggestSubscription && biggestSubscription.totalPaid}
                               amountHeader={biggestSubscription && biggestSubscription.subscriptionName}
+                         ></InfoDisplay>
+                         <InfoDisplay
+                              header="Average Monthly Cost"
+                              amount={averageMonthly && averageMonthly}
                          ></InfoDisplay>
                     </div>
                </div>
