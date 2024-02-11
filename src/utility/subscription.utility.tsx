@@ -124,46 +124,11 @@ export function checkIfSubscriptionChargedOngoing(
      dateSubscribed: Date,
      renewalDay: number,
 ) {
-     const yearSubscribed = dateSubscribed.getFullYear();
-     const monthSubscribed = dateSubscribed.getMonth();
-     const currentYear = new Date().getFullYear();
-     const currentMonth = new Date().getMonth();
-     const currentDay = new Date().getDate();
+     const currentRenewalDate = new Date(year, monthIndex, renewalDay);
 
-     if (yearSubscribed < year) {
+     if (dateSubscribed <= currentRenewalDate && currentRenewalDate < new Date()) {
           return true;
-     } else {
-          if (yearSubscribed === year) {
-               if (monthIndex >= monthSubscribed) {
-                    if (monthIndex > monthSubscribed) {
-                         if (monthIndex === currentMonth && year === currentYear) {
-                              if (currentDay >= renewalDay) {
-                                   return true;
-                              } else {
-                                   return false;
-                              }
-                         }
-                         return true;
-                    } else {
-                         if (monthIndex === currentMonth && year === currentYear) {
-                              if (currentDay >= renewalDay) {
-                                   return true;
-                              } else {
-                                   return false;
-                              }
-                         }
-                         if (monthIndex === monthSubscribed) {
-                              return true;
-                         }
-                    }
-               } else {
-                    return false;
-               }
-          } else {
-               return false;
-          }
-     }
-     return false;
+     } else return false;
 }
 
 export function getChartDataYear(subscriptionData: Subscription[], year: number) {

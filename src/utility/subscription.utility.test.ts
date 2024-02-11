@@ -22,6 +22,6 @@ test('is ongoing subscription charged', () => {
      expect(checkIfSubscriptionChargedOngoing(5, 2021, new Date(2022, 6, 3), 12)).toBe(false);
      expect(checkIfSubscriptionChargedOngoing(6, 2022, new Date(2021, 6, 3), 13)).toBe(true);
      expect(checkIfSubscriptionChargedOngoing(3, 2022, new Date(2022, 1, 12), 12)).toBe(true);
-     expect(checkIfSubscriptionChargedOngoing(11, 2023, new Date(2023, 6, 11), 29)).toBe(false);
+     expect(checkIfSubscriptionChargedOngoing(11, 2023, new Date(2023, 6, 11), 29)).toBe(true);
      expect(checkIfSubscriptionChargedOngoing(11, 2023, new Date(2023, 6, 11), 23)).toBe(true);
 });
