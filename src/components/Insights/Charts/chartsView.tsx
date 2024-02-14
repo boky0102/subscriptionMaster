@@ -1,14 +1,7 @@
 import './chartsView.css';
 import { Subscription } from '../../MySubscriptions/Mysubscriptions';
 import { useState } from 'react';
-import {
-     getCategoryDataAllYears,
-     getChartCategoryDataYear,
-     getChartDataAllYears,
-     getChartDataYear,
-     getSingleSubscriptionData,
-     getSingleSubscriptionDataYear,
-} from '../../../utility/subscription.utility';
+import { filterSubscriptionData, calculateChartData } from '../../../utility/subscription.utility';
 import AreaYearChart from '../../charts/AreaYearChart';
 import PieCategoryChart from '../../charts/PieCategoryChart';
 import BarChartAllYears from '../../charts/BarChartAllYears';
@@ -24,22 +17,6 @@ type ChartsViewProps = {
      userColors?: UserColorData[];
 };
 
-type ChartYearCategoryData = {
-     name: subscriptionCategories;
-     totalCost: number;
-     percentage?: number;
-};
-
-type ChartYearData = {
-     year: number;
-     totalCostForYear: number;
-};
-
-type ChartData = {
-     month: 'Jan' | 'Feb' | 'Mar' | 'Apr' | 'May' | 'Jun' | 'Jul' | 'Aug' | 'Sep' | 'Oct' | 'Nov' | 'Dec';
-     totalCostForMonth: number;
-};
-
 type subscriptionCategories =
      | 'Streaming service'
      | 'Gaming'
@@ -49,10 +26,6 @@ type subscriptionCategories =
      | 'Education'
      | 'Software'
      | 'Other';
-
-interface SubscriptionExtended extends Subscription {
-     totalPaid: number;
-}
 
 function getAllYears() {
      let currentYear = new Date().getFullYear();
@@ -79,186 +52,10 @@ function getCategories() {
      return categories;
 }
 
-function getTotalAmountAllYears(data: ChartYearData[]) {
-     let sum = 0;
-     data.forEach((entry) => {
-          sum += entry.totalCostForYear;
-     });
-     return sum;
-}
-
-function getTotalAmountYear(data: ChartData[]) {
-     let sum = 0;
-     data.forEach((month) => {
-          sum += month.totalCostForMonth;
-     });
-
-     return sum;
-}
-
-function getBiggestCategoryYear(data: ChartYearCategoryData[]) {
-     let biggest = data[0];
-     data.forEach((category) => {
-          if (category.totalCost > biggest.totalCost) {
-               biggest = category;
-          }
-     });
-     return biggest;
-}
-
-function getBiggestCategoryAllYears(data: ChartYearCategoryData[]) {
-     let biggest = data[0];
-     data.forEach((category) => {
-          if (category.totalCost > biggest.totalCost) {
-               biggest = category;
-          }
-     });
-     return biggest;
-}
-
-function getHighestSubscriptionYear(year: number, data?: Subscription[]) {
-     let highestSubscription = {
-          totalPaid: 0,
-     } as SubscriptionExtended;
-     if (data) {
-          data.forEach((subscription) => {
-               const totalPaid = getSingleSubscriptionDataYear(subscription, year);
-               if (totalPaid > highestSubscription.totalPaid) {
-                    highestSubscription = {
-                         ...subscription,
-                         totalPaid: totalPaid,
-                    };
-               }
-          });
-          return highestSubscription;
-     }
-
-     return undefined;
-}
-
-function getHighestSubscriptionAllYears(data?: Subscription[]) {
-     let highestSubscription = {
-          totalPaid: 0,
-     } as SubscriptionExtended;
-     if (data) {
-          data.forEach((subscription) => {
-               const totalPaid = getSingleSubscriptionData(subscription);
-               if (totalPaid > highestSubscription.totalPaid) {
-                    highestSubscription = {
-                         ...subscription,
-                         totalPaid: totalPaid,
-                    };
-               }
-          });
-          return highestSubscription;
-     }
-
-     return undefined;
-}
-
-function getAverageMonthlyCost(totalAmountPaid: number, timeFrame: 'all' | number, subscriptions: Subscription[]) {
-     let startingDate = new Date();
-     subscriptions.forEach((subscription) => {
-          if (subscription.dateAdded < startingDate) {
-               startingDate = new Date(
-                    subscription.dateAdded.getFullYear(),
-                    subscription.dateAdded.getMonth(),
-                    subscription.dateAdded.getDate(),
-               );
-          }
-     });
-     const currentYear = new Date().getFullYear();
-     if (timeFrame === 'all') {
-          let passedMonths = 0;
-          const currentDate = new Date();
-          let iterationDate = new Date(startingDate.getFullYear(), startingDate.getMonth(), startingDate.getDate());
-
-          while (iterationDate < currentDate) {
-               iterationDate = new Date(
-                    iterationDate.getFullYear(),
-                    iterationDate.getMonth() + 1,
-                    iterationDate.getDate(),
-               );
-               passedMonths++;
-          }
-          if (passedMonths > 0) return totalAmountPaid / passedMonths;
-          else return 0;
-     } else if (timeFrame === startingDate.getFullYear()) {
-          let passedMonths = 0;
-          let iterationDate = new Date(startingDate.getFullYear(), startingDate.getMonth(), startingDate.getDate());
-          const stopDate = new Date(startingDate.getFullYear() + 1, 0, 1);
-          while (iterationDate < stopDate) {
-               iterationDate = new Date(
-                    iterationDate.getFullYear(),
-                    iterationDate.getMonth() + 1,
-                    iterationDate.getDate(),
-               );
-               passedMonths++;
-          }
-          if (passedMonths > 0) return totalAmountPaid / passedMonths;
-          else return 0;
-     } else if (timeFrame === currentYear) {
-          let iterationDate = new Date(currentYear, 0, 1);
-          const currentDate = new Date();
-          let passedMonths = 0;
-          while (iterationDate < currentDate) {
-               iterationDate = new Date(
-                    iterationDate.getFullYear(),
-                    iterationDate.getMonth() + 1,
-                    iterationDate.getDate(),
-               );
-               passedMonths++;
-          }
-
-          if (passedMonths > 0) return totalAmountPaid / passedMonths;
-          else return 0;
-     } else {
-          return totalAmountPaid / 12;
-     }
-}
-
-function filterSubscriptionData(
-     data: Subscription[],
-     selectedSubscription: 'all' | string,
-     selectedCategory: 'all' | subscriptionCategories,
-     selectedYear: 'all' | number,
-) {
-     console.log(selectedSubscription, selectedCategory, selectedYear);
-     if (selectedCategory !== 'all' && selectedSubscription !== 'all') {
-          const filteredData = data.filter((subscription) => {
-               if (selectedCategory === subscription.category && selectedSubscription === subscription.id) {
-                    return subscription;
-               }
-          });
-          return filteredData;
-     } else if (selectedCategory !== 'all' && selectedSubscription === 'all') {
-          const filteredData = data.filter((subscription) => {
-               if (selectedCategory === subscription.category) {
-                    return subscription;
-               }
-          });
-          return filteredData;
-     } else if (selectedCategory === 'all' && selectedSubscription !== 'all') {
-          const filteredData = data.filter((subscription) => {
-               if (subscription.id === selectedSubscription) {
-                    return subscription;
-               }
-          });
-          return filteredData;
-     } else return data;
-}
-
 export default function ChartsView(props: ChartsViewProps) {
      const [selectedYear, setSelectedYear] = useState('all' as number | 'all');
      const [selectedSubscription, setSelectedSubscription] = useState('all');
      const [selectedCategory, setSelectedCategory] = useState('all' as subscriptionCategories | 'all');
-
-     let chartAreaData = [];
-     let chartPieData = [] as ChartYearCategoryData[];
-     let totalAmountPaid = 0;
-     let biggestCategory = {} as ChartYearCategoryData;
-     let biggestSubscription = {} as SubscriptionExtended | undefined;
-     let averageMonthly = 0 as number | undefined;
 
      const categories = getCategories();
 
@@ -269,49 +66,8 @@ export default function ChartsView(props: ChartsViewProps) {
           selectedYear,
      );
 
-     console.log(filteredDataBySubscription);
-
-     console.log(filteredDataBySubscription);
-
-     if (selectedYear !== 1 && selectedYear !== 'all') {
-          if (filteredDataBySubscription.length > 0) {
-               chartAreaData = getChartDataYear(filteredDataBySubscription, selectedYear);
-               const pieChartData = getChartCategoryDataYear(filteredDataBySubscription, selectedYear);
-               totalAmountPaid = getTotalAmountYear(chartAreaData);
-               biggestSubscription = getHighestSubscriptionYear(selectedYear, filteredDataBySubscription);
-               averageMonthly = getAverageMonthlyCost(totalAmountPaid, selectedYear, filteredDataBySubscription);
-               if (pieChartData) {
-                    chartPieData = pieChartData;
-                    biggestCategory = getBiggestCategoryYear(pieChartData);
-               }
-          } else {
-               chartAreaData = getChartDataYear(props.subscriptionData, selectedYear);
-               const pieChartData = getChartCategoryDataYear(filteredDataBySubscription, selectedYear);
-               totalAmountPaid = getTotalAmountYear(chartAreaData);
-               biggestSubscription = getHighestSubscriptionYear(selectedYear, props.subscriptionData);
-               averageMonthly = getAverageMonthlyCost(totalAmountPaid, selectedYear, props.subscriptionData);
-               if (pieChartData) {
-                    chartPieData = pieChartData;
-                    biggestCategory = getBiggestCategoryYear(pieChartData);
-               }
-          }
-     } else {
-          if (filteredDataBySubscription.length > 0) {
-               chartAreaData = getChartDataAllYears(filteredDataBySubscription);
-               chartPieData = getCategoryDataAllYears(filteredDataBySubscription);
-               totalAmountPaid = getTotalAmountAllYears(chartAreaData);
-               biggestCategory = getBiggestCategoryAllYears(chartPieData);
-               biggestSubscription = getHighestSubscriptionAllYears(filteredDataBySubscription);
-               averageMonthly = getAverageMonthlyCost(totalAmountPaid, 'all', filteredDataBySubscription);
-          } else {
-               chartAreaData = getChartDataAllYears(props.subscriptionData);
-               chartPieData = getCategoryDataAllYears(props.subscriptionData);
-               totalAmountPaid = getTotalAmountAllYears(chartAreaData);
-               biggestCategory = getBiggestCategoryAllYears(chartPieData);
-               biggestSubscription = getHighestSubscriptionAllYears(props.subscriptionData);
-               averageMonthly = getAverageMonthlyCost(totalAmountPaid, 'all', props.subscriptionData);
-          }
-     }
+     const { chartAreaData, chartPieData, totalAmountPaid, biggestCategory, biggestSubscription, averageMonthly } =
+          calculateChartData(filteredDataBySubscription, selectedYear);
 
      function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
           const { name, value } = event.target;

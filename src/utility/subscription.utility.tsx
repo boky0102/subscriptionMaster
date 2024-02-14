@@ -1,12 +1,14 @@
 interface Subscription {
-     id: string;
      subscriptionName: string;
-     chargeAmount: number;
      renewalDate: Date;
      dateAdded: Date;
+     chargeAmount: number;
+     emailNotification?: boolean;
      freeTrial?: boolean;
      category?: subscriptionCategories;
+     id: string;
      subscriptionStopped?: Date;
+     currency: string;
 }
 
 type ChartData = {
@@ -36,6 +38,10 @@ type subscriptionCategories =
      | 'Education'
      | 'Software'
      | 'Other';
+
+interface SubscriptionExtended extends Subscription {
+     totalPaid: number;
+}
 
 export function checkIfSubscriptionCharged(
      monthIndex: number,
@@ -503,4 +509,214 @@ export function getSingleSubscriptionDataYear(data: Subscription, year: number) 
           }
      });
      return totalPaidSubscription;
+}
+
+export function filterSubscriptionData(
+     data: Subscription[],
+     selectedSubscription: 'all' | string,
+     selectedCategory: 'all' | subscriptionCategories,
+     selectedYear: 'all' | number,
+) {
+     console.log(selectedYear);
+     if (selectedCategory !== 'all' && selectedSubscription !== 'all') {
+          const filteredData = data.filter((subscription) => {
+               if (selectedCategory === subscription.category && selectedSubscription === subscription.id) {
+                    return subscription;
+               }
+          });
+          return filteredData;
+     } else if (selectedCategory !== 'all' && selectedSubscription === 'all') {
+          const filteredData = data.filter((subscription) => {
+               if (selectedCategory === subscription.category) {
+                    return subscription;
+               }
+          });
+          return filteredData;
+     } else if (selectedCategory === 'all' && selectedSubscription !== 'all') {
+          const filteredData = data.filter((subscription) => {
+               if (subscription.id === selectedSubscription) {
+                    return subscription;
+               }
+          });
+          return filteredData;
+     } else return data;
+}
+
+function getTotalAmountAllYears(data: ChartYearData[]) {
+     let sum = 0;
+     data.forEach((entry) => {
+          sum += entry.totalCostForYear;
+     });
+     return sum;
+}
+
+function getTotalAmountYear(data: ChartData[]) {
+     let sum = 0;
+     data.forEach((month) => {
+          sum += month.totalCostForMonth;
+     });
+
+     return sum;
+}
+
+function getBiggestCategoryYear(data: ChartYearCategoryData[]) {
+     let biggest = data[0];
+     data.forEach((category) => {
+          if (category.totalCost > biggest.totalCost) {
+               biggest = category;
+          }
+     });
+     return biggest;
+}
+
+function getBiggestCategoryAllYears(data: ChartYearCategoryData[]) {
+     let biggest = data[0];
+     data.forEach((category) => {
+          if (category.totalCost > biggest.totalCost) {
+               biggest = category;
+          }
+     });
+     return biggest;
+}
+
+function getHighestSubscriptionYear(year: number, data?: Subscription[]) {
+     let highestSubscription = {
+          totalPaid: 0,
+     } as SubscriptionExtended;
+     if (data) {
+          data.forEach((subscription) => {
+               const totalPaid = getSingleSubscriptionDataYear(subscription, year);
+               if (totalPaid > highestSubscription.totalPaid) {
+                    highestSubscription = {
+                         ...subscription,
+                         totalPaid: totalPaid,
+                    };
+               }
+          });
+          return highestSubscription;
+     }
+
+     return undefined;
+}
+
+function getHighestSubscriptionAllYears(data?: Subscription[]) {
+     let highestSubscription = {
+          totalPaid: 0,
+     } as SubscriptionExtended;
+     if (data) {
+          data.forEach((subscription) => {
+               const totalPaid = getSingleSubscriptionData(subscription);
+               if (totalPaid > highestSubscription.totalPaid) {
+                    highestSubscription = {
+                         ...subscription,
+                         totalPaid: totalPaid,
+                    };
+               }
+          });
+          return highestSubscription;
+     }
+
+     return undefined;
+}
+
+function getAverageMonthlyCost(totalAmountPaid: number, timeFrame: 'all' | number, subscriptions: Subscription[]) {
+     let startingDate = new Date();
+     subscriptions.forEach((subscription) => {
+          if (subscription.dateAdded < startingDate) {
+               startingDate = new Date(
+                    subscription.dateAdded.getFullYear(),
+                    subscription.dateAdded.getMonth(),
+                    subscription.dateAdded.getDate(),
+               );
+          }
+     });
+     const currentYear = new Date().getFullYear();
+     if (timeFrame === 'all') {
+          let passedMonths = 0;
+          const currentDate = new Date();
+          let iterationDate = new Date(startingDate.getFullYear(), startingDate.getMonth(), startingDate.getDate());
+
+          while (iterationDate < currentDate) {
+               iterationDate = new Date(
+                    iterationDate.getFullYear(),
+                    iterationDate.getMonth() + 1,
+                    iterationDate.getDate(),
+               );
+               passedMonths++;
+          }
+          if (passedMonths > 0) return totalAmountPaid / passedMonths;
+          else return 0;
+     } else if (timeFrame === startingDate.getFullYear()) {
+          let passedMonths = 0;
+          let iterationDate = new Date(startingDate.getFullYear(), startingDate.getMonth(), startingDate.getDate());
+          const stopDate = new Date(startingDate.getFullYear() + 1, 0, 1);
+          while (iterationDate < stopDate) {
+               iterationDate = new Date(
+                    iterationDate.getFullYear(),
+                    iterationDate.getMonth() + 1,
+                    iterationDate.getDate(),
+               );
+               passedMonths++;
+          }
+          if (passedMonths > 0) return totalAmountPaid / passedMonths;
+          else return 0;
+     } else if (timeFrame === currentYear) {
+          let iterationDate = new Date(currentYear, 0, 1);
+          const currentDate = new Date();
+          let passedMonths = 0;
+          while (iterationDate < currentDate) {
+               iterationDate = new Date(
+                    iterationDate.getFullYear(),
+                    iterationDate.getMonth() + 1,
+                    iterationDate.getDate(),
+               );
+               passedMonths++;
+          }
+
+          if (passedMonths > 0) return totalAmountPaid / passedMonths;
+          else return 0;
+     } else {
+          return totalAmountPaid / 12;
+     }
+}
+
+export function calculateChartData(data: Subscription[], selectedYear: 'all' | number) {
+     if (selectedYear === 'all') {
+          const chartAreaData = getChartDataAllYears(data);
+          const chartPieData = getCategoryDataAllYears(data);
+          const totalAmountPaid = getTotalAmountAllYears(chartAreaData);
+          const biggestCategory = getBiggestCategoryAllYears(chartPieData);
+          const biggestSubscription = getHighestSubscriptionAllYears(data);
+          const averageMonthly = getAverageMonthlyCost(totalAmountPaid, 'all', data);
+          return {
+               chartAreaData: chartAreaData,
+               chartPieData: chartPieData,
+               totalAmountPaid: totalAmountPaid,
+               biggestCategory: biggestCategory,
+               biggestSubscription: biggestSubscription,
+               averageMonthly: averageMonthly,
+          };
+     } else {
+          const chartAreaData = getChartDataYear(data, selectedYear);
+          const pieData = getChartCategoryDataYear(data, selectedYear);
+          let chartPieData = [] as ChartYearCategoryData[];
+          const totalAmountPaid = getTotalAmountYear(chartAreaData);
+          let biggestCategory = {} as ChartYearCategoryData;
+
+          if (pieData) {
+               biggestCategory = getBiggestCategoryYear(pieData);
+               chartPieData = pieData;
+          }
+
+          const biggestSubscription = getHighestSubscriptionYear(selectedYear, data);
+          const averageMonthly = getAverageMonthlyCost(totalAmountPaid, selectedYear, data);
+          return {
+               chartAreaData: chartAreaData,
+               chartPieData: chartPieData,
+               totalAmountPaid: totalAmountPaid,
+               biggestCategory: biggestCategory,
+               biggestSubscription: biggestSubscription,
+               averageMonthly: averageMonthly,
+          };
+     }
 }

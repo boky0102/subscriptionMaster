@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import SubscriptionCard from '../SubscriptionCard/SubscriptionCard';
 import { triggerNotification } from '../../types';
 import { getSingleSubscriptionData } from '../../utility/subscription.utility';
@@ -33,23 +32,11 @@ type MySubscriptionProps = {
 };
 
 export default function Mysubscriptions(props: MySubscriptionProps) {
-     const [stoppedSubscriptions, setStoppedSubscriptions] = useState([] as Subscription[]);
-
      const filteredSubscriptions = props.subscriptionData.filter((subscription) => {
           if (subscription.subscriptionStopped) {
                return subscription;
           }
      });
-     /* useEffect(() => {
-          setStoppedSubscriptions(() => {
-               const filteredArray = props.subscriptionData.filter((subscription) => {
-                    if (subscription.subscriptionStopped) {
-                         return subscription;
-                    }
-               });
-               return filteredArray;
-          });
-     }, [props.subscriptionData]); */
 
      return (
           <div className="subscriptions-cards-container subscription-history-container">
