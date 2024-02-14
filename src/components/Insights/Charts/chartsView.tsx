@@ -181,7 +181,6 @@ function getAverageMonthlyCost(totalAmountPaid: number, timeFrame: 'all' | numbe
                );
                passedMonths++;
           }
-          console.log('Passed current', passedMonths);
           if (passedMonths > 0) return totalAmountPaid / passedMonths;
           else return 0;
      } else if (timeFrame === startingDate.getFullYear()) {
@@ -218,6 +217,37 @@ function getAverageMonthlyCost(totalAmountPaid: number, timeFrame: 'all' | numbe
      }
 }
 
+function filterSubscriptionData(
+     data: Subscription[],
+     selectedSubscription: 'all' | string,
+     selectedCategory: 'all' | subscriptionCategories,
+     selectedYear: 'all' | number,
+) {
+     console.log(selectedSubscription, selectedCategory, selectedYear);
+     if (selectedCategory !== 'all' && selectedSubscription !== 'all') {
+          const filteredData = data.filter((subscription) => {
+               if (selectedCategory === subscription.category && selectedSubscription === subscription.id) {
+                    return subscription;
+               }
+          });
+          return filteredData;
+     } else if (selectedCategory !== 'all' && selectedSubscription === 'all') {
+          const filteredData = data.filter((subscription) => {
+               if (selectedCategory === subscription.category) {
+                    return subscription;
+               }
+          });
+          return filteredData;
+     } else if (selectedCategory === 'all' && selectedSubscription !== 'all') {
+          const filteredData = data.filter((subscription) => {
+               if (subscription.id === selectedSubscription) {
+                    return subscription;
+               }
+          });
+          return filteredData;
+     } else return data;
+}
+
 export default function ChartsView(props: ChartsViewProps) {
      const [selectedYear, setSelectedYear] = useState('all' as number | 'all');
      const [selectedSubscription, setSelectedSubscription] = useState('all');
@@ -232,16 +262,16 @@ export default function ChartsView(props: ChartsViewProps) {
 
      const categories = getCategories();
 
-     let filteredDataBySubscription = [] as Subscription[];
-     if (selectedSubscription !== 'all') {
-          filteredDataBySubscription = props.subscriptionData.filter((subscription) => {
-               if (subscription.id === selectedSubscription) {
-                    return subscription;
-               }
-          });
-     } else {
-          filteredDataBySubscription = [...props.subscriptionData];
-     }
+     const filteredDataBySubscription = filterSubscriptionData(
+          props.subscriptionData,
+          selectedSubscription,
+          selectedCategory,
+          selectedYear,
+     );
+
+     console.log(filteredDataBySubscription);
+
+     console.log(filteredDataBySubscription);
 
      if (selectedYear !== 1 && selectedYear !== 'all') {
           if (filteredDataBySubscription.length > 0) {
