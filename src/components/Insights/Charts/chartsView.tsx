@@ -6,26 +6,12 @@ import AreaYearChart from '../../charts/AreaYearChart';
 import PieCategoryChart from '../../charts/PieCategoryChart';
 import BarChartAllYears from '../../charts/BarChartAllYears';
 import InfoDisplay from '../../InfoDisplay/InfoDisplay';
-
-type UserColorData = {
-     category: subscriptionCategories;
-     color: string;
-};
+import { UserColorData, subscriptionCategories } from '../../../types';
 
 type ChartsViewProps = {
      subscriptionData: Subscription[];
-     userColors?: UserColorData[];
+     userColors: UserColorData;
 };
-
-type subscriptionCategories =
-     | 'Streaming service'
-     | 'Gaming'
-     | 'Clothing'
-     | 'Food'
-     | 'Utility'
-     | 'Education'
-     | 'Software'
-     | 'Other';
 
 function getAllYears() {
      let currentYear = new Date().getFullYear();
@@ -39,7 +25,7 @@ function getAllYears() {
 
 function getCategories() {
      const categories: subscriptionCategories[] = [
-          'Streaming service',
+          'Streaming',
           'Gaming',
           'Clothing',
           'Food',

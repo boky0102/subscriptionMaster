@@ -2,9 +2,10 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { CurrenciesObj, triggerNotification } from '../../types';
 import { NavigateFunction } from 'react-router-dom';
+import { UserData } from '../../components/Main/Home';
 
 type subscriptionCategories =
-     | 'Streaming service'
+     | 'Streaming'
      | 'Gaming'
      | 'Clothing'
      | 'Food'
@@ -23,18 +24,6 @@ interface Subscription {
      category: subscriptionCategories;
      currency: string;
      subscriptionStopped?: Date;
-}
-
-type UserColorData = {
-     category: subscriptionCategories;
-     color: string;
-};
-
-export interface UserData {
-     username: string;
-     email?: string;
-     userColorData?: UserColorData[];
-     preferredCurrency: keyof CurrenciesObj;
 }
 
 export function useFetchSubscriptions(
@@ -72,8 +61,11 @@ export function useFetchSubscriptions(
                     }
                })
                .catch((error) => {
-                    navigate('/login');
-                    console.log(error.message);
+                    if (error.response.status === 401) {
+                         navigate('/login');
+                    }
+
+                    console.log(error.response);
                });
      }, [dataPosted, userData, serverLink]);
 

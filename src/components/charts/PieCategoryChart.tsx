@@ -2,16 +2,7 @@ import { Cell, LabelList, Pie, PieChart, Tooltip } from 'recharts';
 import CustomTooltip from './PieTooltip';
 import { useWindowDimensions } from '../../utility/window.utility';
 import { useEffect, useState } from 'react';
-
-type subscriptionCategories =
-     | 'Streaming service'
-     | 'Gaming'
-     | 'Clothing'
-     | 'Food'
-     | 'Utility'
-     | 'Education'
-     | 'Software'
-     | 'Other';
+import { UserColorData, subscriptionCategories } from '../../types';
 
 type ChartYearCategoryData = {
      name: subscriptionCategories;
@@ -19,14 +10,9 @@ type ChartYearCategoryData = {
      percentage?: number;
 };
 
-type categoryColor = {
-     category: subscriptionCategories;
-     color: string;
-};
-
 type PieChartProps = {
      chartData: ChartYearCategoryData[];
-     userColors?: categoryColor[];
+     userColors: UserColorData;
 };
 
 export default function PieCategoryChart(props: PieChartProps) {
@@ -52,15 +38,7 @@ export default function PieCategoryChart(props: PieChartProps) {
           <PieChart width={300} height={300}>
                <Pie data={props.chartData} dataKey={'totalCost'} outerRadius={chartLayout.outerRadius}>
                     {props.chartData.map((entry) => {
-                         let fillColor = '';
-                         if (props.userColors) {
-                              props.userColors.forEach((colorCategory) => {
-                                   if (colorCategory.category === entry.name) {
-                                        fillColor = colorCategory.color;
-                                        return;
-                                   }
-                              });
-                         }
+                         const fillColor = props.userColors[entry.name];
                          return <Cell key={entry.name} fill={fillColor}></Cell>;
                     })}
                     <LabelList dataKey={'category'} position={'outside'} fill={'#cccccc'}></LabelList>

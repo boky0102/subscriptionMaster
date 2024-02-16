@@ -1,0 +1,22 @@
+.color-input-container {
+     display: flex;
+     width: 100%;
+     justify-content: space-between;
+     margin-top: 10px;
+}
+
+.settings-container {
+     display: flex;
+     width: 100%;
+     align-items: center;
+}
+
+.settings-form {
+     width: 50%;
+     justify-content: start;
+     align-items: start;
+}
+
+.settings-form-color-container {
+     width: 370px;
+}

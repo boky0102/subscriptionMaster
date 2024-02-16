@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { triggerNotification } from '../../types';
 
 type subscriptionCategories =
-     | 'Streaming service'
+     | 'Streaming'
      | 'Gaming'
      | 'Clothing'
      | 'Food'

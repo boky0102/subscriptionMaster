@@ -20,12 +20,12 @@ import Insights from '../Insights/Insights';
 export interface UserData {
      username: string;
      email?: string;
-     userColorData?: UserColorData[];
+     userColorData: UserColorData;
      preferredCurrency: keyof CurrenciesObj;
 }
 
 type subscriptionCategories =
-     | 'Streaming service'
+     | 'Streaming'
      | 'Gaming'
      | 'Clothing'
      | 'Food'
@@ -35,8 +35,7 @@ type subscriptionCategories =
      | 'Other';
 
 type UserColorData = {
-     category: subscriptionCategories;
-     color: string;
+     [key in subscriptionCategories]: string;
 };
 
 function Home() {
@@ -80,7 +79,16 @@ function Home() {
                <Dashboard username={userData.username}></Dashboard>
                <div className="outlet-container">
                     <Routes>
-                         <Route path="/settings" element={<MySettings email={userData.email}></MySettings>}></Route>
+                         <Route
+                              path="/settings"
+                              element={
+                                   <MySettings
+                                        email={userData.email}
+                                        triggerNotification={triggerNotification}
+                                        userColorData={userData.userColorData && userData.userColorData}
+                                   ></MySettings>
+                              }
+                         ></Route>
                          <Route
                               path="/addsubscription"
                               element={

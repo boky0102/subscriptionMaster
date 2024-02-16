@@ -3,7 +3,7 @@ import { triggerNotification } from '../../types';
 import { getSingleSubscriptionData } from '../../utility/subscription.utility';
 
 type subscriptionCategories =
-     | 'Streaming service'
+     | 'Streaming'
      | 'Gaming'
      | 'Clothing'
      | 'Food'

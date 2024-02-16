@@ -1,7 +1,7 @@
 import './CategoryColor.css';
 
 type subscriptionCategories =
-     | 'Streaming service'
+     | 'Streaming'
      | 'Gaming'
      | 'Clothing'
      | 'Food'

@@ -3,7 +3,7 @@ import { CurrenciesObj } from '../../types';
 import axios from 'axios';
 
 type subscriptionCategories =
-     | 'Streaming service'
+     | 'Streaming'
      | 'Gaming'
      | 'Clothing'
      | 'Food'
@@ -22,18 +22,6 @@ interface Subscription {
      category: subscriptionCategories;
      currency: string;
      subscriptionStopped?: Date;
-}
-
-type UserColorData = {
-     category: subscriptionCategories;
-     color: string;
-};
-
-export interface UserData {
-     username: string;
-     email?: string;
-     userColorData?: UserColorData[];
-     preferredCurrency: keyof CurrenciesObj;
 }
 
 export function useCurrency(subscriptionData: Subscription[], currency: keyof CurrenciesObj) {

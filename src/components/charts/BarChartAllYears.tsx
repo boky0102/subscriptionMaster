@@ -1,7 +1,8 @@
 import { BarChart, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, Bar, Cell } from 'recharts';
+import { UserColorData } from '../../types';
 
 type subscriptionCategories =
-     | 'Streaming service'
+     | 'Streaming'
      | 'Gaming'
      | 'Clothing'
      | 'Food'
@@ -21,14 +22,9 @@ type ChartYearData = {
      totalCostForYear: number;
 };
 
-type UserColorData = {
-     category: subscriptionCategories;
-     color: string;
-};
-
 type BarChartAllYearsProps = {
      chartData: ChartYearData[] | ChartYearCategoryData[];
-     userColorData?: UserColorData[];
+     userColorData: UserColorData;
      categoryData?: boolean;
 };
 
@@ -66,14 +62,12 @@ export default function BarChartAllYears(props: BarChartAllYearsProps) {
                          {props.userColorData &&
                               props.chartData.map((entry) => {
                                    if (isChartYearCategoryData(entry)) {
-                                        let currentColor = '';
-                                        props.userColorData?.forEach((color) => {
-                                             if (color.category === entry.name) {
-                                                  currentColor = color.color;
-                                                  return;
-                                             }
-                                        });
-                                        return <Cell key={`${entry.name}-colorKey`} fill={currentColor}></Cell>;
+                                        return (
+                                             <Cell
+                                                  key={`${entry.name}-colorKey`}
+                                                  fill={props.userColorData[entry.name]}
+                                             ></Cell>
+                                        );
                                    }
                               })}
                     </Bar>

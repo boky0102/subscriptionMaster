@@ -16,15 +16,16 @@ import CurrencySelect from '../CurrencySelect/CurrencySelect';
 import { CurrenciesObj } from '../../types';
 
 interface Subscription {
-     id: string;
      subscriptionName: string;
-     chargeAmount: number;
      renewalDate: Date;
      dateAdded: Date;
-     freeTrial: boolean;
-     category: subscriptionCategories;
-     currency: string;
+     chargeAmount: number;
+     emailNotification?: boolean;
+     freeTrial?: boolean;
+     category?: subscriptionCategories;
+     id: string;
      subscriptionStopped?: Date;
+     currency: string;
 }
 
 type HomeContentProps = {
@@ -54,7 +55,7 @@ type ChartYearCategoryData = {
 };
 
 type subscriptionCategories =
-     | 'Streaming service'
+     | 'Streaming'
      | 'Gaming'
      | 'Clothing'
      | 'Food'
@@ -238,13 +239,15 @@ export default function HomeContent(props: HomeContentProps) {
 
                          <div className="categories-container">
                               {props.userData.userColorData !== undefined &&
-                                   props.userData.userColorData.map((category) => (
-                                        <CategoryColor
-                                             name={category.category}
-                                             color={category.color}
-                                             key={category.color}
-                                        ></CategoryColor>
-                                   ))}
+                                   (Object.keys(props.userData.userColorData) as Array<subscriptionCategories>).map(
+                                        (categoryKey) => (
+                                             <CategoryColor
+                                                  name={categoryKey}
+                                                  color={props.userData.userColorData[categoryKey]}
+                                                  key={props.userData.userColorData[categoryKey]}
+                                             ></CategoryColor>
+                                        ),
+                                   )}
                          </div>
                     </div>
                </div>

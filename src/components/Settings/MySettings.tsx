@@ -1,9 +1,14 @@
 import axios from 'axios';
 import Button from '../Button/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { subscriptionCategories, triggerNotification } from '../../types';
+import './MySettings.css';
+import { UserColorData } from '../../types';
 
 type SettingsProps = {
      email?: string;
+     triggerNotification: triggerNotification;
+     userColorData: UserColorData;
 };
 
 interface SettingsForm {
@@ -18,6 +23,7 @@ function isValidEmail(email: string) {
 function MySettings(props: SettingsProps) {
      const [settings, setSettings] = useState({} as SettingsForm);
      const [validEmail, setValidEmail] = useState(undefined as boolean | undefined);
+     const [colorFormData, setColorFormData] = useState({} as UserColorData);
 
      function handleChangeSettings(event: React.ChangeEvent<HTMLInputElement>) {
           const { name, value } = event.currentTarget;
@@ -52,24 +58,85 @@ function MySettings(props: SettingsProps) {
                });
      }
 
-     return (
-          <form className="sub-form-container" onSubmit={handleFormSubmit}>
-               <div className="sub-form-section">
-                    <label htmlFor="email">Email address</label>
-                    <input
-                         type="email"
-                         name="email"
-                         className="sub-form-input"
-                         placeholder={props.email}
-                         onChange={handleChangeSettings}
-                    ></input>
-                    {!validEmail && validEmail !== undefined && <div>Email is not valid</div>}
-               </div>
+     function handleColorSubmit(event: React.FormEvent<HTMLFormElement>) {
+          event.preventDefault();
+          const serverLink = import.meta.env.VITE_SERVER_LINK + 'color';
+          if (colorFormData) {
+               axios.post(serverLink, colorFormData, {
+                    withCredentials: true,
+               })
+                    .then((response) => {
+                         if (response.status === 200) {
+                              console.log('SUCCESS');
+                         }
+                    })
+                    .catch((error) => {
+                         console.log(error);
+                    });
+          } else {
+               console.log('No new color data');
+          }
+     }
 
-               <div className="sub-form-section">
-                    <Button label="Save" type="submit" className="sub-form-button" disabled={!validEmail}></Button>
-               </div>
-          </form>
+     function handleColorChange(event: React.ChangeEvent<HTMLInputElement>) {
+          const { value, name } = event.target;
+          setColorFormData((previousObj) => ({
+               ...previousObj,
+               [name]: value,
+          }));
+     }
+
+     useEffect(() => {
+          console.log(colorFormData);
+     }, [colorFormData]);
+
+     return (
+          <div className="settings-container">
+               <form className="sub-form-container settings-form" onSubmit={handleFormSubmit}>
+                    <h3>Email settings</h3>
+                    <div className="sub-form-section">
+                         <label htmlFor="email">Email address</label>
+                         <input
+                              type="email"
+                              name="email"
+                              id="email"
+                              className="sub-form-input"
+                              placeholder={props.email}
+                              onChange={handleChangeSettings}
+                              autoComplete="true"
+                         ></input>
+                         {!validEmail && validEmail !== undefined && <div>Email is not valid</div>}
+                    </div>
+
+                    <div className="sub-form-section">
+                         <Button label="Save" type="submit" className="sub-form-button" disabled={!validEmail}></Button>
+                    </div>
+               </form>
+               <form className="settings-form-color-container settings-form" onSubmit={handleColorSubmit}>
+                    <h3>Category color settings</h3>
+                    {props.userColorData &&
+                         (Object.keys(props.userColorData) as Array<subscriptionCategories>).map((categoryKey) => {
+                              return (
+                                   <div
+                                        key={categoryKey + props.userColorData[categoryKey]}
+                                        className="color-input-container"
+                                   >
+                                        <label htmlFor={`${categoryKey}-colorpicker`}>{categoryKey}</label>
+                                        <input
+                                             id={`${categoryKey}-colorpicker`}
+                                             type="color"
+                                             defaultValue={props.userColorData[categoryKey]}
+                                             onChange={handleColorChange}
+                                             name={categoryKey}
+                                        ></input>
+                                   </div>
+                              );
+                         })}
+                    <div className="sub-form-section">
+                         <Button label="Save" type="submit" className="sub-form-button"></Button>
+                    </div>
+               </form>
+          </div>
      );
 }
 

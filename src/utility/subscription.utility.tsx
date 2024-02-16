@@ -30,7 +30,7 @@ type ChartYearCategoryData = {
 type Months = 'Jan' | 'Feb' | 'Mar' | 'Apr' | 'May' | 'Jun' | 'Jul' | 'Aug' | 'Sep' | 'Oct' | 'Nov' | 'Dec';
 
 type subscriptionCategories =
-     | 'Streaming service'
+     | 'Streaming'
      | 'Gaming'
      | 'Clothing'
      | 'Food'
@@ -201,7 +201,7 @@ export function getChartCategoryDataYear(subscriptionData: Subscription[], year:
      const currentDay = new Date().getDay();
      const months: Months[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
      const categories: subscriptionCategories[] = [
-          'Streaming service',
+          'Streaming',
           'Gaming',
           'Clothing',
           'Food',
@@ -317,7 +317,7 @@ export function getChartCategoryDataYear(subscriptionData: Subscription[], year:
 
 export function getCategoryDataAllYears(subscriptionData: Subscription[]) {
      const categories: subscriptionCategories[] = [
-          'Streaming service',
+          'Streaming',
           'Gaming',
           'Clothing',
           'Food',

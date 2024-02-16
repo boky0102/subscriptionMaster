@@ -4,25 +4,11 @@ import ChartsView from './Charts/chartsView';
 import Table from './Table/Table';
 import './insights.css';
 import { useState } from 'react';
-
-type subscriptionCategories =
-     | 'Streaming service'
-     | 'Gaming'
-     | 'Clothing'
-     | 'Food'
-     | 'Utility'
-     | 'Education'
-     | 'Software'
-     | 'Other';
-
-type UserColorData = {
-     category: subscriptionCategories;
-     color: string;
-};
+import { UserColorData } from '../../types';
 
 type InsightsProps = {
      subscriptionsData: Subscription[];
-     userColorData?: UserColorData[];
+     userColorData: UserColorData;
 };
 
 export default function Insights(props: InsightsProps) {
