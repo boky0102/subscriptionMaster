@@ -73,38 +73,78 @@ export default function Table(props: TableProps) {
                                              {(Object.keys(subscription) as Array<keyof typeof subscription>).map(
                                                   (key) => {
                                                        const fieldData = subscription[key];
-                                                       if (fieldData instanceof Date) {
-                                                            return (
-                                                                 <td key={subscription.id + 'date'}>
-                                                                      {fieldData.toLocaleDateString('en-GB', {
-                                                                           year: 'numeric',
-                                                                           month: 'short',
-                                                                           day: '2-digit',
-                                                                      })}
-                                                                 </td>
-                                                            );
-                                                       } else if (fieldData === undefined) {
-                                                            return <td key={subscription.id + 'stopped'}>ONGOING</td>;
-                                                       } else if (
-                                                            typeof fieldData === 'string' &&
-                                                            fieldData !== subscription.id
-                                                       ) {
-                                                            return (
-                                                                 <td
-                                                                      key={
-                                                                           subscription.id +
-                                                                           subscription.subscriptionName
-                                                                      }
-                                                                 >
-                                                                      {fieldData}
-                                                                 </td>
-                                                            );
-                                                       } else if (typeof fieldData === 'number') {
-                                                            return (
-                                                                 <td key={subscription.id + 'total'}>
-                                                                      {Math.floor(fieldData * 100) / 100}
-                                                                 </td>
-                                                            );
+                                                       switch (key) {
+                                                            case 'subscriptionName':
+                                                                 if (typeof fieldData === 'string') {
+                                                                      return (
+                                                                           <td
+                                                                                key={
+                                                                                     subscription.id +
+                                                                                     subscription.subscriptionName
+                                                                                }
+                                                                           >
+                                                                                {fieldData}
+                                                                           </td>
+                                                                      );
+                                                                 }
+                                                                 break;
+                                                            case 'startedDate':
+                                                                 if (fieldData instanceof Date) {
+                                                                      return (
+                                                                           <td key={subscription.id + 'startdate'}>
+                                                                                {fieldData.toLocaleDateString('en-GB', {
+                                                                                     year: 'numeric',
+                                                                                     month: 'short',
+                                                                                     day: '2-digit',
+                                                                                })}
+                                                                           </td>
+                                                                      );
+                                                                 }
+                                                                 break;
+                                                            case 'stoppedDate':
+                                                                 if (fieldData instanceof Date) {
+                                                                      <td key={subscription.id + 'stoppeddate'}>
+                                                                           {fieldData.toLocaleDateString('en-GB', {
+                                                                                year: 'numeric',
+                                                                                month: 'short',
+                                                                                day: '2-digit',
+                                                                           })}
+                                                                      </td>;
+                                                                 } else if (fieldData === undefined) {
+                                                                      return (
+                                                                           <td key={subscription.id + 'stoppeddate'}>
+                                                                                ONGOING
+                                                                           </td>
+                                                                      );
+                                                                 }
+                                                                 break;
+                                                            case 'chargeAmount':
+                                                                 if (typeof fieldData === 'number') {
+                                                                      return (
+                                                                           <td key={subscription.id + 'chargeAmount'}>
+                                                                                {Math.floor(fieldData * 100) / 100}
+                                                                           </td>
+                                                                      );
+                                                                 }
+                                                                 break;
+                                                            case 'currency':
+                                                                 if (typeof fieldData === 'string') {
+                                                                      return (
+                                                                           <td key={subscription.id + 'currency'}>
+                                                                                {fieldData}
+                                                                           </td>
+                                                                      );
+                                                                 }
+                                                                 break;
+                                                            case 'totalPaid':
+                                                                 if (typeof fieldData === 'number') {
+                                                                      return (
+                                                                           <td key={subscription.id + 'totalPaid'}>
+                                                                                {Math.floor(fieldData * 100) / 100}
+                                                                           </td>
+                                                                      );
+                                                                 }
+                                                                 break;
                                                        }
                                                   },
                                              )}
