@@ -48,7 +48,7 @@ function MySettings(props: SettingsProps) {
           })
                .then((response) => {
                     if (response.status === 200) {
-                         console.log('Data updated successfully');
+                         props.triggerNotification('Updated user email', 'success');
                     } else {
                          console.log('Couldnt update');
                     }
@@ -63,20 +63,13 @@ function MySettings(props: SettingsProps) {
           const serverLink = import.meta.env.VITE_SERVER_LINK + '/change-color';
           const postColorObj = {} as UserColorData;
           if (colorFormData) {
-               /* (Object.keys(props.userColorData) as Array<subscriptionCategories>).map((categoryKey) => {
-                    if (colorFormData[categoryKey]) {
-                         postColorObj[categoryKey] = colorFormData[categoryKey];
-                    } else {
-                         postColorObj[categoryKey] = props.userColorData[categoryKey];
-                    }
-               }); */
                console.log(postColorObj);
                axios.post(serverLink, colorFormData, {
                     withCredentials: true,
                })
                     .then((response) => {
                          if (response.status === 200) {
-                              console.log('SUCCESS');
+                              props.triggerNotification('Updated user colors', 'success');
                          }
                     })
                     .catch((error) => {

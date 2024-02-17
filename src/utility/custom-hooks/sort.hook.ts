@@ -17,7 +17,7 @@ const reducer = (state: SubscriptionsTable[], action: ActionTypes) => {
                const sortedArray = [...state];
 
                sortedArray.sort((a, b) => {
-                    if (a.subscriptionName[0] < b.subscriptionName[0]) return -1;
+                    if (a.subscriptionName[0].toLowerCase() < b.subscriptionName[0].toLowerCase()) return -1;
                     else return 1;
                });
                return sortedArray;

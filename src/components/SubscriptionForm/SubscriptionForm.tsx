@@ -42,12 +42,6 @@ function SubscriptionForm(props: SubscriptionFormProps) {
           }
      }, []);
 
-     useEffect(() => {
-          if (currencySelectElement.current) {
-               currencySelectElement.current.value = props.preferredCurrency;
-          }
-     }, [props.preferredCurrency]);
-
      return (
           <>
                <form onSubmit={props.handleSubscriptionFormSubmit} className="sub-form-container">
@@ -114,7 +108,6 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                                    id="subscription-form-currency"
                                    className="sub-form-select"
                                    onChange={props.handleSubscriptionFormSelectChange}
-                                   value={props.preferredCurrency && props.currencies[props.preferredCurrency].code}
                                    ref={currencySelectElement}
                               >
                                    {props.preferredCurrency && (
