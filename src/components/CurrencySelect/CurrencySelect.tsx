@@ -12,6 +12,7 @@ export default function CurrencySelect(props: CurrencySelectProps) {
                className="sub-form-select currency-select"
                onChange={props.handleCurrencySelectChange}
                value={props.currentCurrency}
+               name="currency-select"
           >
                {props.currentCurrency !== undefined && (
                     <option value={currencies[props.currentCurrency].code} key={currencies[props.currentCurrency].code}>

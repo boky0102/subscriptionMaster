@@ -41,33 +41,38 @@ export function useFetchSubscriptions(
                .then((response) => {
                     if (response.status === 200) {
                          const fetchedSubscriptions = response.data.subscriptions as Subscription[];
-                         const adjustedSubscriptionsArrray = fetchedSubscriptions.map((subscription) => {
-                              subscription.renewalDate = new Date(subscription.renewalDate);
-                              subscription.dateAdded = new Date(subscription.dateAdded);
-                              if (subscription.subscriptionStopped) {
-                                   subscription.subscriptionStopped = new Date(subscription.subscriptionStopped);
-                              }
-                              return subscription;
-                         });
-                         setSubscriptionData(adjustedSubscriptionsArrray);
-                         if (Object.keys(userData).length === 0) {
-                              setUserData({
-                                   username: response.data.username,
-                                   email: response.data.email,
-                                   userColorData: response.data.userCategoryColor,
-                                   preferredCurrency: response.data.preferredCurrency,
+                         if (fetchedSubscriptions) {
+                              const adjustedSubscriptionsArrray = fetchedSubscriptions.map((subscription) => {
+                                   subscription.renewalDate = new Date(subscription.renewalDate);
+                                   subscription.dateAdded = new Date(subscription.dateAdded);
+                                   if (subscription.subscriptionStopped) {
+                                        subscription.subscriptionStopped = new Date(subscription.subscriptionStopped);
+                                   }
+                                   return subscription;
                               });
+                              setSubscriptionData(adjustedSubscriptionsArrray);
                          }
+
+                         console.log(response.data);
+
+                         setUserData({
+                              username: response.data.username,
+                              email: response.data.email,
+                              userColorData: response.data.userCategoryColor,
+                              preferredCurrency: response.data.preferredCurrency,
+                         });
                     }
                })
                .catch((error) => {
-                    if (error.response.status === 401) {
-                         navigate('/login');
+                    if (error.response) {
+                         if (error.response.status === 401) {
+                              navigate('/login');
+                         }
                     }
 
-                    console.log(error.response);
+                    console.log(error);
                });
-     }, [dataPosted, userData, serverLink]);
+     }, [dataPosted, serverLink, navigate]);
 
      function deleteSubscription(subscriptionId: string) {
           axios.delete(serverLink + '/subscription/' + subscriptionId, {

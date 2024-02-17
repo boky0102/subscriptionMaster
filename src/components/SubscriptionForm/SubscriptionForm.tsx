@@ -53,10 +53,11 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                <form onSubmit={props.handleSubscriptionFormSubmit} className="sub-form-container">
                     <h3>Subscription information</h3>
                     <div className="sub-form-section">
-                         <label htmlFor="subscriptionName">Subscription name</label>
+                         <label htmlFor="subscription-form-name">Subscription name</label>
                          <input
                               ref={formStartInputElement}
                               type="text"
+                              id="subscription-form-name"
                               name="subscriptionName"
                               className="sub-form-input"
                               onChange={props.handleSubscriptionFormChange}
@@ -66,10 +67,11 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                     </div>
 
                     <div className="sub-form-section">
-                         <label htmlFor="dateAdded">Date subscribed</label>
+                         <label htmlFor="subscription-form-datesub">Date subscribed</label>
                          <input
                               type="date"
                               name="dateAdded"
+                              id="subscription-form-datesub"
                               className="sub-form-input"
                               onChange={props.handleSubscriptionFormChange}
                               ref={dateInputElement}
@@ -79,9 +81,10 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                     </div>
 
                     <div className="sub-form-section">
-                         <label htmlFor="renewalDate">Renewal Date</label>
+                         <label htmlFor="subscription-form-renewDate">Renewal Date</label>
                          <input
                               type="date"
+                              id="subscription-form-renewDate"
                               name="renewalDate"
                               className="sub-form-input"
                               onChange={props.handleSubscriptionFormChange}
@@ -91,10 +94,11 @@ function SubscriptionForm(props: SubscriptionFormProps) {
 
                     <div className="sub-form-section two-part">
                          <div className="select-form-left">
-                              <label htmlFor="chargeAmount">Monthly cost</label>
+                              <label htmlFor="subscription-form-amount">Monthly cost</label>
                               <input
                                    type="number"
                                    step={0.01}
+                                   id="subscription-form-amount"
                                    name="chargeAmount"
                                    className="sub-form-input"
                                    onChange={props.handleSubscriptionFormChange}
@@ -104,9 +108,10 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                          </div>
 
                          <div className="select-form-right">
-                              <label htmlFor="currency">Currency</label>
+                              <label htmlFor="subscription-form-currency">Currency</label>
                               <select
                                    name="currency"
+                                   id="subscription-form-currency"
                                    className="sub-form-select"
                                    onChange={props.handleSubscriptionFormSelectChange}
                                    value={props.preferredCurrency && props.currencies[props.preferredCurrency].code}
@@ -137,11 +142,12 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                     </div>
 
                     <div className="sub-form-section">
-                         <label htmlFor="category">Category</label>
+                         <label htmlFor="subscription-form-category">Category</label>
                          <select
                               name="category"
                               className="sub-form-select"
                               onChange={props.handleSubscriptionFormSelectChange}
+                              id="subscription-form-category"
                          >
                               <option value={undefined}></option>
                               <option value="Streaming">Streaming service</option>

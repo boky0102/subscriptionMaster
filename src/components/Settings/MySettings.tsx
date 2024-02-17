@@ -60,8 +60,17 @@ function MySettings(props: SettingsProps) {
 
      function handleColorSubmit(event: React.FormEvent<HTMLFormElement>) {
           event.preventDefault();
-          const serverLink = import.meta.env.VITE_SERVER_LINK + 'color';
+          const serverLink = import.meta.env.VITE_SERVER_LINK + '/change-color';
+          const postColorObj = {} as UserColorData;
           if (colorFormData) {
+               /* (Object.keys(props.userColorData) as Array<subscriptionCategories>).map((categoryKey) => {
+                    if (colorFormData[categoryKey]) {
+                         postColorObj[categoryKey] = colorFormData[categoryKey];
+                    } else {
+                         postColorObj[categoryKey] = props.userColorData[categoryKey];
+                    }
+               }); */
+               console.log(postColorObj);
                axios.post(serverLink, colorFormData, {
                     withCredentials: true,
                })
