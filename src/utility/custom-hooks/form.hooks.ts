@@ -24,7 +24,9 @@ interface SubscriptionFormValue {
 }
 
 export function useSubscriptionForm() {
-     const [subscriptionFormData, setSubscriptionFormData] = useState({} as SubscriptionFormValue);
+     const [subscriptionFormData, setSubscriptionFormData] = useState({
+          currency: 'USD',
+     } as SubscriptionFormValue);
      const [formValid, setFormValid] = useState(false);
 
      useEffect(() => {
