@@ -2,6 +2,17 @@ import { useEffect, useRef } from 'react';
 import './SubscriptionForm.css';
 import Slider from '../Slider/Slider';
 import { CurrenciesObj, triggerNotification } from '../../types';
+import AreaYearDiffChart from '../charts/AreaYearDiffChart';
+
+type ChartData = {
+     month: 'Jan' | 'Feb' | 'Mar' | 'Apr' | 'May' | 'Jun' | 'Jul' | 'Aug' | 'Sep' | 'Oct' | 'Nov' | 'Dec';
+     totalCostForMonth: number;
+};
+
+type ChartYearData = {
+     year: number;
+     totalCostForYear: number;
+};
 
 type SubscriptionFormProps = {
      handleSubscriptionFormChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -15,6 +26,8 @@ type SubscriptionFormProps = {
      triggerNotification: triggerNotification;
      currencies: CurrenciesObj;
      preferredCurrency: keyof CurrenciesObj;
+     areaChartData?: ChartData[] | ChartYearData[];
+     areaDiffChartData?: ChartData[] | ChartYearData[];
 };
 
 function SubscriptionForm(props: SubscriptionFormProps) {
@@ -43,7 +56,7 @@ function SubscriptionForm(props: SubscriptionFormProps) {
      }, []);
 
      return (
-          <>
+          <div className="add-sub-main-container">
                <form onSubmit={props.handleSubscriptionFormSubmit} className="sub-form-container">
                     <h3>Subscription information</h3>
                     <div className="sub-form-section">
@@ -176,7 +189,25 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                          </button>
                     </div>
                </form>
-          </>
+               <div className="area-diff-container">
+                    <div className="area-diff-chart">
+                         <h3>Prediction chart</h3>
+                         <AreaYearDiffChart
+                              chartData={props.areaChartData && props.areaChartData}
+                              newChartData={props.areaDiffChartData && props.areaDiffChartData}
+                              timeFrame={2024}
+                              height={300}
+                         ></AreaYearDiffChart>
+                         <div>
+                              <h2>Expense change</h2>
+                              <div>
+                                   <span>Total cost for year</span>
+                                   <span></span>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
      );
 }
 

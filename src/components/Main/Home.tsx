@@ -4,7 +4,7 @@ import Dashboard from '../Dashboard/Dashboard';
 import MySettings from '../Settings/MySettings';
 import SubscriptionForm from '../SubscriptionForm/SubscriptionForm';
 import Callendar from '../Calendar/Callendar';
-import Mysubscriptions from '../MySubscriptions/Mysubscriptions';
+import Mysubscriptions, { Subscription } from '../MySubscriptions/Mysubscriptions';
 import './Home.css';
 import HomeContent from '../HomeContent/HomeContent';
 import MainNotification from '../MainNotification/MainNotification';
@@ -16,6 +16,7 @@ import { usePostSubscriptionData, useSubscriptionForm } from '../../utility/cust
 import { useFetchSubscriptions } from '../../utility/custom-hooks/fetch.hooks';
 import { useCurrency } from '../../utility/custom-hooks/currency.hook';
 import Insights from '../Insights/Insights';
+import { getChartDataYear } from '../../utility/subscription.utility';
 
 export interface UserData {
      username: string;
@@ -34,9 +35,49 @@ type subscriptionCategories =
      | 'Software'
      | 'Other';
 
+interface SubscriptionFormValue {
+     subscriptionName: string | undefined;
+     chargeAmount: number | undefined;
+     renewalDate: Date | undefined;
+     dateAdded: Date | undefined;
+     emailNotification: boolean | undefined;
+     freeTrial: boolean | undefined;
+     category: subscriptionCategories | undefined;
+     currency: string;
+     id: string;
+}
+
 type UserColorData = {
      [key in subscriptionCategories]: string;
 };
+
+function addFormValuesToSubscription(subscriptionData: Subscription[], subscriptionFormData: SubscriptionFormValue) {
+     if (
+          subscriptionFormData.category &&
+          subscriptionFormData.chargeAmount &&
+          subscriptionFormData.dateAdded &&
+          subscriptionFormData.renewalDate &&
+          subscriptionFormData.subscriptionName
+     ) {
+          const formInputSubscription: Subscription = {
+               id: '1',
+               subscriptionName: subscriptionFormData.subscriptionName,
+               chargeAmount: subscriptionFormData.chargeAmount,
+               dateAdded: new Date(
+                    subscriptionFormData.dateAdded.getFullYear(),
+                    subscriptionFormData.dateAdded.getMonth(),
+                    subscriptionFormData.dateAdded.getDate(),
+               ),
+               renewalDate: new Date(
+                    subscriptionFormData.renewalDate.getFullYear(),
+                    subscriptionFormData.renewalDate.getMonth(),
+                    subscriptionFormData.renewalDate.getDate(),
+               ),
+               currency: subscriptionFormData.currency,
+          };
+          return [...subscriptionData, formInputSubscription];
+     } else return undefined;
+}
 
 function Home() {
      const navigate = useNavigate();
@@ -58,6 +99,10 @@ function Home() {
           useFetchSubscriptions(dataPosted, triggerNotification, navigate);
 
      const [currencyAdjustedSubData] = useCurrency(subscriptionData, userData.preferredCurrency);
+
+     const extendedSubscriptionData = addFormValuesToSubscription(subscriptionData, subscriptionFormData);
+     const areaExtended = extendedSubscriptionData ? getChartDataYear(extendedSubscriptionData, 2024) : undefined;
+     const chartArea = getChartDataYear(subscriptionData, 2024);
 
      useEffect(() => {
           if (dataPosted !== 0) {
@@ -104,6 +149,8 @@ function Home() {
                                         triggerNotification={triggerNotification}
                                         currencies={currencies}
                                         preferredCurrency={userData.preferredCurrency}
+                                        areaDiffChartData={areaExtended && areaExtended}
+                                        areaChartData={chartArea && chartArea}
                                    ></SubscriptionForm>
                               }
                          ></Route>

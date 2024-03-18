@@ -21,6 +21,7 @@ interface SubscriptionFormValue {
      freeTrial: boolean | undefined;
      category: subscriptionCategories | undefined;
      currency: string;
+     id: string;
 }
 
 export function useSubscriptionForm() {

@@ -1,16 +1,18 @@
 .sub-form-container {
      margin-top: 4vh;
-     width: 100%;
+     width: 40%;
      display: flex;
      flex-direction: column;
      align-items: center;
      justify-content: center;
+     background-color: var(--main-light);
+     border-radius: 12px;
 }
 
 .sub-form-section {
      display: flex;
      flex-direction: column;
-     width: 40%;
+     width: 90%;
      justify-content: space-between;
      margin-bottom: 20px;
 }
@@ -124,6 +126,29 @@
 .sub-form-one-line {
      display: flex;
      width: 40%;
+}
+
+.add-sub-main-container {
+     display: flex;
+     justify-content: space-evenly;
+     width: 90%;
+     margin: auto;
+}
+
+.area-diff-container {
+     width: 40%;
+     display: flex;
+}
+
+.area-diff-chart {
+     width: 100%;
+     background-color: var(--main-light);
+     border-radius: 12px;
+     height: 500px;
+     margin-top: 4vh;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
 }
 
 @media only screen and (max-width: 576px) {

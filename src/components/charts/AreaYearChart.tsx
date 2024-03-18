@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { ResponsiveContainer, AreaChart, Area, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 type ChartData = {
