@@ -102,7 +102,7 @@ function Home() {
 
      const extendedSubscriptionData = addFormValuesToSubscription(subscriptionData, subscriptionFormData);
      const areaExtended = extendedSubscriptionData ? getChartDataYear(extendedSubscriptionData, 2024) : undefined;
-     const chartArea = getChartDataYear(subscriptionData, 2024);
+     const chartArea = getChartDataYear(subscriptionData, new Date().getFullYear());
 
      useEffect(() => {
           if (dataPosted !== 0) {

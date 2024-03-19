@@ -515,9 +515,7 @@ export function filterSubscriptionData(
      data: Subscription[],
      selectedSubscription: 'all' | string,
      selectedCategory: 'all' | subscriptionCategories,
-     selectedYear: 'all' | number,
 ) {
-     console.log(selectedYear);
      if (selectedCategory !== 'all' && selectedSubscription !== 'all') {
           const filteredData = data.filter((subscription) => {
                if (selectedCategory === subscription.category && selectedSubscription === subscription.id) {

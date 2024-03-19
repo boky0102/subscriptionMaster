@@ -49,7 +49,6 @@ export default function ChartsView(props: ChartsViewProps) {
           props.subscriptionData,
           selectedSubscription,
           selectedCategory,
-          selectedYear,
      );
 
      const { chartAreaData, chartPieData, totalAmountPaid, biggestCategory, biggestSubscription, averageMonthly } =

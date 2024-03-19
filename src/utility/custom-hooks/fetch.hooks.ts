@@ -72,7 +72,7 @@ export function useFetchSubscriptions(
 
                     console.log(error);
                });
-     }, [dataPosted, serverLink, navigate]);
+     }, [dataPosted, serverLink]);
 
      function deleteSubscription(subscriptionId: string) {
           axios.delete(serverLink + '/subscription/' + subscriptionId, {
