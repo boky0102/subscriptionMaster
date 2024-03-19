@@ -51,6 +51,7 @@ type UserColorData = {
      [key in subscriptionCategories]: string;
 };
 
+//Used for calculating expected subscriptions cost graph
 function addFormValuesToSubscription(subscriptionData: Subscription[], subscriptionFormData: SubscriptionFormValue) {
      if (
           subscriptionFormData.category &&
@@ -87,7 +88,7 @@ function Home() {
           subscriptionFormData,
           formDataisValid,
           { formChangeHandler, freeTrialSliderHandler, emailSliderHandler, selectChangeFunctionHandler },
-     ] = useSubscriptionForm();
+     ] = useSubscriptionForm(navigate);
 
      const [dataPosted, subscriptionFormSubmitHandler] = usePostSubscriptionData(
           subscriptionFormData,

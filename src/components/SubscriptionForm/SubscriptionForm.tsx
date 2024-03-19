@@ -53,6 +53,8 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                }
                dateInputElement.current.max = `${year}-${month}-${day}`;
           }
+
+          console.log(props.preferredCurrency);
      }, []);
 
      return (

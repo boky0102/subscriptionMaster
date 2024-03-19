@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { triggerNotification } from '../../types';
+import { NavigateFunction } from 'react-router-dom';
 
 type subscriptionCategories =
      | 'Streaming'
@@ -24,7 +25,7 @@ interface SubscriptionFormValue {
      id: string;
 }
 
-export function useSubscriptionForm() {
+export function useSubscriptionForm(navigate: NavigateFunction) {
      const [subscriptionFormData, setSubscriptionFormData] = useState({
           currency: 'USD',
      } as SubscriptionFormValue);
@@ -44,6 +45,12 @@ export function useSubscriptionForm() {
                setFormValid(false);
           }
      }, [subscriptionFormData, setFormValid]);
+
+     useEffect(() => {
+          setSubscriptionFormData({
+               currency: 'USD',
+          } as SubscriptionFormValue);
+     }, [navigate]);
 
      function formChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
           const { name, value } = event.target;
