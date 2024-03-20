@@ -24,6 +24,7 @@ function MySettings(props: SettingsProps) {
      const [settings, setSettings] = useState({} as SettingsForm);
      const [validEmail, setValidEmail] = useState(undefined as boolean | undefined);
      const [colorFormData, setColorFormData] = useState({} as UserColorData);
+     const [colorChanged, setColorHasChanged] = useState(false);
 
      function handleChangeSettings(event: React.ChangeEvent<HTMLInputElement>) {
           const { name, value } = event.currentTarget;
@@ -86,6 +87,7 @@ function MySettings(props: SettingsProps) {
                ...previousObj,
                [name]: value,
           }));
+          setColorHasChanged(true);
      }
 
      useEffect(() => {
@@ -94,7 +96,7 @@ function MySettings(props: SettingsProps) {
 
      return (
           <div className="settings-container">
-               <form className="sub-form-container settings-form" onSubmit={handleFormSubmit}>
+               <form className="settings-form settings-form-email" onSubmit={handleFormSubmit}>
                     <h3>Email settings</h3>
                     <div className="sub-form-section">
                          <label htmlFor="email">Email address</label>
@@ -110,12 +112,15 @@ function MySettings(props: SettingsProps) {
                          {!validEmail && validEmail !== undefined && <div>Email is not valid</div>}
                     </div>
 
-                    <div className="sub-form-section">
-                         <Button label="Save" type="submit" className="sub-form-button" disabled={!validEmail}></Button>
-                    </div>
+                    <Button
+                         label="Save"
+                         type="submit"
+                         className="sub-form-button settings-button"
+                         disabled={!validEmail}
+                    ></Button>
                </form>
                <form className="settings-form-color-container settings-form" onSubmit={handleColorSubmit}>
-                    <h3>Category color settings</h3>
+                    <h3>Color settings</h3>
                     {props.userColorData &&
                          (Object.keys(props.userColorData) as Array<subscriptionCategories>).map((categoryKey) => {
                               return (
@@ -134,9 +139,12 @@ function MySettings(props: SettingsProps) {
                                    </div>
                               );
                          })}
-                    <div className="sub-form-section">
-                         <Button label="Save" type="submit" className="sub-form-button"></Button>
-                    </div>
+                    <Button
+                         label="Save"
+                         type="submit"
+                         className="sub-form-button settings-button margin-button"
+                         disabled={colorChanged ? false : true}
+                    ></Button>
                </form>
           </div>
      );
