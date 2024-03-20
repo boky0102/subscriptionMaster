@@ -43,7 +43,7 @@ function SubscriptionForm(props: SubscriptionFormProps) {
           if (dateInputElement.current && currentDate) {
                dateInputElement.current.valueAsDate = currentDate;
                const year = currentDate.getFullYear().toString();
-               let month = currentDate.getMonth().toString();
+               let month = (currentDate.getMonth() + 1).toString();
                let day = currentDate.getDate().toString();
                if (parseInt(month) < 10) {
                     month = '0' + month;
