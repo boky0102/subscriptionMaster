@@ -180,7 +180,7 @@ export function getChartDataYear(subscriptionData: Subscription[], year: number)
 
                const monthChartData: ChartData = {
                     month: month,
-                    totalCostForMonth: totalMonthCost,
+                    totalCostForMonth: Math.round(totalMonthCost * 100) / 100,
                };
 
                if (currentYear === year) {
