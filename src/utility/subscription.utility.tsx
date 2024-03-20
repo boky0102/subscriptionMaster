@@ -140,7 +140,6 @@ export function checkIfSubscriptionChargedOngoing(
 export function getChartDataYear(subscriptionData: Subscription[], year: number) {
      const currentYear = new Date().getFullYear();
      const currentMonth = new Date().getMonth();
-     const currentDay = new Date().getDay();
      const months: Months[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
      const chartYearDataArray: ChartData[] = [];
      if (subscriptionData) {
@@ -163,16 +162,15 @@ export function getChartDataYear(subscriptionData: Subscription[], year: number)
                          }
                     } else {
                          if (!subscription.freeTrial) {
-                              if (subscription.dateAdded.getFullYear() < year) {
+                              if (
+                                   checkIfSubscriptionChargedOngoing(
+                                        index,
+                                        year,
+                                        subscription.dateAdded,
+                                        subscription.dateAdded.getDate(),
+                                   )
+                              ) {
                                    totalMonthCost += subscription.chargeAmount;
-                              } else if (subscription.dateAdded.getFullYear() === year) {
-                                   if (subscription.dateAdded.getMonth() < index) {
-                                        totalMonthCost += subscription.chargeAmount;
-                                   } else if (subscription.dateAdded.getMonth() === index) {
-                                        if (subscription.dateAdded.getDay() <= currentDay) {
-                                             totalMonthCost += subscription.chargeAmount;
-                                        }
-                                   }
                               }
                          }
                     }

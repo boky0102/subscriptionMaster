@@ -18,6 +18,9 @@ type AreaYearChartProps = {
 };
 
 export default function AreaYearDiffChart(props: AreaYearChartProps) {
+     console.log(props.chartData);
+     console.log('-----------new data--------------');
+     console.log(props.newChartData);
      return (
           props.newChartData && (
                <ResponsiveContainer width={'100%'} height={props.height}>
