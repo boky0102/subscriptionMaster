@@ -3,6 +3,7 @@ import './SubscriptionForm.css';
 import Slider from '../Slider/Slider';
 import { CurrenciesObj, triggerNotification } from '../../types';
 import AreaYearDiffChart from '../charts/AreaYearDiffChart';
+import { calculateIncreasedPercentage } from '../../utility/math.utility';
 
 type ChartData = {
      month: 'Jan' | 'Feb' | 'Mar' | 'Apr' | 'May' | 'Jun' | 'Jul' | 'Aug' | 'Sep' | 'Oct' | 'Nov' | 'Dec';
@@ -28,6 +29,8 @@ type SubscriptionFormProps = {
      preferredCurrency: keyof CurrenciesObj;
      areaChartData?: ChartData[] | ChartYearData[];
      areaDiffChartData?: ChartData[] | ChartYearData[];
+     newExpenseAmount?: number;
+     expenses?: number;
 };
 
 function SubscriptionForm(props: SubscriptionFormProps) {
@@ -204,7 +207,27 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                               <h2>Expense change</h2>
                               <div>
                                    <span>Total cost for year</span>
-                                   <span></span>
+                                   <span className="total-cost-number">
+                                        {props.newExpenseAmount && props.newExpenseAmount}
+                                   </span>
+                              </div>
+                              <div>
+                                   <span>Total cost without addition</span>
+                                   <span className="total-cost-number">{props.expenses && props.expenses}</span>
+                              </div>
+                              <div>
+                                   <span>Increase</span>
+                                   <span className="total-cost-number">
+                                        {props.expenses &&
+                                             props.newExpenseAmount &&
+                                             props.newExpenseAmount - props.expenses}
+                                   </span>
+                                   <span className="total-cost-number">
+                                        {props.expenses &&
+                                             props.newExpenseAmount &&
+                                             calculateIncreasedPercentage(props.expenses, props.newExpenseAmount)}
+                                        %
+                                   </span>
                               </div>
                          </div>
                     </div>

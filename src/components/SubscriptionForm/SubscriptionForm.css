@@ -151,6 +151,10 @@
      align-items: center;
 }
 
+.total-cost-number {
+     margin-left: 10px;
+}
+
 @media only screen and (max-width: 576px) {
      .sub-form-section {
           width: 80%;

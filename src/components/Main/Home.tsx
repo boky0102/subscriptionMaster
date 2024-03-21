@@ -16,7 +16,7 @@ import { usePostSubscriptionData, useSubscriptionForm } from '../../utility/cust
 import { useFetchSubscriptions } from '../../utility/custom-hooks/fetch.hooks';
 import { useCurrency } from '../../utility/custom-hooks/currency.hook';
 import Insights from '../Insights/Insights';
-import { getChartDataYear } from '../../utility/subscription.utility';
+import { calculatePredictedExpensesYear, getChartDataYear } from '../../utility/subscription.utility';
 
 export interface UserData {
      username: string;
@@ -104,6 +104,9 @@ function Home() {
      const extendedSubscriptionData = addFormValuesToSubscription(subscriptionData, subscriptionFormData);
      const areaExtended = extendedSubscriptionData ? getChartDataYear(extendedSubscriptionData, 2024) : undefined;
      const chartArea = getChartDataYear(subscriptionData, new Date().getFullYear());
+     const predictedExpenses =
+          extendedSubscriptionData && calculatePredictedExpensesYear(subscriptionData, subscriptionFormData);
+     const expenses = calculatePredictedExpensesYear(subscriptionData);
 
      useEffect(() => {
           if (dataPosted !== 0) {
@@ -152,6 +155,8 @@ function Home() {
                                         preferredCurrency={userData.preferredCurrency}
                                         areaDiffChartData={areaExtended && areaExtended}
                                         areaChartData={chartArea && chartArea}
+                                        newExpenseAmount={predictedExpenses}
+                                        expenses={expenses}
                                    ></SubscriptionForm>
                               }
                          ></Route>

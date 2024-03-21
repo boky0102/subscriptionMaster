@@ -11,6 +11,18 @@ interface Subscription {
      currency: string;
 }
 
+interface SubscriptionFormValue {
+     subscriptionName: string | undefined;
+     chargeAmount: number | undefined;
+     renewalDate: Date | undefined;
+     dateAdded: Date | undefined;
+     emailNotification: boolean | undefined;
+     freeTrial: boolean | undefined;
+     category: subscriptionCategories | undefined;
+     currency: string;
+     id: string;
+}
+
 type ChartData = {
      month: 'Jan' | 'Feb' | 'Mar' | 'Apr' | 'May' | 'Jun' | 'Jul' | 'Aug' | 'Sep' | 'Oct' | 'Nov' | 'Dec';
      totalCostForMonth: number;
@@ -715,4 +727,57 @@ export function calculateChartData(data: Subscription[], selectedYear: 'all' | n
                averageMonthly: averageMonthly,
           };
      }
+}
+
+export function calculatePredictedExpensesYear(
+     subscriptionData: Subscription[],
+     newSubscription?: SubscriptionFormValue,
+) {
+     const currentYear = new Date().getFullYear();
+     let totalSum = 0;
+     const months: Months[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+     months.forEach((month, monthIndex) => {
+          subscriptionData.forEach((subscription) => {
+               if (subscription.subscriptionStopped) {
+                    if (
+                         checkIfSubscriptionCharged(
+                              monthIndex,
+                              subscription.dateAdded,
+                              subscription.subscriptionStopped,
+                              currentYear,
+                              subscription.dateAdded.getDate(),
+                         )
+                    ) {
+                         totalSum += subscription.chargeAmount;
+                    }
+               } else {
+                    if (subscription.dateAdded.getFullYear() !== currentYear) {
+                         totalSum += subscription.chargeAmount;
+                    } else {
+                         if (monthIndex >= subscription.dateAdded.getMonth()) {
+                              totalSum += subscription.chargeAmount;
+                         }
+                    }
+               }
+          });
+     });
+
+     if (newSubscription) {
+          if (newSubscription.dateAdded && newSubscription.chargeAmount) {
+               const yearAdded = newSubscription.dateAdded.getFullYear();
+               if (yearAdded !== currentYear) {
+                    const totalToCharge = newSubscription.chargeAmount * 12;
+                    totalSum += totalToCharge;
+               } else {
+                    // 12 since added months is counted as well
+                    const monthsCharged = 12 - newSubscription.dateAdded.getMonth();
+                    const totalToCharge = newSubscription.chargeAmount * monthsCharged;
+                    console.log(monthsCharged);
+                    totalSum += totalToCharge;
+               }
+          }
+     }
+     console.log(totalSum);
+     return Math.round(totalSum * 100) / 100;
 }
