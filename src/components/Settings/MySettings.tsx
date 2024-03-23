@@ -7,12 +7,14 @@ import { UserColorData } from '../../types';
 
 type SettingsProps = {
      email?: string;
+     username: string;
      triggerNotification: triggerNotification;
      userColorData: UserColorData;
 };
 
 interface SettingsForm {
      email: string;
+     username: string;
 }
 
 function isValidEmail(email: string) {
@@ -21,7 +23,9 @@ function isValidEmail(email: string) {
 }
 
 function MySettings(props: SettingsProps) {
-     const [settings, setSettings] = useState({} as SettingsForm);
+     const [settings, setSettings] = useState({
+          username: props.username,
+     } as SettingsForm);
      const [validEmail, setValidEmail] = useState(undefined as boolean | undefined);
      const [colorFormData, setColorFormData] = useState({} as UserColorData);
      const [colorChanged, setColorHasChanged] = useState(false);

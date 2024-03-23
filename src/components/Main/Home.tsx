@@ -17,6 +17,7 @@ import { useFetchSubscriptions } from '../../utility/custom-hooks/fetch.hooks';
 import { useCurrency } from '../../utility/custom-hooks/currency.hook';
 import Insights from '../Insights/Insights';
 import { calculatePredictedExpensesYear, getChartDataYear } from '../../utility/subscription.utility';
+import EmailVerification from '../EmailVerificationPage/EmailVerification';
 
 export interface UserData {
      username: string;
@@ -133,6 +134,7 @@ function Home() {
                               element={
                                    <MySettings
                                         email={userData.email}
+                                        username={userData.username}
                                         triggerNotification={triggerNotification}
                                         userColorData={userData.userColorData && userData.userColorData}
                                    ></MySettings>
@@ -183,6 +185,7 @@ function Home() {
                                    ></Insights>
                               }
                          ></Route>
+                         <Route path="/email/:token" element={<EmailVerification></EmailVerification>}></Route>
                          <Route
                               path=""
                               element={

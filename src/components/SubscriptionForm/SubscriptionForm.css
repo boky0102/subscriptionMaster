@@ -138,13 +138,16 @@
 .area-diff-container {
      width: 40%;
      display: flex;
+     flex-direction: column;
+     background-color: var(--main-light);
+     border-radius: 12px;
+     align-items: center;
 }
 
 .area-diff-chart {
      width: 100%;
-     background-color: var(--main-light);
-     border-radius: 12px;
-     height: 500px;
+
+     height: 400px;
      margin-top: 4vh;
      display: flex;
      flex-direction: column;

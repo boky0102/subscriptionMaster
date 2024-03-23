@@ -203,32 +203,30 @@ function SubscriptionForm(props: SubscriptionFormProps) {
                               timeFrame={2024}
                               height={300}
                          ></AreaYearDiffChart>
+                    </div>
+                    <div>
+                         <h2>Expense change</h2>
                          <div>
-                              <h2>Expense change</h2>
-                              <div>
-                                   <span>Total cost for year</span>
-                                   <span className="total-cost-number">
-                                        {props.newExpenseAmount && props.newExpenseAmount}
-                                   </span>
-                              </div>
-                              <div>
-                                   <span>Total cost without addition</span>
-                                   <span className="total-cost-number">{props.expenses && props.expenses}</span>
-                              </div>
-                              <div>
-                                   <span>Increase</span>
-                                   <span className="total-cost-number">
-                                        {props.expenses &&
-                                             props.newExpenseAmount &&
-                                             props.newExpenseAmount - props.expenses}
-                                   </span>
-                                   <span className="total-cost-number">
-                                        {props.expenses &&
-                                             props.newExpenseAmount &&
-                                             calculateIncreasedPercentage(props.expenses, props.newExpenseAmount)}
-                                        %
-                                   </span>
-                              </div>
+                              <span>Total cost for year</span>
+                              <span className="total-cost-number">
+                                   {props.newExpenseAmount && props.newExpenseAmount}
+                              </span>
+                         </div>
+                         <div>
+                              <span>Total cost without addition</span>
+                              <span className="total-cost-number">{props.expenses && props.expenses}</span>
+                         </div>
+                         <div>
+                              <span>Increase</span>
+                              <span className="total-cost-number">
+                                   {props.expenses && props.newExpenseAmount && props.newExpenseAmount - props.expenses}
+                              </span>
+                              <span className="total-cost-number">
+                                   {props.expenses &&
+                                        props.newExpenseAmount &&
+                                        calculateIncreasedPercentage(props.expenses, props.newExpenseAmount)}
+                                   %
+                              </span>
                          </div>
                     </div>
                </div>
