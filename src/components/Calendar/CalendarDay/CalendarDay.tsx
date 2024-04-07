@@ -130,7 +130,12 @@ export default function CalendarDay(props: CalendarDayProps) {
                </div>
                {modalOpen &&
                     createPortal(
-                         <CalendarDayModal handleModalClose={handleModalClose} isOpen={modalOpen}></CalendarDayModal>,
+                         <CalendarDayModal
+                              handleModalClose={handleModalClose}
+                              isOpen={modalOpen}
+                              date={props.date}
+                              subscriptionsRenewedOnDate={subscriptionsOnDay}
+                         ></CalendarDayModal>,
                          props.calendarElementRef,
                     )}
           </>

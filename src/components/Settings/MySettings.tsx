@@ -59,7 +59,7 @@ function MySettings(props: SettingsProps) {
                     }
                })
                .catch((error) => {
-                    console.log(error);
+                    props.triggerNotification(error.response.statusText, 'error');
                });
      }
 
