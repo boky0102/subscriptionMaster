@@ -10,6 +10,8 @@ type CalendarDayModalProps = {
 };
 
 export default function CalendarDayModal(props: CalendarDayModalProps) {
+     const amountHeader = props.date >= new Date() ? 'Amount to be charged' : 'Amount charged';
+
      if (props.isOpen) {
           return (
                <>
@@ -28,17 +30,22 @@ export default function CalendarDayModal(props: CalendarDayModalProps) {
                               </div>
                          </div>
 
-                         <div className="renewed-subscriptions-container">
-                              {props.subscriptionsRenewedOnDate.map((subscription) => {
-                                   return (
-                                        <div>
-                                             <span>{subscription.subscriptionName}</span>
-                                             <span>{subscription.chargeAmount}</span>
-                                             <span>{subscription.category}</span>
-                                        </div>
-                                   );
-                              })}
-                         </div>
+                         <table className="modal-info-table">
+                              <thead>
+                                   <th>Subscription name</th>
+                                   <th>{amountHeader}</th>
+                              </thead>
+                              <tbody>
+                                   {props.subscriptionsRenewedOnDate.map((subscription) => {
+                                        return (
+                                             <tr key={subscription.id}>
+                                                  <td>{subscription.subscriptionName.toUpperCase()}</td>
+                                                  <td>{subscription.chargeAmount}</td>
+                                             </tr>
+                                        );
+                                   })}
+                              </tbody>
+                         </table>
                     </div>
                </>
           );
