@@ -23,4 +23,27 @@
 }
 
 .modal-info-table {
+     border-style: none;
+     background-color: aquamarine;
+     border-radius: 10px;
+     margin: auto;
+     border-collapse: collapse;
+}
+
+.modal-info-table td {
+     border-style: none;
+     width: 200px;
+     line-height: 30px;
+     padding: 10px 20px;
+}
+
+.modal-info-table th {
+     text-align: left;
+     border-bottom: 1px solid var(--main-dark);
+     padding: 10px 20px;
+}
+
+.modal-table-total td {
+     border-top: 1px solid var(--main-dark);
+     font-weight: 700;
 }

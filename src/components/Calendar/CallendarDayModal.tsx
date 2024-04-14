@@ -44,6 +44,14 @@ export default function CalendarDayModal(props: CalendarDayModalProps) {
                                              </tr>
                                         );
                                    })}
+                                   <tr className="modal-table-total">
+                                        <td>TOTAL</td>
+                                        <td>
+                                             {props.subscriptionsRenewedOnDate.reduce((sum, current) => {
+                                                  return (sum += current.chargeAmount);
+                                             }, 0)}
+                                        </td>
+                                   </tr>
                               </tbody>
                          </table>
                     </div>
