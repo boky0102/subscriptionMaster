@@ -11,7 +11,12 @@ import BarChartAllYears from '../charts/BarChartAllYears';
 import SubscriptionTypeSelect from '../SubscriptionTypeSelect.tsx/SubscriptionTypeSelect';
 import PieCategoryChart from '../charts/PieCategoryChart';
 import { CategoryColor } from '../CategoryColor.tsx/CategoryColor';
-import { getChartCategoryDataYear, getChartDataAllYears, getChartDataYear } from '../../utility/subscription.utility';
+import {
+     filterSubscriptionData,
+     getChartCategoryDataYear,
+     getChartDataAllYears,
+     getChartDataYear,
+} from '../../utility/subscription.utility';
 import CurrencySelect from '../CurrencySelect/CurrencySelect';
 import { CurrenciesObj } from '../../types';
 
@@ -66,6 +71,18 @@ type subscriptionCategories =
 
 type FilterStates = 'all' | 'free-trial' | 'subscription';
 
+function filterSubscriptions(subscriptionData: Subscription[], filterRule: FilterStates) {
+     if (filterRule === 'all') {
+          return subscriptionData.filter((subscription) => !subscription.subscriptionStopped);
+     } else if (filterRule === 'free-trial') {
+          return subscriptionData.filter((subscription) => subscription.freeTrial && !subscription.subscriptionStopped);
+     } else {
+          return subscriptionData.filter(
+               (subscription) => !subscription.freeTrial && !subscription.subscriptionStopped,
+          );
+     }
+}
+
 export default function HomeContent(props: HomeContentProps) {
      const [chartData, setChartData] = useState([] as ChartData[]);
      const [chartYearData, setChartYearData] = useState([] as ChartYearData[]);
@@ -74,7 +91,7 @@ export default function HomeContent(props: HomeContentProps) {
      const [selectedYear, setSelectedYear] = useState(currentYear);
      const [chartType, setChartType] = useState('year');
      const [filterState, setFilterState] = useState('all' as FilterStates);
-     const [filteredSubscriptionData, setFilteredSubscriptionData] = useState(props.subscriptionData as Subscription[]);
+     /* const [filteredSubscriptionData, setFilteredSubscriptionData] = useState(props.subscriptionData as Subscription[]); */
 
      function handleRightArrowClick() {
           if (selectedYear < currentYear) {
@@ -92,7 +109,6 @@ export default function HomeContent(props: HomeContentProps) {
      }
 
      useEffect(() => {
-          setChartData([]);
           const chartDataArray = getChartDataYear(props.subscriptionData, selectedYear);
           setChartData(chartDataArray);
           const chartAllyearsData = getChartDataAllYears(props.subscriptionData);
@@ -115,7 +131,9 @@ export default function HomeContent(props: HomeContentProps) {
           setFilterState('subscription');
      }
 
-     useEffect(() => {
+     const filteredSubscriptionData = filterSubscriptions(props.subscriptionData, filterState);
+
+     /* useEffect(() => {
           if (filterState === 'free-trial') {
                setFilteredSubscriptionData(() => {
                     const returnArray = props.subscriptionData.filter((subscription) => {
@@ -144,7 +162,7 @@ export default function HomeContent(props: HomeContentProps) {
                     return returnArray;
                });
           }
-     }, [filterState, props.subscriptionData]);
+     }, [filterState, props.subscriptionData]); */
 
      return (
           <>
