@@ -22,25 +22,18 @@ type SubscriptionCardProps = {
 };
 
 export default function SubscriptionCard(props: SubscriptionCardProps) {
-     //wirte function for notification controll that will ift state up to hamecontent every time notification is trigerred
-
      const [sliderActive, setSliderActive] = useState(props.subscription.emailNotification);
-     const [nextRenewal, setNextRenewal] = useState(props.subscription.renewalDate);
      const currentDate = new Date();
 
-     useEffect(() => {
-          if (props.subscription.renewalDate.getDate() <= currentDate.getDate()) {
-               const newRenewalDate = new Date(nextRenewal);
-               newRenewalDate.setMonth(currentDate.getMonth() + 1);
-               setNextRenewal(newRenewalDate);
-          }
-     }, [props.subscription]);
-
-     /* const nextRenewal = props.subscription.renewalDate;
+     let nextRenewal = {} as Date;
 
      if (props.subscription.renewalDate.getDate() <= currentDate.getDate()) {
+          nextRenewal = new Date(props.subscription.renewalDate);
           nextRenewal.setMonth(currentDate.getMonth() + 1);
-     } */
+     } else {
+          nextRenewal = new Date(props.subscription.renewalDate);
+          nextRenewal.setMonth(currentDate.getMonth());
+     }
 
      function handleSliderChange() {
           if (sliderActive) {
