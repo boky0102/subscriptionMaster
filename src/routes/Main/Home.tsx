@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Dashboard from '../../components/Dashboard/Dashboard';
 import MySettings from '../Settings/MySettings';
-import SubscriptionForm from '../../components/SubscriptionForm/SubscriptionForm';
+import SubscriptionForm from '../SubscriptionForm/SubscriptionForm';
 import Callendar from '../Calendar/Callendar';
 import Mysubscriptions, { Subscription } from '../../components/MySubscriptions/Mysubscriptions';
 import './Home.css';

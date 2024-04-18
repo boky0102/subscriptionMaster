@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import './SubscriptionForm.css';
-import Slider from '../Slider/Slider';
+import Slider from '../../components/Slider/Slider';
 import { CurrenciesObj, triggerNotification } from '../../types';
-import AreaYearDiffChart from '../charts/AreaYearDiffChart';
+import AreaYearDiffChart from '../../components/charts/AreaYearDiffChart';
 import { calculateIncreasedPercentage } from '../../utility/math.utility';
 
 type ChartData = {
