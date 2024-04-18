@@ -1,5 +1,5 @@
-import CloseIcon from '../Icons/CloseIconSvg';
-import { Subscription } from '../MySubscriptions/Mysubscriptions';
+import CloseIcon from '../../components/Icons/CloseIconSvg';
+import { Subscription } from '../../components/MySubscriptions/Mysubscriptions';
 import './CallendarDayModal.css';
 
 type CalendarDayModalProps = {

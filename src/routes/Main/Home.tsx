@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import Dashboard from '../Dashboard/Dashboard';
+import Dashboard from '../../components/Dashboard/Dashboard';
 import MySettings from '../Settings/MySettings';
-import SubscriptionForm from '../SubscriptionForm/SubscriptionForm';
+import SubscriptionForm from '../../components/SubscriptionForm/SubscriptionForm';
 import Callendar from '../Calendar/Callendar';
-import Mysubscriptions, { Subscription } from '../MySubscriptions/Mysubscriptions';
+import Mysubscriptions, { Subscription } from '../../components/MySubscriptions/Mysubscriptions';
 import './Home.css';
 import HomeContent from '../HomeContent/HomeContent';
-import MainNotification from '../MainNotification/MainNotification';
+import MainNotification from '../../components/MainNotification/MainNotification';
 import currencies from '../../utility/Common-Currency.json';
 import { CurrenciesObj } from '../../types';
 import { isCurrencyCode } from '../../utility/types.utility';

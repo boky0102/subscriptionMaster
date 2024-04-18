@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Button from '../Button/Button';
+import Button from '../../components/Button/Button';
 import { useEffect, useState } from 'react';
 import { subscriptionCategories, triggerNotification } from '../../types';
 import './MySettings.css';

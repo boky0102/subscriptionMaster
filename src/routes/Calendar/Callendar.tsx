@@ -1,8 +1,8 @@
-import ArrowIcon from '../ArrowIcon/ArrowIcon';
+import ArrowIcon from '../../components/ArrowIcon/ArrowIcon';
 import CalendarDay from './CalendarDay/CalendarDay';
 import './Callendar.css';
 import { useEffect, useState, useRef } from 'react';
-import { Subscription } from '../MySubscriptions/Mysubscriptions';
+import { Subscription } from '../../components/MySubscriptions/Mysubscriptions';
 
 //IDEJA =)$#?"=)$"?=)$=?"# DODAJ MOGUCNOST DODAVANJA NOVOG SUBSCRIPTIONA SA KALENDARA PREKO MODALA"
 

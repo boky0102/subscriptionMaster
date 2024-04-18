@@ -1,23 +1,18 @@
 import './HomeContent.css';
-import SubscriptionCard from '../SubscriptionCard/SubscriptionCard';
+import SubscriptionCard from '../../components/SubscriptionCard/SubscriptionCard';
 import { UserData } from '../Main/Home';
 import { Link } from 'react-router-dom';
 import { Notification } from '../../utility/custom-hooks/notification.hooks';
 import { useEffect, useState } from 'react';
 import '../../assets/arrow-left.svg';
-import ArrowIcon from '../ArrowIcon/ArrowIcon';
-import AreaYearChart from '../charts/AreaYearChart';
-import BarChartAllYears from '../charts/BarChartAllYears';
-import SubscriptionTypeSelect from '../SubscriptionTypeSelect.tsx/SubscriptionTypeSelect';
-import PieCategoryChart from '../charts/PieCategoryChart';
-import { CategoryColor } from '../CategoryColor.tsx/CategoryColor';
-import {
-     filterSubscriptionData,
-     getChartCategoryDataYear,
-     getChartDataAllYears,
-     getChartDataYear,
-} from '../../utility/subscription.utility';
-import CurrencySelect from '../CurrencySelect/CurrencySelect';
+import ArrowIcon from '../../components/ArrowIcon/ArrowIcon';
+import AreaYearChart from '../../components/charts/AreaYearChart';
+import BarChartAllYears from '../../components/charts/BarChartAllYears';
+import SubscriptionTypeSelect from '../../components/SubscriptionTypeSelect.tsx/SubscriptionTypeSelect';
+import PieCategoryChart from '../../components/charts/PieCategoryChart';
+import { CategoryColor } from '../../components/CategoryColor.tsx/CategoryColor';
+import { getChartCategoryDataYear, getChartDataAllYears, getChartDataYear } from '../../utility/subscription.utility';
+import CurrencySelect from '../../components/CurrencySelect/CurrencySelect';
 import { CurrenciesObj } from '../../types';
 
 interface Subscription {
@@ -91,7 +86,6 @@ export default function HomeContent(props: HomeContentProps) {
      const [selectedYear, setSelectedYear] = useState(currentYear);
      const [chartType, setChartType] = useState('year');
      const [filterState, setFilterState] = useState('all' as FilterStates);
-     /* const [filteredSubscriptionData, setFilteredSubscriptionData] = useState(props.subscriptionData as Subscription[]); */
 
      function handleRightArrowClick() {
           if (selectedYear < currentYear) {
@@ -132,37 +126,6 @@ export default function HomeContent(props: HomeContentProps) {
      }
 
      const filteredSubscriptionData = filterSubscriptions(props.subscriptionData, filterState);
-
-     /* useEffect(() => {
-          if (filterState === 'free-trial') {
-               setFilteredSubscriptionData(() => {
-                    const returnArray = props.subscriptionData.filter((subscription) => {
-                         if (subscription.freeTrial === true && !subscription.subscriptionStopped) {
-                              return subscription;
-                         }
-                    });
-                    return returnArray;
-               });
-          } else if (filterState === 'subscription') {
-               setFilteredSubscriptionData(() => {
-                    const returnArray = props.subscriptionData.filter((subscription) => {
-                         if (subscription.freeTrial !== true && !subscription.subscriptionStopped) {
-                              return subscription;
-                         }
-                    });
-                    return returnArray;
-               });
-          } else if (filterState === 'all') {
-               setFilteredSubscriptionData(() => {
-                    const returnArray = props.subscriptionData.filter((subscription) => {
-                         if (!subscription.subscriptionStopped) {
-                              return subscription;
-                         }
-                    });
-                    return returnArray;
-               });
-          }
-     }, [filterState, props.subscriptionData]); */
 
      return (
           <>
@@ -216,7 +179,12 @@ export default function HomeContent(props: HomeContentProps) {
                                    timeFrame={selectedYear}
                               ></AreaYearChart>
                          )}
-                         {chartType === 'all-time' && <BarChartAllYears chartData={chartYearData}></BarChartAllYears>}
+                         {chartType === 'all-time' && (
+                              <BarChartAllYears
+                                   chartData={chartYearData}
+                                   userColorData={props.userData.userColorData}
+                              ></BarChartAllYears>
+                         )}
 
                          <div className="chart-action-container">
                               <div className="year-select-container">

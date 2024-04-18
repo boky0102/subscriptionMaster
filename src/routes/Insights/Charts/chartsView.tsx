@@ -1,11 +1,11 @@
 import './chartsView.css';
-import { Subscription } from '../../MySubscriptions/Mysubscriptions';
+import { Subscription } from '../../../components/MySubscriptions/Mysubscriptions';
 import { useState } from 'react';
 import { filterSubscriptionData, calculateChartData } from '../../../utility/subscription.utility';
-import AreaYearChart from '../../charts/AreaYearChart';
-import PieCategoryChart from '../../charts/PieCategoryChart';
-import BarChartAllYears from '../../charts/BarChartAllYears';
-import InfoDisplay from '../../InfoDisplay/InfoDisplay';
+import AreaYearChart from '../../../components/charts/AreaYearChart';
+import PieCategoryChart from '../../../components/charts/PieCategoryChart';
+import BarChartAllYears from '../../../components/charts/BarChartAllYears';
+import InfoDisplay from '../../../components/InfoDisplay/InfoDisplay';
 import { UserColorData, subscriptionCategories } from '../../../types';
 
 type ChartsViewProps = {

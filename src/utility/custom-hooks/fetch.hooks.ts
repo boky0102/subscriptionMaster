@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { CurrenciesObj, triggerNotification } from '../../types';
 import { NavigateFunction } from 'react-router-dom';
-import { UserData } from '../../components/Main/Home';
+import { UserData } from '../../routes/Main/Home';
 
 type subscriptionCategories =
      | 'Streaming'

@@ -1,5 +1,5 @@
-import { Subscription } from '../MySubscriptions/Mysubscriptions';
-import SelectBar from '../SelectBar/SelectBar';
+import { Subscription } from '../../components/MySubscriptions/Mysubscriptions';
+import SelectBar from '../../components/SelectBar/SelectBar';
 import ChartsView from './Charts/chartsView';
 import Table from './Table/Table';
 import './insights.css';

@@ -1,6 +1,6 @@
 import { transformToNormalCase } from '../../../utility/string.utility';
 import { getSingleSubscriptionData } from '../../../utility/subscription.utility';
-import { Subscription } from '../../MySubscriptions/Mysubscriptions';
+import { Subscription } from '../../../components/MySubscriptions/Mysubscriptions';
 import './table.css';
 import { useSortSubscriptions } from '../../../utility/custom-hooks/sort.hook';
 

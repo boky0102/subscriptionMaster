@@ -1,5 +1,5 @@
 import { createPortal } from 'react-dom';
-import { Subscription } from '../../MySubscriptions/Mysubscriptions';
+import { Subscription } from '../../../components/MySubscriptions/Mysubscriptions';
 import React, { useEffect, useState } from 'react';
 import CalendarDayModal from '../CallendarDayModal';
 
